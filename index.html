@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>cognoscene · waitlist</title>
   <meta name="description" content="98% of regretful buying happens before you pay. cognoscene — a chrome extension that pauses impulse checkout. join the founding beta waitlist." />
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/cognoscene-mark.png" type="image/png" />
   <link rel="canonical" href="https://wondrous-horse-8d0cb0.netlify.app/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://wondrous-horse-8d0cb0.netlify.app/" />
@@ -80,14 +80,16 @@
       text-decoration: none;
       color: var(--cream);
     }
-    .top-bar-wordmark {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-    .top-bar-brand img {
+    .top-bar-mark {
       height: 28px;
       width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+    .top-bar-wordmark-img {
+      height: 16px;
+      width: auto;
+      object-fit: contain;
       filter: brightness(0) invert(1);
     }
     .top-bar-inner {
@@ -784,7 +786,7 @@
         justify-content: space-between;
         gap: 10px;
       }
-      .top-bar-wordmark { font-size: 14px; }
+      .top-bar-wordmark-img { height: 14px; }
       .top-bar-brand img { height: 24px; }
       .top-bar-copy {
         text-align: right;
@@ -813,8 +815,8 @@
   <header class="top-bar">
     <div class="top-bar-inner wrap">
       <a class="top-bar-brand" href="#">
-        <img src="assets/cognoscene-mark.svg" width="28" height="32" alt="" />
-        <span class="top-bar-wordmark">cognoscene</span>
+        <img class="top-bar-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="" />
+        <img class="top-bar-wordmark-img" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
       </a>
       <p class="top-bar-copy">only the first <strong>250</strong> users get early access to cognoscene</p>
     </div>
