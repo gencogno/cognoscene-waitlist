@@ -1,12 +1,14 @@
 # Product demo videos
 
-Drop files here, then redeploy the `waitlist-deploy` folder to Netlify.
+Add MP4s here, then push to `main` (auto-deploys to [cognoscenewaitlist.netlify.app](https://cognoscenewaitlist.netlify.app)).
 
 | File | Purpose |
 |------|---------|
-| `demo.mp4` | Main hero demo (shown when present; replaces CSS mock) |
-| `poster.jpg` | Optional thumbnail before play (recommended for mobile) |
+| `demo.mp4` | Layer 2 — rationalisation / checkout hold |
+| `observer-1.mp4` · `observer-3rd.mp4` | Layer 1 — observer slider |
+| `growth-smol.mp4` · `growth-full.mp4` | Layer 3 — growth slider |
+| `VIDEO-MAP.md` | Clip → UI mapping |
 
 **Tips**
-- Keep under ~15MB for fast mobile load, or host on YouTube/Vimeo and paste embed URL in `index.html` (`DEMO_VIDEO_URL`).
-- Portrait or square crops work well on phones; 16:9 is fine for desktop.
+- Keep clips under ~20MB each where possible for mobile load.
+- Portrait or square crops work on phones; 16:9 is fine for desktop showcase frames.

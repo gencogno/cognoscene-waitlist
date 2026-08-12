@@ -1,6 +1,6 @@
 # Cognoscene waitlist — deploy
 
-Live site: [wondrous-horse-8d0cb0.netlify.app](https://wondrous-horse-8d0cb0.netlify.app)
+**Live site:** [cognoscenewaitlist.netlify.app](https://cognoscenewaitlist.netlify.app)
 
 Repo: **`gencogno/cognoscene-waitlist`** (waitlist only — separate from extension code).
 
@@ -17,7 +17,7 @@ Pick **one** path.
 Repo includes `.github/workflows/deploy.yml`. After you add two secrets, every push to `main` deploys.
 
 1. **Netlify token** — [app.netlify.com/user/applications#personal-access-tokens](https://app.netlify.com/user/applications#personal-access-tokens) → **New access token** → copy it.
-2. **Site ID** — Netlify → your site → **Project configuration** → **General** → **Site ID** → copy (for `wondrous-horse-8d0cb0`).
+2. **Site ID** — Netlify → site **cognoscenewaitlist** → **Project configuration** → **General** → **Site ID** → copy.
 3. **GitHub secrets** — [github.com/gencogno/cognoscene-waitlist/settings/secrets/actions](https://github.com/gencogno/cognoscene-waitlist/settings/secrets/actions):
    - `NETLIFY_AUTH_TOKEN` = token from step 1
    - `NETLIFY_SITE_ID` = site ID from step 2
@@ -25,11 +25,11 @@ Repo includes `.github/workflows/deploy.yml`. After you add two secrets, every p
 
 ### Path B — Netlify Git link
 
-1. [app.netlify.com](https://app.netlify.com) → site **wondrous-horse-8d0cb0**.
+1. [app.netlify.com](https://app.netlify.com) → site **cognoscenewaitlist**.
 2. **Project configuration** → **Build & deploy** → **Link repository**.
 3. GitHub → **`gencogno/cognoscene-waitlist`** → branch **`main`** → publish **`.`** → **Deploy**.
 
-If the site 404s, the Drop site may have been removed — create a new site from Git import, then update `SITE_URL` / `og:image` in `index.html`.
+If the site 404s, confirm the linked site is **cognoscenewaitlist** and `publish = "."` in `netlify.toml`.
 
 ### Path C — Netlify CLI (one-off)
 
@@ -72,10 +72,29 @@ Use only if Git link is not set up yet.
 
 ---
 
+## Site config (`index.html` script block)
+
+| Variable | Purpose |
+|----------|---------|
+| `SITE_URL` | `https://cognoscenewaitlist.netlify.app` — keep in sync with canonical / OG tags |
+| `FORMSPREE_FORM_ID` | Waitlist form submissions (`mbgropvn`) |
+| `PLAUSIBLE_DOMAIN` | Optional — e.g. `cognoscenewaitlist.netlify.app` |
+| `WAITLIST_DEADLINE` | ISO date — waitlist auto-closes (launch + 30 days, SGT) |
+| `WAITLIST_SIGNUPS` | Manual count from Formspree — drives spots remaining + cap lock |
+| `WAITLIST_CAP` | `250` |
+
+**After go-live:** set `WAITLIST_DEADLINE` to exactly 30 days from launch (SGT midnight). Update `WAITLIST_SIGNUPS` whenever you check Formspree, then redeploy.
+
+---
+
 ## Formspree
 
 1. [formspree.io](https://formspree.io) → form ID in URL `…/f/abcxyz`.
 2. In `index.html`: `var FORMSPREE_FORM_ID = 'mbgropvn';` *(already set)*.
+
+Payload fields: `email`, `ready`, `legal_agreed`.
+
+Beta comms: mass email to the address submitted on the form.
 
 ---
 
@@ -83,10 +102,27 @@ Use only if Git link is not set up yet.
 
 | File | Purpose |
 |------|---------|
-| `assets/videos/demo.mp4` | Hero — auto-replaces CSS mock when present |
-| `assets/videos/VIDEO-MAP.md` | Which showcase clip maps to which feature |
+| `assets/videos/demo.mp4` | Layer 2 rationalisation showcase |
+| `assets/videos/observer-*.mp4` | Layer 1 observer slider |
+| `assets/videos/growth-*.mp4` | Layer 3 growth slider |
+| `assets/videos/VIDEO-MAP.md` | Clip → feature mapping |
 
-Add `poster.jpg` optional. Large files: set `DEMO_VIDEO_URL` in `index.html` instead.
+Add `poster.jpg` optional. Large files: host externally and update `<source src>` in `index.html`.
+
+---
+
+## Open Graph
+
+- `assets/og-share.png` — 1200×630 PNG (required for X/LinkedIn previews)
+- Head tags use `https://cognoscenewaitlist.netlify.app/assets/og-share.png`
+
+---
+
+## Mobile view
+
+Mobile-specific funnel plan, phased changes, and guardrails: **[MOBILE.md](./MOBILE.md)**.
+
+All mobile layout edits stay in `index.html` `@media (max-width: 760px)` unless using `.mobile-only` markup blocks. Desktop band alignment must not regress.
 
 ---
 
@@ -98,34 +134,24 @@ Optional Plausible: set `PLAUSIBLE_DOMAIN` in `index.html` site config.
 
 ---
 
-## Telegram footer
-
-When channel exists:
-
-```javascript
-var TELEGRAM_URL = 'https://t.me/your_channel';
-```
-
-Footer link appears automatically.
-
----
-
 ## Legal
 
-- `privacy.html` · `terms.html` · `founding-terms.html` — template; counsel review before ads.
+- `privacy.html` · `terms.html` · `founding-terms.html` — pre-incorporation; counsel review before ads.
 
 ---
 
 ## After launch checklist
 
 - [ ] Git linked + test push deploys
+- [ ] `WAITLIST_DEADLINE` set to launch + 30 days (SGT)
+- [ ] `WAITLIST_SIGNUPS` matches Formspree count
 - [ ] Test signup from phone
 - [ ] GA4 Realtime hit
-- [ ] `TELEGRAM_URL` when ready
 - [ ] Formspree email notifications on
+- [ ] Share preview test (paste URL in iMessage / X)
 
 ---
 
 ## Custom domain (later)
 
-Netlify → Domain management → Add domain → DNS at registrar.
+Netlify → Domain management → Add domain → DNS at registrar. Update `SITE_URL`, canonical, and OG tags to match.

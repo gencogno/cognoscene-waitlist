@@ -6,12 +6,12 @@
   <title>cognoscene · waitlist</title>
   <meta name="description" content="98% of regretful buying happens before you pay. cognoscene — a chrome extension that pauses impulse checkout. join the founding beta waitlist." />
   <link rel="icon" href="assets/cognoscene-mark.png" type="image/png" />
-  <link rel="canonical" href="https://wondrous-horse-8d0cb0.netlify.app/" />
+  <link rel="canonical" href="https://cognoscenewaitlist.netlify.app/" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://wondrous-horse-8d0cb0.netlify.app/" />
+  <meta property="og:url" content="https://cognoscenewaitlist.netlify.app/" />
   <meta property="og:title" content="cognoscene · waitlist" />
   <meta property="og:description" content="pause impulse checkout before you pay. first 250 users get early access." />
-  <meta property="og:image" content="https://wondrous-horse-8d0cb0.netlify.app/assets/og-share.svg" />
+  <meta property="og:image" content="https://cognoscenewaitlist.netlify.app/assets/og-share.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#111111" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1480,6 +1480,48 @@
       text-align: center;
       line-height: 1.5;
     }
+    .form-social-proof {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .waitlist-gate-status {
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      min-height: 20px;
+      line-height: 1.5;
+    }
+    .waitlist-gate-status strong {
+      color: var(--black);
+      font-weight: 800;
+    }
+
+    .waitlist-closed {
+      display: none;
+      padding: 32px 28px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--black);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .waitlist-closed.is-visible { display: block; }
+    .waitlist-closed h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .waitlist-closed p {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.6;
+    }
 
     /* footer */
     .site-footer {
@@ -1664,7 +1706,7 @@
         </div>
         <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
         <a class="btn-primary" href="#waitlist">join the waitlist</a>
-        <p class="hero-meta">250 early-access spots · us$10 founding offer</p>
+        <p class="hero-meta">250 early-access spots · 2 months free · us$10 lifetime after</p>
         </div>
 
         <div class="hero-visual" aria-label="product ui mockups">
@@ -1741,22 +1783,21 @@
       <div class="wrap problem-band-header">
         <p class="section-eyebrow">the problem · how it begins</p>
         <h2 id="problem-heading">but why? why do we make these decisions in the first place?</h2>
-        <p class="lead-in">the answer is unexpected impulses — mostly from social feeds. thousands of posts a day, overstimulating you with things you don't need, but still making you feel like you're missing out.</p>
+        <p class="lead-in">unexpected impulses — mostly from social feeds. endless posts, things you don't need, still feeling like you're missing out.</p>
       </div>
 
       <div class="wrap problem-band-body">
         <div class="problem-copy">
           <div class="problem-beat">
             <p class="problem-beat-label">the trap</p>
-            <p>a cardigan you didn't plan for. a gadget that looked useful at 11pm. a drop that screamed, "if you don't get me, you'll regret it forever." before you know it, you're shopping frantically — and the platform makes it worse: discounts, influencer pushes, bundles, BNPL.</p>
+            <p>a cardigan you didn't plan for. a gadget that looked useful at 11pm. a drop that screamed, "if you don't get me, you'll regret it forever." then the platform piles on: discounts, influencer pushes, bundles, BNPL.</p>
           </div>
 
           <blockquote class="quote-line">"I wasted $78.49 for no reason."</blockquote>
 
           <div class="problem-beat">
             <p class="problem-beat-label">the loop</p>
-            <p>you didn't set out to blow money. breathing exercises, frozen cards, telling yourself you'll be better — it works <strong>for a few weeks.</strong> then it's midnight, Cheryl's selling a portable fan with detachable flowers, and checkout is one tap away.</p>
-            <p>there's not enough friction to ask whether you actually need this, <strong>cascading into a vicious cycle of regret &amp; overspending.</strong></p>
+            <p>you didn't set out to blow money. frozen cards and good intentions work <strong>for a few weeks</strong> — then it's midnight, Cheryl's selling a portable fan with detachable flowers, and checkout is one tap away. not enough friction to ask if you actually need this. <strong>regret, repeat.</strong></p>
           </div>
         </div>
 
@@ -1869,7 +1910,7 @@
             <div class="step-copy-block">
               <p class="step-label">second layer · rationalisation</p>
               <h3 class="step-title">48 hours to decide if it's a waste</h3>
-              <p class="step-copy">you hit pay on a site you track. cognoscene pauses checkout, starts a 48-hour hold, and asks you to reflect — buy when the window opens, or drop it.</p>
+              <p class="step-copy">you hit pay on a site you track — cognoscene pauses checkout and gives you 48 hours. most impulse buys stop feeling necessary that fast. buy when the window opens, or drop it.</p>
               <p class="step-tier-note"><strong>free patience mode</strong> · included on one tracked site</p>
             </div>
             <div class="showcase-video-frame">
@@ -1922,10 +1963,10 @@
     <section class="founding-band wrap" aria-labelledby="founding-heading">
       <a class="founding-card" href="#waitlist">
         <h3 id="founding-heading">founding member offer</h3>
+        <p><span class="highlight">2 months free.</span> then lock in lifetime premium for <span class="highlight">us$10</span> — one-time, no subscription.</p>
         <p>
-          first <strong>250</strong> on the list get early access +
-          <span class="highlight"> us$10 once for lifetime premium</span>
-          — unlimited sites, full observer, and growth dashboard.
+          first <strong>250</strong> on the list get early access —
+          unlimited sites, full observer, and growth dashboard.
         </p>
         <p class="founding-card-note">no charge today.</p>
         <span class="founding-card-cta">join the waitlist →</span>
@@ -1934,7 +1975,7 @@
         <a href="founding-terms.html">founding offer terms</a>
       </p>
       <p class="founding-card-fine">
-        first 250 waitlist signups before 31 dec 2026 · us$10 one-time usd · features may change during beta · use the same email for chrome and payment.
+        waitlist open 30 days or until 250 spots fill · us$10 one-time usd after free trial · features may change during beta · use the same email for chrome and payment.
       </p>
     </section>
 
@@ -1944,14 +1985,17 @@
         <h2 id="form-heading">stop the cycle. take back control.</h2>
         <p class="form-sub">first step: get on the list.</p>
 
+        <div class="waitlist-gate-status" id="waitlistGateStatus" aria-live="polite">
+          waitlist closes in <strong id="deadlineTimer">--</strong>
+          ·
+          <strong id="spotsRemaining">--</strong> spots left
+        </div>
+
         <div class="form-panel" id="formPanel">
           <p class="form-error" id="formError" role="alert"></p>
           <form id="waitlistForm" novalidate>
             <label class="visually-hidden" for="email">email address</label>
             <input class="field" id="email" name="email" type="email" placeholder="email address *" required autocomplete="email" />
-
-            <label class="visually-hidden" for="telegram">telegram handle</label>
-            <input class="field" id="telegram" name="telegram" type="text" placeholder="telegram (optional, recommended)" autocomplete="off" />
 
             <label class="form-check">
               <input type="checkbox" name="ready" value="yes" required />
@@ -1971,7 +2015,12 @@
 
         <div class="form-success" id="formSuccess" role="status" aria-live="polite">
           <h3>you're on the list.</h3>
-          <p>we'll contact you when your batch opens. founding offer: us$10 once for lifetime premium — no charge today.</p>
+          <p>we'll contact you when your batch opens. 2 months free, then us$10 once for lifetime premium — no charge today.</p>
+        </div>
+
+        <div class="waitlist-closed" id="waitlistClosed" role="status" aria-live="polite">
+          <h3>waitlist is closed.</h3>
+          <p>the first 250 spots are filled or the 30-day window has ended. we'll email the next batch when it opens.</p>
         </div>
       </div>
     </section>
@@ -1984,7 +2033,6 @@
       <a href="terms.html">terms of use</a>
       <a href="founding-terms.html">founding offer</a>
       <a href="mailto:cognoscene@gmail.com">cognoscene@gmail.com</a>
-      <a id="telegramFooterLink" href="#" hidden>telegram</a>
       <span>built in singapore</span>
     </nav>
   </footer>
@@ -2025,25 +2073,23 @@
 
   <script>
     // ——— site config (edit these) ———
-    var SITE_URL = 'https://wondrous-horse-8d0cb0.netlify.app';
-    // when your telegram channel/group exists, paste e.g. https://t.me/cognoscene
-    var TELEGRAM_URL = '';
+    var SITE_URL = 'https://cognoscenewaitlist.netlify.app';
     // analytics — plausible optional (ga4 is in <head>)
-    var PLAUSIBLE_DOMAIN = ''; // e.g. wondrous-horse-8d0cb0.netlify.app (sign up at plausible.io)
+    var PLAUSIBLE_DOMAIN = ''; // e.g. cognoscenewaitlist.netlify.app (sign up at plausible.io)
 
     var FORMSPREE_FORM_ID = 'mbgropvn';
+
+    // waitlist gate — set deadline on go-live (launch date + 30 days, SGT midnight)
+    var WAITLIST_DEADLINE = new Date('2026-09-11T23:59:59+08:00');
+    // update manually from Formspree dashboard as signups come in
+    var WAITLIST_SIGNUPS = 0;
+    var WAITLIST_CAP = 250;
 
     var form = document.getElementById('waitlistForm');
     var submitBtn = document.getElementById('submitBtn');
     var formError = document.getElementById('formError');
     var formPanel = document.getElementById('formPanel');
     var formSuccess = document.getElementById('formSuccess');
-
-    if (TELEGRAM_URL) {
-      var telegramLink = document.getElementById('telegramFooterLink');
-      telegramLink.href = TELEGRAM_URL;
-      telegramLink.removeAttribute('hidden');
-    }
 
     if (PLAUSIBLE_DOMAIN) {
       var p = document.createElement('script');
@@ -2079,7 +2125,6 @@
 
       var payload = {
         email: document.getElementById('email').value.trim(),
-        telegram: document.getElementById('telegram').value.trim() || '(not provided)',
         ready: form.querySelector('input[name="ready"]').checked ? 'yes' : 'no',
         legal_agreed: form.querySelector('input[name="legal"]').checked ? 'yes' : 'no',
         _subject: 'cognoscene waitlist signup'
@@ -2545,6 +2590,65 @@
         timerEl.textContent = format(remaining);
         remaining -= 1;
         if (remaining < 0) remaining = totalSeconds;
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    (function initWaitlistGate() {
+      var timerEl = document.getElementById('deadlineTimer');
+      var spotsEl = document.getElementById('spotsRemaining');
+      var statusEl = document.getElementById('waitlistGateStatus');
+      var formPanelEl = document.getElementById('formPanel');
+      var closedEl = document.getElementById('waitlistClosed');
+      var mobileCta = document.querySelector('.mobile-cta-bar');
+
+      if (!timerEl || !formPanelEl || !closedEl) return;
+
+      function isClosed() {
+        var deadlinePassed = WAITLIST_DEADLINE && (new Date() >= WAITLIST_DEADLINE);
+        var spotsFilled = (typeof WAITLIST_SIGNUPS !== 'undefined' &&
+          typeof WAITLIST_CAP !== 'undefined' &&
+          WAITLIST_SIGNUPS >= WAITLIST_CAP);
+        return deadlinePassed || spotsFilled;
+      }
+
+      function lockForm() {
+        formPanelEl.classList.add('is-hidden');
+        if (mobileCta) mobileCta.style.display = 'none';
+        closedEl.classList.add('is-visible');
+        if (statusEl) statusEl.style.display = 'none';
+      }
+
+      function formatCountdown(ms) {
+        if (ms <= 0) return null;
+        var s = Math.floor(ms / 1000);
+        var days = Math.floor(s / 86400);
+        var hrs = Math.floor((s % 86400) / 3600);
+        var mins = Math.floor((s % 3600) / 60);
+        var secs = s % 60;
+
+        if (days > 1) return days + 'd ' + hrs + 'h ' + mins + 'm';
+        if (days === 1) return '1d ' + hrs + 'h ' + mins + 'm';
+        if (hrs > 0) return hrs + 'h ' + mins + 'm ' + secs + 's';
+        return mins + 'm ' + secs + 's';
+      }
+
+      function tick() {
+        if (isClosed()) {
+          lockForm();
+          return;
+        }
+
+        var msLeft = WAITLIST_DEADLINE - new Date();
+        var label = formatCountdown(msLeft);
+        if (timerEl && label) timerEl.textContent = label;
+
+        if (spotsEl && typeof WAITLIST_SIGNUPS !== 'undefined') {
+          var remaining = Math.max(0, WAITLIST_CAP - WAITLIST_SIGNUPS);
+          spotsEl.textContent = remaining;
+        }
       }
 
       tick();
