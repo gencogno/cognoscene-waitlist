@@ -35,7 +35,9 @@
       --muted: #8a8a84;
       --line: #ddd5c0;
       --lime: #c8e88a;
+      --lime-muted: #a8c870;
       --green: #3b6d11;
+      --danger: #c45c4a;
       --white: #ffffff;
       --serif: 'Times New Roman', Times, serif;
       --sans: 'Be Vietnam Pro', system-ui, sans-serif;
@@ -44,6 +46,18 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
@@ -63,71 +77,132 @@
       padding: 0 24px;
     }
 
-    /* top bar */
+    /* top bar — marquee + centered logo */
     .top-bar {
       position: sticky;
       top: 0;
       z-index: 100;
       background: var(--black);
       color: var(--cream);
-      padding: 12px 0;
+      padding: 11px 0;
       border-bottom: 3px solid var(--lime);
+      overflow: hidden;
     }
-    .top-bar-brand {
+    .top-bar-marquee {
       display: flex;
       align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--cream);
+      min-height: 22px;
     }
-    .top-bar-mark {
-      height: 28px;
-      width: auto;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
+    .top-bar-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: top-bar-marquee 32s linear infinite;
     }
-    .top-bar-wordmark-img {
-      height: 16px;
-      width: auto;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-    }
-    .top-bar-inner {
+    .top-bar-marquee-set {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      flex-shrink: 0;
     }
-    .top-bar-copy {
+    .top-bar-marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 28px;
+      padding: 0 28px;
       font-size: 12px;
       font-weight: 500;
       color: var(--cream);
-      text-align: right;
+      white-space: nowrap;
       line-height: 1.4;
-      max-width: 420px;
     }
-    .top-bar-copy strong {
+    .top-bar-marquee-item strong {
       color: var(--lime);
       font-weight: 800;
+    }
+    .top-bar-marquee-dot {
+      color: var(--lime);
+      opacity: 0.55;
+      font-size: 10px;
+    }
+    @keyframes top-bar-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .top-bar::before,
+    .top-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: min(72px, 12vw);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .top-bar::before {
+      left: 0;
+      background: linear-gradient(to right, var(--black) 15%, transparent);
+    }
+    .top-bar::after {
+      right: 0;
+      background: linear-gradient(to left, var(--black) 15%, transparent);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .top-bar-marquee-track {
+        animation: none;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+      }
+      .top-bar-marquee-set:last-child { display: none; }
     }
 
     /* chrome-only callout */
     .chrome-band {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       background: var(--white);
       border: 1px solid var(--line);
-      border-left: 4px solid var(--lime);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: var(--mid);
-      line-height: 1.5;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--black);
+      line-height: 1.45;
+      margin-bottom: 16px;
+      max-width: 420px;
     }
-    .chrome-band strong { color: var(--black); font-weight: 800; }
+    .chrome-band strong { font-weight: 800; color: var(--black); }
+    .chrome-band span { color: var(--black); }
 
-    /* hero — no separate logo header */
+    /* hero — brand sits below top bar; copy + visual grid */
     .hero {
-      padding: 40px 0 48px;
+      padding-bottom: 48px;
+    }
+    .hero-brand {
+      padding-top: 1cm;
+      margin-bottom: 1cm;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--black);
+    }
+    .hero-brand-mark {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+    .hero-brand-wordmark {
+      height: 14px;
+      width: auto;
+      object-fit: contain;
+    }
+    .hero-main {
+      padding-top: 1cm;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 36px;
@@ -140,7 +215,16 @@
       font-weight: 400;
       line-height: 1.12;
       letter-spacing: -0.05em;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.4;
+      margin-bottom: 14px;
+      max-width: 420px;
     }
 
     .hero-lead {
@@ -148,6 +232,7 @@
       color: var(--mid);
       margin-bottom: 24px;
       max-width: 420px;
+      line-height: 1.6;
     }
 
     .btn-primary {
@@ -175,13 +260,564 @@
       color: var(--muted);
     }
 
-    /* hero visual — checkout + hold mock */
-    .hero-visual {
-      background: var(--black);
-      border-radius: 16px;
+    /* showcase video frames — padded, thick rounded border */
+    .showcase-video-frame {
+      position: relative;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 12px;
+      background: var(--cream-2);
+      border: 6px solid var(--black);
+      border-radius: 32px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .showcase-video-frame:focus-within,
+    .showcase-video-frame:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+    }
+    .showcase-video-hit {
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      text-align: inherit;
+      text-transform: inherit;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .showcase-video-hit:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 3px;
+    }
+    .showcase-video-hint {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 22px;
+      background: rgba(17, 17, 17, 0.52);
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .showcase-video-frame:hover .showcase-video-hint,
+    .showcase-video-frame:focus-within .showcase-video-hint,
+    .showcase-video-hit:hover .showcase-video-hint,
+    .showcase-video-hit:focus-visible .showcase-video-hint {
+      opacity: 1;
+    }
+    @media (hover: none) {
+      .showcase-video-hint {
+        opacity: 0.88;
+        font-size: 11px;
+        background: rgba(17, 17, 17, 0.4);
+      }
+    }
+    .showcase-video-frame--hero {
+      max-width: 440px;
+      padding: 18px;
+      border-radius: 36px;
+    }
+    .showcase-video-hit .showcase-video,
+    .showcase-video-stage .showcase-video {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--cream);
+      vertical-align: middle;
+    }
+    .showcase-video-stage {
+      display: grid;
+      grid-template-columns: 1fr;
+      background: var(--cream);
+    }
+    .showcase-video-stage .showcase-video {
+      grid-row: 1;
+      grid-column: 1;
+      width: 100%;
+      height: auto;
+      vertical-align: middle;
+      opacity: 0;
+      transform: translateX(14px) scale(0.988);
+      transition:
+        opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+    .showcase-video-stage .showcase-video.is-active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+      z-index: 1;
+    }
+    .showcase-video-stage .showcase-video.is-exiting {
+      opacity: 0;
+      transform: translateX(-14px) scale(0.988);
+      z-index: 0;
+    }
+    .showcase-video-stage .showcase-video.slide-from-left {
+      transform: translateX(-14px) scale(0.988);
+    }
+    .showcase-video-stage .showcase-video.slide-from-right {
+      transform: translateX(14px) scale(0.988);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .showcase-video-stage .showcase-video {
+        transition: opacity 0.15s ease;
+        transform: none;
+      }
+      .showcase-video-stage .showcase-video.is-exiting,
+      .showcase-video-stage .showcase-video.slide-from-left,
+      .showcase-video-stage .showcase-video.slide-from-right {
+        transform: none;
+      }
+      #videoLightboxPlayer {
+        transition: opacity 0.15s ease !important;
+      }
+    }
+    .showcase-video-tag {
+      display: block;
+      margin-top: 12px;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .showcase-video-slider {
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .showcase-video-slider .showcase-video-frame {
+      margin: 0;
+    }
+    .showcase-video-slider:hover .showcase-video-frame,
+    .showcase-video-slider:focus-within .showcase-video-frame {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+    }
+    .showcase-video-slider-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .slider-arrow {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    .slider-arrow:hover {
+      border-color: var(--black);
+      background: var(--cream);
+    }
+    .slider-arrow:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 2px;
+    }
+    .slider-pills {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .slider-pill {
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--mid);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font: inherit;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: lowercase;
+    }
+    .slider-pill.is-active {
+      background: var(--black);
+      color: var(--lime);
+      border-color: var(--black);
+    }
+    .slider-pill:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 2px;
+    }
+    .showcase-video-slider .slider-caption {
+      margin-top: 8px;
+    }
+
+    /* video lightbox */
+    .video-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    .video-lightbox.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .video-lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(17, 17, 17, 0.72);
+      border: none;
+      cursor: pointer;
+    }
+    .video-lightbox-dialog {
+      position: relative;
+      z-index: 1;
+      width: min(920px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow: auto;
+    }
+    .video-lightbox-close {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      z-index: 3;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 999px;
+      background: var(--black);
+      color: var(--lime);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .video-lightbox-close:hover {
+      background: #2a2a28;
+    }
+    .video-lightbox-title {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--cream);
+      text-align: center;
+    }
+    .video-lightbox-frame {
+      position: relative;
+      padding: 14px;
+      background: var(--cream-2);
+      border: 6px solid var(--black);
+      border-radius: 36px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+    .video-lightbox-frame video {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: calc(100vh - 160px);
+      background: var(--cream);
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #videoLightboxPlayer.is-fading {
+      opacity: 0;
+    }
+    .video-lightbox-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .video-lightbox-nav[hidden] {
+      display: none !important;
+    }
+    .video-lightbox-nav .slider-arrow {
+      background: rgba(245, 240, 232, 0.12);
+      border-color: rgba(245, 240, 232, 0.28);
+      color: var(--cream);
+    }
+    .video-lightbox-nav .slider-arrow:hover {
+      background: rgba(245, 240, 232, 0.2);
+      border-color: var(--cream);
+    }
+    .video-lightbox-nav .slider-pill {
+      background: rgba(245, 240, 232, 0.08);
+      border-color: rgba(245, 240, 232, 0.22);
+      color: var(--cream);
+    }
+    .video-lightbox-nav .slider-pill.is-active {
+      background: var(--lime);
+      color: var(--black);
+      border-color: var(--lime);
+    }
+    body.video-lightbox-open {
+      overflow: hidden;
+    }
+
+    /* hero visual — overlapping UI mockups */
+    .hero-visual {
+      position: relative;
+      min-height: 400px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+    .hero-screenshot-stack {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 380px;
+    }
+    .hero-shot {
+      position: absolute;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
+      background: var(--cream);
+      transform-origin: center center;
+    }
+    /* scale hierarchy: growth dashboard (largest) → soft (medium) → hold (smallest) */
+    .hero-shot--growth {
+      left: 0;
+      bottom: 4%;
+      width: 100%;
+      z-index: 1;
+      transform: rotate(-2.5deg);
+    }
+    .hero-shot--soft {
+      left: 4%;
+      top: 0;
+      width: 82%;
+      z-index: 2;
+      transform: rotate(1.5deg);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(200, 232, 138, 0.55);
+    }
+    .hero-shot--hold {
+      right: -2%;
+      top: 34%;
+      width: 68%;
+      z-index: 3;
+      transform: rotate(2.5deg);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.18), 4px 4px 0 var(--lime);
+    }
+    .hero-mock-head {
+      background: var(--cream-2);
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      border-bottom: 1px solid var(--line);
+      gap: 8px;
+    }
+    .hero-mock-head span:first-child {
+      font-weight: 800;
+      color: var(--black);
+    }
+    .hero-mock-wordmark {
+      height: 9px;
+      width: auto;
+      max-width: 76px;
+      display: block;
+      object-fit: contain;
+      object-position: left center;
+    }
+    .hero-mock-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-width: 0;
+    }
+    .hero-mock-mark {
+      height: 11px;
+      width: auto;
+      object-fit: contain;
+      flex-shrink: 0;
+      display: block;
+    }
+    .hero-mock-head--brand {
+      justify-content: flex-start;
+    }
+    .hero-dashboard-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .hero-dashboard-tabs span {
+      color: var(--muted);
+    }
+    .hero-dashboard-tabs span.is-active {
+      color: var(--black);
+      font-weight: 800;
+    }
+    .hero-mock-body {
+      padding: 12px;
+      background: var(--cream);
+    }
+    .hero-mock-body--dashboard {
+      padding: 10px;
+    }
+    .hero-dashboard-stat {
+      background: var(--cream-2);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .hero-dashboard-stat .lbl {
+      font-size: 8px;
+      color: var(--muted);
+    }
+    .hero-dashboard-stat .num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1.1;
+    }
+    .hero-dashboard-stat .sub {
+      font-size: 8px;
+      color: var(--muted);
+    }
+    .hero-dashboard-rationalised {
+      background: var(--black);
+      color: var(--lime);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .hero-dashboard-rationalised .big {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .hero-dashboard-rationalised .txt {
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .hero-mock-body--checkout h3 {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .hero-mock-body--checkout p {
+      font-size: 10px;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+    .hero-mock-body--soft {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hero-mock-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .hero-shot .mock-browser-bar { padding: 8px 12px; }
+    .hero-shot .mock-page { min-height: 120px; padding: 16px; }
+    .hero-shot--hold .mock-hold,
+    .hero-shot--soft .mock-soft {
+      position: relative;
+      top: auto;
+      right: auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+    }
+    .mock-soft-mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .mock-soft-copy {
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--black);
+    }
+    .mock-soft-actions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .mock-soft-btn {
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 8px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--black);
+      flex: 0 1 auto;
+    }
+    .mock-soft-btn--primary {
+      background: var(--black);
+      color: var(--lime);
+      border-color: var(--black);
+    }
+    .hero-shot-tag {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      font-size: 9px;
+      color: var(--muted);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
     }
     .mock-browser-bar {
       background: var(--cream-2);
@@ -301,6 +937,10 @@
       font-weight: 800;
       color: var(--green);
       font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mock-timer { transition: none; }
     }
     .mock-sample-tag {
       position: absolute;
@@ -324,69 +964,195 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 4px 4px 0 var(--lime);
     }
 
-    .hero-video-wrap {
-      display: none;
-      background: var(--black);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+    /* problem */
+    .problem-band {
+      padding: 20px 0 44px;
     }
-    .hero-video-wrap.is-active { display: block; }
-    .hero-video {
-      display: block;
-      width: 100%;
-      height: auto;
-      vertical-align: middle;
-      background: var(--black);
-    }
-    .hero-video-caption {
-      padding: 8px 12px;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.65);
-      background: var(--black);
+    .problem-band-header {
       text-align: center;
+      max-width: 620px;
+      margin: 0 auto 28px;
     }
-    .hero-visual-mock.is-hidden { display: none; }
-
-    /* flow strip */
-    .flow-strip {
-      padding: 0 0 36px;
+    .problem-band .section-eyebrow {
+      text-align: center;
+      margin-bottom: 16px;
     }
-    .flow-inner {
+    .problem-band-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .problem-band-header .lead-in {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--mid);
+      margin: 0;
+    }
+    .problem-band-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 36px 40px;
+      align-items: start;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .problem-copy {
+      text-align: left;
+    }
+    .problem-beat {
+      margin-bottom: 22px;
+    }
+    .problem-beat-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .problem-beat p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--mid);
+      margin-bottom: 12px;
+    }
+    .problem-beat p:last-child {
+      margin-bottom: 0;
+    }
+    .problem-band strong { font-weight: 800; color: var(--black); }
+    .problem-band .quote-line {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--black);
+      margin: 8px 0 22px;
+      padding: 16px 20px;
+      background: var(--white);
+      border-left: 4px solid var(--danger);
+      border-radius: 0 12px 12px 0;
+      line-height: 1.45;
+    }
+    .problem-band .pivot-line {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--black);
+      margin-top: 18px;
+    }
+    .problem-visual-stack {
+      position: sticky;
+      top: 88px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .problem-icon-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 14px 14px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+    .problem-icon-wrap {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      display: flex;
       align-items: center;
-      gap: 8px 12px;
+      justify-content: center;
+      background: var(--cream-2);
+      border-radius: 999px;
+      border: 2px solid var(--line);
+    }
+    .problem-icon-wrap svg {
+      width: 44px;
+      height: 44px;
+      display: block;
+    }
+    .problem-icon-card figcaption {
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.35;
+    }
+    .problem-icon-card figcaption span {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* solution bridge — cream page, wix copy, b/w layer cards */
+    .solution-bridge {
+      text-align: center;
+      padding: 44px 0 48px;
+    }
+    .solution-bridge .section-eyebrow {
+      margin-bottom: 14px;
+    }
+    .solution-bridge h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 3.2vw, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1.12;
+      margin: 0 auto 16px;
+      max-width: 720px;
+      color: var(--black);
+    }
+    .solution-bridge-sub {
+      font-family: var(--serif);
+      font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      color: var(--black);
+      margin: 0 auto 28px;
+      max-width: 520px;
+    }
+    .layers-index-label {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+    .layers-index {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      text-align: center;
       max-width: 720px;
       margin: 0 auto;
     }
-    .flow-step {
+    .layer-index-item {
       background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--mid);
+      border: 1px solid var(--black);
+      border-radius: 16px;
+      padding: 16px 14px;
     }
-    .flow-step strong { color: var(--black); font-weight: 800; }
-    .flow-arrow { color: var(--muted); font-size: 14px; }
+    .layer-index-item .layer-action {
+      display: block;
+      font-size: 11px;
+      color: var(--black);
+      opacity: 0.62;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .layer-index-item .layer-name {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.2;
+      text-transform: lowercase;
+    }
 
-    /* problem one-liner */
-    .problem-band {
-      text-align: center;
-      padding: 8px 0 40px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .problem-band p {
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    .problem-band strong { font-weight: 800; }
-
-    /* how it works */
+    /* how it works / 3 layers */
     .how-band {
       background: var(--cream-2);
       margin: 0 -24px;
@@ -452,49 +1218,13 @@
       color: var(--mid);
       line-height: 1.6;
     }
-
-    .mock-dashboard {
-      background: var(--white);
-      border-radius: 16px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-      max-width: 280px;
-      margin: 0 auto;
-      overflow: hidden;
+    .step-tier-note {
+      margin-top: 10px;
       font-size: 11px;
-      border: 1px solid var(--line);
-    }
-    .mock-dashboard-head {
-      background: var(--cream-2);
-      padding: 10px 12px;
-      display: flex;
-      gap: 12px;
-      border-bottom: 1px solid var(--line);
-      font-size: 9px;
       color: var(--muted);
+      line-height: 1.45;
     }
-    .mock-dashboard-head span:first-child { font-weight: 800; color: var(--black); }
-    .mock-dashboard-body { padding: 12px; }
-    .mock-stat {
-      background: var(--cream-2);
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .mock-stat .lbl { font-size: 9px; color: var(--muted); }
-    .mock-stat .num { font-size: 22px; font-weight: 800; color: var(--green); }
-    .mock-stat .sub { font-size: 9px; color: var(--muted); }
-    .mock-rationalised {
-      background: var(--black);
-      color: var(--lime);
-      border-radius: 8px;
-      padding: 10px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .mock-rationalised .big { font-size: 22px; font-weight: 800; }
-    .mock-rationalised .txt { font-size: 11px; font-weight: 700; line-height: 1.3; }
-    .mock-rationalised .hint { font-size: 9px; opacity: 0.75; }
+    .step-tier-note strong { color: var(--green); font-weight: 800; }
 
     .how-footnote {
       text-align: center;
@@ -509,6 +1239,7 @@
       text-align: center;
     }
     .founding-card {
+      display: block;
       max-width: 520px;
       margin: 0 auto;
       background: var(--white);
@@ -517,11 +1248,25 @@
       border-radius: 16px;
       padding: 24px 28px;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .founding-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09);
+      border-color: var(--black);
+    }
+    .founding-card:focus-visible {
+      outline: 2px solid var(--black);
+      outline-offset: 3px;
     }
     .founding-card h3 {
       font-size: 15px;
       font-weight: 800;
       margin-bottom: 10px;
+      color: var(--black);
     }
     .founding-card p {
       font-size: 14px;
@@ -529,18 +1274,51 @@
       line-height: 1.6;
     }
     .founding-card .highlight {
-      display: inline-block;
-      margin-top: 8px;
       font-weight: 800;
       color: var(--black);
+    }
+    .founding-card-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .founding-card-cta {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .founding-card-terms {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .founding-card-terms a {
+      color: var(--mid);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .founding-card-terms a:hover { color: var(--black); }
+    .founding-card-fine {
+      max-width: 520px;
+      margin: 12px auto 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.55;
+      text-align: center;
+    }
+    .founding-card-fine a {
+      color: var(--mid);
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
     /* form */
     .form-band {
-      background: var(--white);
-      margin: 32px -24px 0;
+      background: var(--cream-2);
+      margin: 0 -24px;
       padding: 56px 24px 64px;
-      border-top: 1px solid var(--line);
     }
     .form-inner {
       max-width: var(--form-max);
@@ -606,6 +1384,9 @@
       border-color: var(--black);
       background: var(--cream);
     }
+    .form-band .radio-pill:has(input:checked) {
+      background: var(--white);
+    }
 
     .form-check {
       display: flex;
@@ -630,7 +1411,7 @@
     .btn-submit {
       width: 100%;
       background: var(--black);
-      color: var(--lime);
+      color: var(--lime-muted);
       border: none;
       border-radius: 999px;
       padding: 16px;
@@ -666,17 +1447,9 @@
       color: var(--muted);
     }
 
-    .fine-print {
-      margin-top: 20px;
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.55;
-      text-align: left;
-    }
-
     /* footer */
     .site-footer {
-      padding: 28px 24px 48px;
+      padding: 18px 24px 24px;
       text-align: center;
       font-size: 12px;
       color: var(--muted);
@@ -691,15 +1464,15 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px 16px;
-      margin-top: 8px;
+      gap: 6px 14px;
+      margin-top: 6px;
     }
 
     /* form states demo */
     .form-success {
       display: none;
       padding: 32px 24px;
-      background: var(--cream);
+      background: var(--white);
       border: 2px solid var(--lime);
       border-radius: 16px;
       text-align: center;
@@ -743,214 +1516,365 @@
 
     @media (max-width: 760px) {
       .wrap { padding: 0 16px; }
-      .hero {
+      .hero-main {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 24px 0 28px;
+        padding-top: 0.75cm;
       }
+      .hero-brand { padding-top: 1cm; }
+      .hero-brand-mark { height: 24px; }
+      .hero-brand-wordmark { height: 12px; }
       .hero-copy { text-align: center; }
       .hero-lead { margin-left: auto; margin-right: auto; font-size: 14px; }
       .hero-visual { order: -1; }
-      .hero-visual-mock .mock-page { min-height: 220px; padding: 20px 16px; }
-      .hero-visual-mock .mock-hold {
-        top: auto;
-        bottom: 36px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: calc(100% - 32px);
-        max-width: 260px;
+      .hero-screenshot-stack { min-height: 320px; max-width: 340px; }
+      .hero-shot--growth { width: 100%; bottom: 2%; }
+      .hero-shot--soft { width: 84%; left: 2%; top: 0; }
+      .hero-shot--hold { width: 68%; top: 32%; right: -4%; }
+      .chrome-band {
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
       }
-      .hero-visual-mock .mock-checkout-faint h3 { font-size: 15px; }
-      .chrome-band { text-align: left; margin-bottom: 16px; }
-      .flow-strip { padding-bottom: 24px; }
-      .flow-inner { gap: 6px 8px; }
-      .flow-step { font-size: 11px; padding: 6px 10px; }
-      .flow-arrow { display: none; }
-      .problem-band { padding-bottom: 28px; }
-      .problem-band p { font-size: 15px; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .problem-band { padding: 12px 0 28px; }
+      .problem-band-header h2 { font-size: 1.3rem; }
+      .problem-band-header .lead-in { font-size: 14px; }
+      .problem-band-body {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .problem-visual-stack {
+        position: static;
+        order: -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .problem-icon-card { padding: 12px 8px 10px; border-radius: 12px; }
+      .problem-icon-wrap { width: 56px; height: 56px; }
+      .problem-icon-wrap svg { width: 32px; height: 32px; }
+      .problem-icon-card figcaption { font-size: 9px; margin-top: 8px; }
+      .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 320px; margin-left: auto; margin-right: auto; }
+      .solution-bridge h2 { font-size: 1.3rem; }
+      .solution-bridge-sub { font-size: 1.15rem; margin-bottom: 22px; }
+      .problem-icon-card figcaption span { font-size: 8px; }
       .how-band { margin: 0 -16px; padding: 36px 16px; }
       .steps { gap: 28px; }
       .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
-      .step-row .mock-hold--inline { display: none; }
+      .showcase-video-frame { max-width: 100%; }
+      .showcase-video-slider { max-width: 100%; }
       .step-copy-block { text-align: center; }
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
-      .form-band { margin: 24px -16px 0; padding: 40px 16px 48px; }
+      .form-band { margin: 0 -16px; padding: 40px 16px 48px; }
       .field-row { flex-direction: column; }
       .top-bar { padding: 10px 0; }
-      .top-bar-inner {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-      }
-      .top-bar-wordmark-img { height: 14px; }
-      .top-bar-brand img { height: 24px; }
-      .top-bar-copy {
-        text-align: right;
-        font-size: 10px;
-        line-height: 1.35;
-        max-width: 148px;
-      }
+      .top-bar-marquee-item { font-size: 10px; gap: 18px; padding: 0 18px; }
       .mobile-cta-bar { display: block; }
-      body.has-mobile-cta { padding-bottom: 76px; }
-      .site-footer { padding-bottom: 88px; }
+      .site-footer { padding: 14px 16px 16px; }
     }
 
     @media (max-width: 380px) {
       .hero-copy h1 { font-size: 1.65rem; }
-      .top-bar-copy { max-width: 120px; font-size: 9px; }
+      .top-bar-marquee-item { font-size: 9px; padding: 0 14px; gap: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .btn-primary:hover, .btn-submit:hover { transform: none; }
+      .btn-primary:hover, .btn-submit:hover, .founding-card:hover { transform: none; }
     }
   </style>
 </head>
 <body class="has-mobile-cta">
 
   <header class="top-bar">
-    <div class="top-bar-inner wrap">
-      <a class="top-bar-brand" href="#">
-        <img class="top-bar-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="" />
-        <img class="top-bar-wordmark-img" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
-      </a>
-      <p class="top-bar-copy">only the first <strong>250</strong> users get early access to cognoscene</p>
+    <p class="visually-hidden">only the first 250 users get early access to cognoscene</p>
+    <div class="top-bar-marquee" aria-hidden="true">
+      <div class="top-bar-marquee-track">
+        <div class="top-bar-marquee-set">
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+        </div>
+        <div class="top-bar-marquee-set">
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+        </div>
+      </div>
     </div>
   </header>
 
   <main>
-    <section class="hero wrap" aria-labelledby="hero-heading">
-      <div class="hero-copy">
-        <div class="chrome-band" role="note">
-          <strong>desktop chrome only.</strong> cognoscene is a browser extension — not for mobile safari or in-app browsers. you need chrome on a laptop or desktop.
-        </div>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="wrap hero-brand">
+        <a class="hero-brand-link" href="#" aria-label="cognoscene home">
+          <img class="hero-brand-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="" />
+          <img class="hero-brand-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
+        </a>
+      </div>
+      <div class="wrap hero-main">
+        <div class="hero-copy">
         <h1 id="hero-heading">98% of your regretful decisions happen pre-purchase.</h1>
-        <p class="hero-lead">a chrome extension that pauses impulse buys before you pay. you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
+        <p class="hero-sub">a chrome extension that pauses impulse buys before you pay.</p>
+        <div class="chrome-band" role="note">
+          <strong>desktop chrome only</strong>
+          <span>— laptop or desktop. not mobile safari or in-app browsers.</span>
+        </div>
+        <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
         <a class="btn-primary" href="#waitlist">join the waitlist</a>
         <p class="hero-meta">250 early-access spots · us$10 founding offer</p>
-      </div>
-
-      <div class="hero-visual" aria-label="product preview">
-        <div class="hero-video-wrap" id="heroVideoWrap">
-          <video
-            class="hero-video"
-            id="heroVideo"
-            controls
-            playsinline
-            preload="metadata"
-            poster="assets/videos/poster.jpg"
-          >
-            <source id="heroVideoSource" src="assets/videos/demo.mp4" type="video/mp4" />
-          </video>
-          <p class="hero-video-caption">product demo · sample checkout hold</p>
         </div>
 
-        <div class="hero-visual-mock" id="heroVisualMock" aria-label="product preview — sample checkout hold">
-        <div class="mock-browser-bar">
-          <div class="mock-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="mock-url">shopee.sg/checkout</div>
-        </div>
-        <div class="mock-page">
-          <div class="mock-page-dim" aria-hidden="true"></div>
-          <div class="mock-checkout-faint">
-            <h3>checkout</h3>
-            <p>order total · s$49.90 · 1 item</p>
-            <button type="button" class="mock-pay-btn" tabindex="-1">pay now</button>
-          </div>
-          <div class="mock-hold">
-            <div class="mock-hold-head">
-              <span>cognoscene</span>
-              <span class="mock-badge">hard friction</span>
+        <div class="hero-visual" aria-label="product ui mockups">
+        <div class="hero-screenshot-stack">
+          <div class="hero-shot hero-shot--growth">
+            <div class="hero-mock-head hero-mock-head--brand">
+              <div class="hero-mock-brand" aria-label="cognoscene">
+                <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
+                <img class="hero-mock-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
+              </div>
             </div>
-            <div class="mock-hold-body">
-              <div class="title">act with prudence — checkout paused.</div>
-              <div class="sub">48 hours to decide with intention.</div>
-              <div class="mock-timer-row">
-                <span class="mock-timer-label">hard friction left</span>
-                <span class="mock-timer">48:00:00</span>
+            <div class="hero-mock-body hero-mock-body--dashboard">
+              <div class="hero-dashboard-tabs" aria-hidden="true">
+                <span class="is-active">home</span>
+                <span>growth</span>
+              </div>
+              <div class="hero-dashboard-stat">
+                <div class="lbl">prudence streak</div>
+                <div class="num">3</div>
+                <div class="sub">weeks without urgente bypass</div>
+              </div>
+              <div class="hero-dashboard-rationalised">
+                <div class="big">6</div>
+                <div>
+                  <div class="txt">purchases rationalised</div>
+                </div>
               </div>
             </div>
           </div>
-          <span class="mock-sample-tag">sample · not live checkout</span>
-        </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="problem-band wrap" aria-label="problem summary">
-      <p>impulse isn't the whole problem. <strong>paying before you've cooled off</strong> is. you're not broken — checkout is just too fast.</p>
-    </section>
-
-    <section class="flow-strip wrap" aria-label="product flow">
-      <div class="flow-inner">
-        <span class="flow-step"><strong>pay</strong> clicked</span>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <span class="flow-step"><strong>pause</strong> 48h hold</span>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <span class="flow-step"><strong>decide</strong> buy or drop</span>
-        <span class="flow-arrow" aria-hidden="true">→</span>
-        <span class="flow-step"><strong>track</strong> in dashboard</span>
-      </div>
-    </section>
-
-    <section class="how-band" aria-labelledby="how-heading">
-      <div class="wrap">
-        <p class="section-eyebrow">how it works</p>
-        <h2 id="how-heading">intercept. decide. track.</h2>
-        <p class="how-intro">cognoscene doesn't block browsing — it stops checkout at the moment you'd pay, then shows you whether the purchase held up.</p>
-
-        <div class="steps">
-          <div class="step-row">
-            <div class="step-copy-block">
-              <p class="step-label">step 1 · decision mode</p>
-              <h3 class="step-title">checkout gets intercepted before you pay</h3>
-              <p class="step-copy">you hit pay on a site you track. cognoscene pauses checkout, starts a 48-hour hold, and asks you to reflect — buy when the window opens, or drop it.</p>
-            </div>
-            <div class="mock-hold mock-hold--inline">
-              <div class="mock-hold-head">
-                <span>cognoscene</span>
-                <span class="mock-badge">hard friction</span>
+          <div class="hero-shot hero-shot--soft">
+            <div class="hero-mock-head hero-mock-head--brand">
+              <div class="hero-mock-brand" aria-label="cognoscene">
+                <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
+                <img class="hero-mock-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
               </div>
+            </div>
+            <div class="hero-mock-body hero-mock-body--soft">
+              <img class="hero-mock-logo" src="assets/cognoscene-mark.png" alt="" />
+              <p class="mock-soft-copy">let's take it easy — leave the site if you don't need anything.</p>
+              <div class="mock-soft-actions">
+                <div class="mock-soft-btn mock-soft-btn--primary">leave site</div>
+                <div class="mock-soft-btn">continue</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-shot hero-shot--hold">
+            <div class="hero-mock-head hero-mock-head--brand">
+              <div class="hero-mock-brand" aria-label="cognoscene">
+                <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
+                <img class="hero-mock-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
+              </div>
+            </div>
+            <div class="hero-mock-body">
               <div class="mock-hold-body">
                 <div class="title">act with prudence — checkout paused.</div>
                 <div class="sub">48 hours to decide with intention.</div>
                 <div class="mock-timer-row">
-                  <span class="mock-timer-label">hard friction left</span>
-                  <span class="mock-timer">48:00:00</span>
+                  <span class="mock-timer-label">time left</span>
+                  <span class="mock-timer" id="heroHoldTimer" aria-hidden="true">48:00:00</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <span class="hero-shot-tag">sample ui · growth · browse · hold</span>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="problem-band" aria-labelledby="problem-heading">
+      <div class="wrap problem-band-header">
+        <p class="section-eyebrow">the problem · how it begins</p>
+        <h2 id="problem-heading">but why? why do we make these decisions in the first place?</h2>
+        <p class="lead-in">the answer is unexpected impulses — mostly from social feeds. thousands of posts a day, overstimulating you with things you don't need, but still making you feel like you're missing out.</p>
+      </div>
+
+      <div class="wrap problem-band-body">
+        <div class="problem-copy">
+          <div class="problem-beat">
+            <p class="problem-beat-label">the trap</p>
+            <p>a cardigan you didn't plan for. a gadget that looked useful at 11pm. a drop that screamed, "if you don't get me, you'll regret it forever." before you know it, you're shopping frantically — and the platform makes it worse: discounts, influencer pushes, bundles, BNPL.</p>
+          </div>
+
+          <blockquote class="quote-line">"I wasted $78.49 for no reason."</blockquote>
+
+          <div class="problem-beat">
+            <p class="problem-beat-label">the loop</p>
+            <p>you didn't set out to blow money. breathing exercises, frozen cards, telling yourself you'll be better — it works <strong>for a few weeks.</strong> then it's midnight, Cheryl's selling a portable fan with detachable flowers, and checkout is one tap away.</p>
+            <p>there's not enough friction to ask whether you actually need this, <strong>cascading into a vicious cycle of regret &amp; overspending.</strong></p>
+          </div>
+        </div>
+
+        <aside class="problem-visual-stack" aria-label="problem in three visuals">
+          <figure class="problem-icon-card">
+            <div class="problem-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="14" y="6" width="20" height="36" rx="4" stroke="#111" stroke-width="2"/>
+                <rect x="17" y="12" width="14" height="5" rx="1.5" fill="#c8e88a"/>
+                <rect x="17" y="19" width="14" height="3" rx="1" fill="#ddd5c0"/>
+                <rect x="17" y="24" width="14" height="3" rx="1" fill="#ddd5c0"/>
+                <rect x="17" y="29" width="10" height="3" rx="1" fill="#ddd5c0"/>
+                <circle cx="32" cy="10" r="5" fill="#111"/>
+                <path d="M30 10h4M32 8v4" stroke="#c8e88a" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <figcaption>the feed<span>fomo · endless scroll</span></figcaption>
+          </figure>
+
+          <figure class="problem-icon-card">
+            <div class="problem-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 12h6l4 18h16l4-14h6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="20" cy="36" r="2.5" fill="#111"/>
+                <circle cx="32" cy="36" r="2.5" fill="#111"/>
+                <rect x="28" y="6" width="12" height="8" rx="2" fill="var(--danger)"/>
+                <text x="34" y="12.5" text-anchor="middle" fill="#f5f0e8" font-size="6" font-weight="700">%</text>
+                <rect x="6" y="28" width="14" height="7" rx="2" stroke="var(--danger)" stroke-width="1.5"/>
+                <text x="13" y="33" text-anchor="middle" fill="var(--danger)" font-size="4.5" font-weight="700">bnpl</text>
+              </svg>
+            </div>
+            <figcaption>the trap<span>discounts · pay later</span></figcaption>
+          </figure>
+
+          <figure class="problem-icon-card">
+            <div class="problem-icon-wrap" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M36 14a14 14 0 1 0 4.2 10.1" stroke="var(--danger)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M36 10v8h-8" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="17" y="19" width="14" height="11" rx="2" stroke="#111" stroke-width="2"/>
+                <path d="M17 24h14" stroke="#ddd5c0" stroke-width="2"/>
+                <text x="24" y="17" text-anchor="middle" fill="var(--danger)" font-size="5" font-weight="700">$78</text>
+              </svg>
+            </div>
+            <figcaption>the loop<span>regret · repeat</span></figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+    <section class="solution-bridge wrap" aria-labelledby="solution-heading">
+      <p class="section-eyebrow">cognoscene · the key to the problem</p>
+      <h2 id="solution-heading">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
+      <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
+      <p class="layers-index-label">3 layers</p>
+      <div class="layers-index" aria-label="three product layers">
+        <div class="layer-index-item">
+          <span class="layer-action">preventing doom shop-scrolling</span>
+          <strong class="layer-name">observer</strong>
+        </div>
+        <div class="layer-index-item">
+          <span class="layer-action">48 hours to decide if its a waste</span>
+          <strong class="layer-name">rationalisation</strong>
+        </div>
+        <div class="layer-index-item">
+          <span class="layer-action">impulse-driven to prudence</span>
+          <strong class="layer-name">growth</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-band" aria-label="three layers in detail">
+      <div class="wrap">
+        <p class="section-eyebrow">three layers · in detail</p>
+        <p class="how-intro">cognoscene doesn't block browsing forever — it intercepts impulses while you shop, pauses checkout when you'd pay, then shows whether the purchase held up.</p>
+
+        <div class="steps">
+          <div class="step-row">
+            <div class="step-copy-block">
+              <p class="step-label">first layer · observer</p>
+              <h3 class="step-title">intercept unnecessary impulses</h3>
+              <p class="step-copy">soft nudges while you browse tracked shops — lookout pulses that remind you to be prudent before the cart snowballs. every few products, a pause before you keep scrolling.</p>
+              <p class="step-tier-note"><strong>founding premium</strong> · full browse friction · free beta starts with checkout hold</p>
+            </div>
+            <div class="showcase-video-slider" data-video-slider="layer1">
+              <div class="showcase-video-frame">
+                <button type="button" class="showcase-video-hit" aria-label="enlarge observer · 1st soft pulse">
+                  <div class="showcase-video-stage">
+                    <video class="showcase-video is-active" data-video-slot="0" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+                      <source src="assets/videos/observer-1.mp4" type="video/mp4" />
+                    </video>
+                    <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
+                  </div>
+                  <span class="showcase-video-hint">click to enlarge</span>
+                </button>
+              </div>
+              <div class="showcase-video-slider-nav" aria-label="observer demo clips">
+                <button type="button" class="slider-arrow slider-prev" aria-label="previous clip">‹</button>
+                <div class="slider-pills" role="tablist">
+                  <button type="button" class="slider-pill is-active" role="tab" data-slide="0" aria-selected="true">1st pulse</button>
+                  <button type="button" class="slider-pill" role="tab" data-slide="1" aria-selected="false">3rd pulse</button>
+                </div>
+                <button type="button" class="slider-arrow slider-next" aria-label="next clip">›</button>
+              </div>
+              <span class="showcase-video-tag slider-caption">layer 1 · observer · 1st soft pulse</span>
             </div>
           </div>
 
           <div class="step-row reverse">
             <div class="step-copy-block">
-              <p class="step-label">step 2 · growth dashboard</p>
-              <h3 class="step-title">see what you didn't buy — and what that saved you</h3>
-              <p class="step-copy">prudence streak, purchases rationalised, and savings over time. founding members unlock the full dashboard — unlimited sites included.</p>
+              <p class="step-label">second layer · rationalisation</p>
+              <h3 class="step-title">48 hours to decide if it's a waste</h3>
+              <p class="step-copy">you hit pay on a site you track. cognoscene pauses checkout, starts a 48-hour hold, and asks you to reflect — buy when the window opens, or drop it.</p>
+              <p class="step-tier-note"><strong>free patience mode</strong> · included on one tracked site</p>
             </div>
-            <div class="mock-dashboard">
-              <div class="mock-dashboard-head">
-                <span>home</span>
-                <span>growth</span>
-              </div>
-              <div class="mock-dashboard-body">
-                <div class="mock-stat">
-                  <div class="lbl">prudence streak</div>
-                  <div class="num">3</div>
-                  <div class="sub">weeks without urgente bypass</div>
-                </div>
-                <div class="mock-rationalised">
-                  <div class="big">6</div>
-                  <div>
-                    <div class="txt">purchases rationalised</div>
-                    <div class="hint">sample · founding unlock</div>
+            <div class="showcase-video-frame">
+              <button type="button" class="showcase-video-hit" aria-label="enlarge rationalisation checkout hold demo">
+                <video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+                  <source src="assets/videos/demo.mp4" type="video/mp4" />
+                </video>
+                <span class="showcase-video-hint">click to enlarge</span>
+              </button>
+              <span class="showcase-video-tag">layer 2 · rationalisation · 48h hold</span>
+            </div>
+          </div>
+
+          <div class="step-row">
+            <div class="step-copy-block">
+              <p class="step-label">third layer · growth</p>
+              <h3 class="step-title">reinforce your identity of prudence</h3>
+              <p class="step-copy">as you become more conscious about spending, you'll see it on your dashboard — prudence streak, purchases rationalised, and savings over time.</p>
+              <p class="step-tier-note"><strong>founding premium</strong> · full growth dashboard · unlimited sites</p>
+            </div>
+            <div class="showcase-video-slider" data-video-slider="layer3">
+              <div class="showcase-video-frame">
+                <button type="button" class="showcase-video-hit" aria-label="enlarge growth · popup tease">
+                  <div class="showcase-video-stage">
+                    <video class="showcase-video is-active" data-video-slot="0" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+                      <source src="assets/videos/growth-smol.mp4" type="video/mp4" />
+                    </video>
+                    <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
                   </div>
-                </div>
+                  <span class="showcase-video-hint">click to enlarge</span>
+                </button>
               </div>
+              <div class="showcase-video-slider-nav" aria-label="growth demo clips">
+                <button type="button" class="slider-arrow slider-prev" aria-label="previous clip">‹</button>
+                <div class="slider-pills" role="tablist">
+                  <button type="button" class="slider-pill is-active" role="tab" data-slide="0" aria-selected="true">popup</button>
+                  <button type="button" class="slider-pill" role="tab" data-slide="1" aria-selected="false">dashboard</button>
+                </div>
+                <button type="button" class="slider-arrow slider-next" aria-label="next clip">›</button>
+              </div>
+              <span class="showcase-video-tag slider-caption">layer 3 · growth · popup tease</span>
             </div>
           </div>
         </div>
@@ -960,15 +1884,22 @@
     </section>
 
     <section class="founding-band wrap" aria-labelledby="founding-heading">
-      <div class="founding-card">
-        <h3 id="founding-heading">founding beta (waitlist only)</h3>
+      <a class="founding-card" href="#waitlist">
+        <h3 id="founding-heading">founding member offer</h3>
         <p>
-          join now → early access in batches →
-          <span class="highlight">us$10 once · lifetime premium</span>
-          when your slot opens.
+          first <strong>250</strong> on the list get early access +
+          <span class="highlight"> us$10 once for lifetime premium</span>
+          — unlimited sites, full observer, and growth dashboard.
         </p>
-        <p style="margin-top:10px;font-size:13px;color:var(--muted);">no charge today.</p>
-      </div>
+        <p class="founding-card-note">no charge today.</p>
+        <span class="founding-card-cta">join the waitlist →</span>
+      </a>
+      <p class="founding-card-terms">
+        <a href="founding-terms.html">founding offer terms</a>
+      </p>
+      <p class="founding-card-fine">
+        first 250 waitlist signups before 31 dec 2026 · us$10 one-time usd · features may change during beta · use the same email for chrome and payment.
+      </p>
     </section>
 
     <section class="form-band" id="waitlist" aria-labelledby="form-heading">
@@ -1012,12 +1943,6 @@
           </form>
 
           <p class="form-trust">beta invites roll out in batches · same email for chrome + payment later</p>
-
-          <p class="fine-print">
-            founding offer for waitlist signups before 31 dec 2026, capped at 250 spots. us$10 one-time usd.
-            see <a href="founding-terms.html">founding offer terms</a>.
-            features may change during beta. use the same email for chrome and payment.
-          </p>
         </div>
 
         <div class="form-success" id="formSuccess" role="status" aria-live="polite">
@@ -1044,6 +1969,22 @@
     <a href="#waitlist">join the waitlist</a>
   </div>
 
+  <div class="video-lightbox" id="videoLightbox" aria-hidden="true">
+    <button type="button" class="video-lightbox-backdrop" id="videoLightboxBackdrop" aria-label="close enlarged video"></button>
+    <div class="video-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="videoLightboxTitle">
+      <p class="video-lightbox-title" id="videoLightboxTitle"></p>
+      <div class="video-lightbox-frame">
+        <button type="button" class="video-lightbox-close" id="videoLightboxClose" aria-label="close">×</button>
+        <video id="videoLightboxPlayer" muted loop playsinline controls preload="metadata"></video>
+      </div>
+      <div class="video-lightbox-nav" id="videoLightboxNav" hidden>
+        <button type="button" class="slider-arrow slider-prev" id="videoLightboxPrev" aria-label="previous clip">‹</button>
+        <div class="slider-pills" id="videoLightboxPills" role="tablist"></div>
+        <button type="button" class="slider-arrow slider-next" id="videoLightboxNext" aria-label="next clip">›</button>
+      </div>
+    </div>
+  </div>
+
   <style>
     .visually-hidden {
       position: absolute;
@@ -1061,9 +2002,6 @@
   <script>
     // ——— site config (edit these) ———
     var SITE_URL = 'https://wondrous-horse-8d0cb0.netlify.app';
-    // drop demo.mp4 in assets/videos/ — or paste a direct mp4 / YouTube embed URL below
-    var DEMO_VIDEO_PATH = 'assets/videos/demo.mp4';
-    var DEMO_VIDEO_URL = ''; // optional: full URL if hosted elsewhere
     // when your telegram channel/group exists, paste e.g. https://t.me/cognoscene
     var TELEGRAM_URL = '';
     // analytics — plausible optional (ga4 is in <head>)
@@ -1090,28 +2028,6 @@
       p.src = 'https://plausible.io/js/script.js';
       document.head.appendChild(p);
     }
-
-    (function initHeroVideo() {
-      var wrap = document.getElementById('heroVideoWrap');
-      var video = document.getElementById('heroVideo');
-      var mock = document.getElementById('heroVisualMock');
-      var source = document.getElementById('heroVideoSource');
-      var src = DEMO_VIDEO_URL || DEMO_VIDEO_PATH;
-      if (!src) return;
-
-      source.src = src;
-      video.load();
-
-      video.addEventListener('loadeddata', function () {
-        wrap.classList.add('is-active');
-        mock.classList.add('is-hidden');
-      });
-
-      video.addEventListener('error', function () {
-        wrap.classList.remove('is-active');
-        mock.classList.remove('is-hidden');
-      });
-    })();
 
     function showError(message) {
       formError.textContent = message;
@@ -1173,6 +2089,444 @@
           submitBtn.textContent = 'join the waitlist';
         });
     });
+
+    (function initVideoExperience() {
+      var SLIDER_CLIPS = {
+        layer1: [
+          {
+            src: 'assets/videos/observer-1.mp4',
+            label: 'enlarge observer · 1st soft pulse',
+            caption: 'layer 1 · observer · 1st soft pulse',
+            pill: '1st pulse'
+          },
+          {
+            src: 'assets/videos/observer-3rd.mp4',
+            label: 'enlarge observer · 3rd decline overlay',
+            caption: 'layer 1 · observer · 3rd decline overlay',
+            pill: '3rd pulse'
+          }
+        ],
+        layer3: [
+          {
+            src: 'assets/videos/growth-smol.mp4',
+            label: 'enlarge growth · popup tease',
+            caption: 'layer 3 · growth · popup tease',
+            pill: 'popup'
+          },
+          {
+            src: 'assets/videos/growth-full.mp4',
+            label: 'enlarge growth · full dashboard',
+            caption: 'layer 3 · growth · full dashboard',
+            pill: 'dashboard'
+          }
+        ]
+      };
+
+      var sliderRegistry = {};
+      var activeSlider = null;
+      var lightboxOpen = false;
+      var transitionMs = 450;
+
+      var lightbox = document.getElementById('videoLightbox');
+      var backdrop = document.getElementById('videoLightboxBackdrop');
+      var closeBtn = document.getElementById('videoLightboxClose');
+      var player = document.getElementById('videoLightboxPlayer');
+      var titleEl = document.getElementById('videoLightboxTitle');
+      var lightboxNav = document.getElementById('videoLightboxNav');
+      var lightboxPills = document.getElementById('videoLightboxPills');
+      var lightboxPrev = document.getElementById('videoLightboxPrev');
+      var lightboxNext = document.getElementById('videoLightboxNext');
+      var lastTrigger = null;
+
+      function ensureLoop(video) {
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.addEventListener('ended', function () {
+          video.currentTime = 0;
+          video.play().catch(function () {});
+        });
+      }
+
+      function tryPlay(video) {
+        if (!video) return;
+        var playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(function () {});
+        }
+      }
+
+      function setVideoSource(video, src) {
+        var source = video.querySelector('source');
+        if (source) {
+          source.src = src;
+        } else {
+          video.src = src;
+        }
+        video.load();
+      }
+
+      function getVideoSrc(video) {
+        var source = video.querySelector('source');
+        if (source && source.src) return source.src;
+        if (video.currentSrc) return video.currentSrc;
+        return video.getAttribute('src') || '';
+      }
+
+      function updatePills(pills, index) {
+        pills.forEach(function (pill, pillIndex) {
+          var isActive = pillIndex === index;
+          pill.classList.toggle('is-active', isActive);
+          pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+      }
+
+      function syncLightboxPlayer(clip, animate) {
+        if (!lightboxOpen || !player || !clip) return;
+
+        function applySrc() {
+          player.src = clip.src;
+          player.currentTime = 0;
+          tryPlay(player);
+        }
+
+        if (!animate) {
+          player.classList.remove('is-fading');
+          applySrc();
+          return;
+        }
+
+        player.classList.add('is-fading');
+        window.setTimeout(function () {
+          applySrc();
+          window.requestAnimationFrame(function () {
+            player.classList.remove('is-fading');
+          });
+        }, transitionMs * 0.55);
+      }
+
+      function buildLightboxNav(slider) {
+        if (!lightboxNav || !lightboxPills || !slider) return;
+
+        lightboxPills.innerHTML = '';
+        slider.clips.forEach(function (clip, clipIndex) {
+          var pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'slider-pill' + (clipIndex === slider.index ? ' is-active' : '');
+          pill.setAttribute('role', 'tab');
+          pill.setAttribute('data-slide', String(clipIndex));
+          pill.setAttribute('aria-selected', clipIndex === slider.index ? 'true' : 'false');
+          pill.textContent = clip.pill;
+          pill.addEventListener('click', function (event) {
+            event.stopPropagation();
+            slider.goTo(clipIndex);
+          });
+          lightboxPills.appendChild(pill);
+        });
+
+        lightboxNav.hidden = false;
+      }
+
+      function hideLightboxNav() {
+        if (lightboxNav) lightboxNav.hidden = true;
+        if (lightboxPills) lightboxPills.innerHTML = '';
+      }
+
+      function createSlider(root, clips) {
+        var index = 0;
+        var isTransitioning = false;
+        var activeSlot = 0;
+        var stage = root.querySelector('.showcase-video-stage');
+        var videos = stage
+          ? [stage.querySelector('[data-video-slot="0"]'), stage.querySelector('[data-video-slot="1"]')]
+          : [];
+        var hit = root.querySelector('.showcase-video-hit');
+        var caption = root.querySelector('.slider-caption');
+        var pills = root.querySelectorAll('.slider-pill');
+        var prev = root.querySelector('.slider-prev');
+        var next = root.querySelector('.slider-next');
+
+        if (!stage || !videos[0] || !videos[1] || !hit) return null;
+
+        videos.forEach(function (video) {
+          ensureLoop(video);
+        });
+
+        function getDirection(nextIndex) {
+          if (nextIndex === index) return 0;
+          if (index === clips.length - 1 && nextIndex === 0) return 1;
+          if (index === 0 && nextIndex === clips.length - 1) return -1;
+          return nextIndex > index ? 1 : -1;
+        }
+
+        function applyUi(nextIndex) {
+          var clip = clips[nextIndex];
+          hit.setAttribute('aria-label', clip.label);
+          if (caption) caption.textContent = clip.caption;
+          updatePills(pills, nextIndex);
+          if (lightboxOpen && activeSlider === sliderController) {
+            titleEl.textContent = clip.label;
+            updatePills(lightboxPills.querySelectorAll('.slider-pill'), nextIndex);
+          }
+        }
+
+        function goTo(nextIndex, options) {
+          var animate = !options || options.animate !== false;
+          var target = (nextIndex + clips.length) % clips.length;
+          if (isTransitioning || (target === index && !options.force)) return;
+
+          var direction = getDirection(target);
+          var currentVideo = videos[activeSlot];
+          var nextVideo = videos[1 - activeSlot];
+          var clip = clips[target];
+
+          function finishSwap() {
+            currentVideo.classList.remove('is-active', 'is-exiting', 'slide-from-left', 'slide-from-right');
+            currentVideo.pause();
+
+            nextVideo.classList.remove('is-exiting', 'slide-from-left', 'slide-from-right');
+            nextVideo.classList.add('is-active');
+
+            activeSlot = 1 - activeSlot;
+            index = target;
+            isTransitioning = false;
+
+            applyUi(index);
+          }
+
+          if (!animate) {
+            setVideoSource(currentVideo, clip.src);
+            currentVideo.classList.add('is-active');
+            nextVideo.classList.remove('is-active');
+            nextVideo.pause();
+            index = target;
+            activeSlot = 0;
+            applyUi(index);
+            tryPlay(currentVideo);
+            return;
+          }
+
+          isTransitioning = true;
+          nextVideo.classList.remove('is-active', 'is-exiting', 'slide-from-left', 'slide-from-right');
+          nextVideo.classList.add(direction >= 0 ? 'slide-from-right' : 'slide-from-left');
+          setVideoSource(nextVideo, clip.src);
+
+          if (lightboxOpen && activeSlider === sliderController) {
+            syncLightboxPlayer(clip, true);
+          }
+
+          function startTransition() {
+            window.requestAnimationFrame(function () {
+              currentVideo.classList.remove('is-active');
+              currentVideo.classList.add('is-exiting');
+              nextVideo.classList.remove('slide-from-left', 'slide-from-right');
+              nextVideo.classList.add('is-active');
+              tryPlay(nextVideo);
+              window.setTimeout(finishSwap, transitionMs);
+            });
+          }
+
+          if (nextVideo.readyState >= 2) {
+            tryPlay(nextVideo);
+            startTransition();
+          } else {
+            nextVideo.addEventListener('loadeddata', function onLoaded() {
+              nextVideo.removeEventListener('loadeddata', onLoaded);
+              startTransition();
+            });
+          }
+        }
+
+        var sliderController = {
+          root: root,
+          clips: clips,
+          goTo: goTo,
+          get index() { return index; },
+          getClip: function () { return clips[index]; }
+        };
+
+        if (prev) {
+          prev.addEventListener('click', function (event) {
+            event.stopPropagation();
+            goTo(index - 1);
+          });
+        }
+
+        if (next) {
+          next.addEventListener('click', function (event) {
+            event.stopPropagation();
+            goTo(index + 1);
+          });
+        }
+
+        pills.forEach(function (pill) {
+          pill.addEventListener('click', function (event) {
+            event.stopPropagation();
+            goTo(parseInt(pill.getAttribute('data-slide'), 10));
+          });
+        });
+
+        applyUi(0);
+        tryPlay(videos[0]);
+        return sliderController;
+      }
+
+      document.querySelectorAll('[data-video-slider]').forEach(function (root) {
+        var key = root.getAttribute('data-video-slider');
+        var clips = SLIDER_CLIPS[key];
+        if (!clips) return;
+        var slider = createSlider(root, clips);
+        if (slider) sliderRegistry[key] = slider;
+      });
+
+      document.querySelectorAll('.showcase-video').forEach(function (video) {
+        ensureLoop(video);
+        tryPlay(video);
+      });
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var video = entry.target;
+            if (entry.isIntersecting) {
+              if (video.classList.contains('is-active') || !video.closest('.showcase-video-stage')) {
+                tryPlay(video);
+              }
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.showcase-video').forEach(function (video) {
+          observer.observe(video);
+        });
+      }
+
+      function openLightbox(trigger) {
+        var inlineVideo = trigger.querySelector('.showcase-video.is-active') || trigger.querySelector('.showcase-video');
+        if (!inlineVideo) return;
+
+        var src = getVideoSrc(inlineVideo);
+        if (!src) return;
+
+        var sliderRoot = trigger.closest('[data-video-slider]');
+        activeSlider = sliderRoot ? sliderRegistry[sliderRoot.getAttribute('data-video-slider')] : null;
+        lastTrigger = trigger;
+
+        if (activeSlider) {
+          buildLightboxNav(activeSlider);
+          titleEl.textContent = activeSlider.getClip().label;
+          player.src = activeSlider.getClip().src;
+        } else {
+          hideLightboxNav();
+          activeSlider = null;
+          titleEl.textContent = trigger.getAttribute('aria-label') || 'product demo';
+          player.src = src;
+        }
+
+        player.currentTime = 0;
+        player.classList.remove('is-fading');
+        lightboxOpen = true;
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('video-lightbox-open');
+        closeBtn.focus();
+        tryPlay(player);
+      }
+
+      function closeLightbox() {
+        lightboxOpen = false;
+        activeSlider = null;
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('video-lightbox-open');
+        hideLightboxNav();
+        player.pause();
+        player.classList.remove('is-fading');
+        player.removeAttribute('src');
+        player.load();
+
+        if (lastTrigger) {
+          lastTrigger.focus();
+          lastTrigger = null;
+        }
+      }
+
+      document.querySelectorAll('.showcase-video-hit').forEach(function (trigger) {
+        trigger.addEventListener('click', function () {
+          openLightbox(trigger);
+        });
+      });
+
+      if (lightboxPrev) {
+        lightboxPrev.addEventListener('click', function (event) {
+          event.stopPropagation();
+          if (activeSlider) activeSlider.goTo(activeSlider.index - 1);
+        });
+      }
+
+      if (lightboxNext) {
+        lightboxNext.addEventListener('click', function (event) {
+          event.stopPropagation();
+          if (activeSlider) activeSlider.goTo(activeSlider.index + 1);
+        });
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+      if (backdrop) backdrop.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (event) {
+        if (!lightboxOpen) return;
+
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closeLightbox();
+          return;
+        }
+
+        if (!activeSlider) return;
+
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          activeSlider.goTo(activeSlider.index - 1);
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          activeSlider.goTo(activeSlider.index + 1);
+        }
+      });
+    })();
+
+    (function initHeroHoldTimer() {
+      var timerEl = document.getElementById('heroHoldTimer');
+      if (!timerEl) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var totalSeconds = 48 * 3600;
+      var remaining = totalSeconds;
+
+      function pad(value) {
+        return String(value).padStart(2, '0');
+      }
+
+      function format(seconds) {
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var secs = seconds % 60;
+        return hours + ':' + pad(minutes) + ':' + pad(secs);
+      }
+
+      function tick() {
+        timerEl.textContent = format(remaining);
+        remaining -= 1;
+        if (remaining < 0) remaining = totalSeconds;
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
   </script>
 </body>
 </html>
