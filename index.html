@@ -42,7 +42,7 @@
       --serif: 'Times New Roman', Times, serif;
       --sans: 'Be Vietnam Pro', system-ui, sans-serif;
       --max: 920px;
-      --form-max: 480px;
+      --form-max: 520px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1325,35 +1325,41 @@
 
     /* form */
     .form-band {
-      background: var(--cream-2);
+      background: var(--cream);
       margin: 0 -24px;
-      padding: 56px 24px 64px;
+      padding: 40px 24px 56px;
     }
     .form-inner {
       max-width: var(--form-max);
       margin: 0 auto;
       text-align: center;
     }
+    .form-inner .section-eyebrow {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
     .form-inner h2 {
       font-family: var(--serif);
-      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-size: clamp(1.65rem, 4vw, 2.25rem);
       font-weight: 400;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       letter-spacing: -0.05em;
+      line-height: 1.1;
     }
     .form-sub {
-      font-size: 14px;
+      font-size: 16px;
       color: var(--mid);
-      margin-bottom: 28px;
+      margin-bottom: 16px;
+      line-height: 1.45;
     }
 
     .field {
       width: 100%;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 14px 20px;
+      padding: 15px 20px;
       font: inherit;
-      font-size: 14px;
+      font-size: 15px;
       margin-bottom: 12px;
       background: var(--white);
       color: var(--black);
@@ -1373,28 +1379,37 @@
     }
     .radio-pill {
       flex: 1;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 12px 16px;
-      font-size: 13px;
+      padding: 13px 16px;
+      font-size: 14px;
       cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
+      background: var(--white);
+      transition: border-color 0.15s, background 0.15s, font-weight 0.15s;
     }
     .radio-pill input {
-      accent-color: var(--black);
-      width: 16px;
-      height: 16px;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     .radio-pill:has(input:checked) {
       border-color: var(--black);
-      background: var(--cream);
+      background: var(--cream-2);
+      font-weight: 500;
     }
-    .form-band .radio-pill:has(input:checked) {
-      background: var(--white);
+    .radio-pill:has(input:focus-visible) {
+      outline: 2px solid var(--lime);
+      outline-offset: 2px;
     }
 
     .form-check {
@@ -1402,8 +1417,15 @@
       align-items: flex-start;
       gap: 10px;
       text-align: left;
-      font-size: 13px;
-      margin: 18px 0 20px;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 8px 0;
+    }
+    .form-check:first-of-type {
+      margin-top: 14px;
+    }
+    .form-check:last-of-type {
+      margin-bottom: 0.25cm;
     }
     .form-check input {
       width: 18px;
@@ -1419,13 +1441,14 @@
 
     .btn-submit {
       width: 100%;
+      margin-top: 0.35cm;
       background: var(--black);
       color: var(--lime-muted);
       border: none;
       border-radius: 999px;
-      padding: 16px;
+      padding: 17px 20px;
       font: inherit;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
       cursor: pointer;
       transition: transform 0.15s ease;
@@ -1451,9 +1474,11 @@
     .form-error.is-visible { display: block; }
 
     .form-trust {
-      margin-top: 14px;
-      font-size: 12px;
+      margin-top: 12px;
+      font-size: 13px;
       color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
     }
 
     /* footer */
@@ -1480,10 +1505,12 @@
     /* form states demo */
     .form-success {
       display: none;
-      padding: 32px 24px;
+      padding: 32px 28px;
       background: var(--white);
-      border: 2px solid var(--lime);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--lime);
       border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
       text-align: center;
     }
     .form-success.is-visible { display: block; }
@@ -1578,7 +1605,7 @@
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
-      .form-band { margin: 0 -16px; padding: 40px 16px 48px; }
+      .form-band { margin: 0 -16px; padding: 32px 16px 44px; }
       .field-row { flex-direction: column; }
       .top-bar { padding: 10px 0; }
       .top-bar-marquee-item { font-size: 10px; gap: 18px; padding: 0 18px; }
@@ -1926,18 +1953,6 @@
             <label class="visually-hidden" for="telegram">telegram handle</label>
             <input class="field" id="telegram" name="telegram" type="text" placeholder="telegram (optional, recommended)" autocomplete="off" />
 
-            <fieldset class="field-row" style="border:none;padding:0;margin:0;">
-              <legend class="visually-hidden">chrome on desktop</legend>
-              <label class="radio-pill">
-                <input type="radio" name="chrome" value="yes" required />
-                chrome on desktop · yes
-              </label>
-              <label class="radio-pill">
-                <input type="radio" name="chrome" value="no" />
-                chrome on desktop · no
-              </label>
-            </fieldset>
-
             <label class="form-check">
               <input type="checkbox" name="ready" value="yes" required />
               <span>i'm ready to try a pause before checkout.</span>
@@ -2065,7 +2080,6 @@
       var payload = {
         email: document.getElementById('email').value.trim(),
         telegram: document.getElementById('telegram').value.trim() || '(not provided)',
-        chrome_desktop: form.querySelector('input[name="chrome"]:checked').value,
         ready: form.querySelector('input[name="ready"]').checked ? 'yes' : 'no',
         legal_agreed: form.querySelector('input[name="legal"]').checked ? 'yes' : 'no',
         _subject: 'cognoscene waitlist signup'
