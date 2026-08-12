@@ -179,24 +179,33 @@
     }
     .hero-brand {
       padding-top: 1cm;
-      margin-bottom: 1cm;
+      margin-bottom: 0;
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
+      text-align: center;
     }
     .hero-brand-link {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
+      margin-inline: auto;
+      width: fit-content;
       text-decoration: none;
       color: var(--black);
     }
     .hero-brand-mark {
+      display: block;
+      flex-shrink: 0;
       height: 28px;
       width: auto;
       object-fit: contain;
     }
     .hero-brand-wordmark {
+      display: block;
+      flex-shrink: 0;
       height: 14px;
       width: auto;
       object-fit: contain;
@@ -1521,7 +1530,7 @@
         gap: 20px;
         padding-top: 0.75cm;
       }
-      .hero-brand { padding-top: 1cm; }
+      .hero-brand { padding-top: 1cm; margin-bottom: 0; }
       .hero-brand-mark { height: 24px; }
       .hero-brand-wordmark { height: 12px; }
       .hero-copy { text-align: center; }
