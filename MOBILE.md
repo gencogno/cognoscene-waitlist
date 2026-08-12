@@ -28,7 +28,7 @@ Mobile CSS in `index.html` matches the **last deployed commit** (`a294585`). Des
 | Form | Same fields as desktop; sticky CTA bar; `body.has-mobile-cta { padding-bottom: 76px }` |
 | Not yet done | Funnel trim, copy reframe, app roadmap icon, form compression |
 
-**Reverted (12 Aug 2026):** experimental mobile pass (hidden sections, single hold mock, clunky form pill) — kept in plan below, not in code.
+**Reverted (12 Aug 2026):** Phase A funnel trim attempted locally — reverted; full mobile page remains visible for copy pass.
 
 ---
 

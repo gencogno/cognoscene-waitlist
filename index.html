@@ -269,6 +269,89 @@
       color: var(--muted);
     }
 
+    .mobile-only { display: none; }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-roadmap-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(17, 17, 17, 0.55);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+    .hero-roadmap-sheet.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .hero-sheet-dialog {
+      width: calc(100% - 32px);
+      max-width: 440px;
+      margin-bottom: 24px;
+      padding: 20px 18px 18px;
+      background: #fff;
+      border: 1px solid #e8e2d6;
+      border-radius: 20px;
+      text-align: center;
+      transform: translateY(110%);
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero-roadmap-sheet.is-open .hero-sheet-dialog { transform: translateY(0); }
+    .hero-sheet-dialog h3 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .hero-sheet-dialog p {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .hero-sheet-dismiss {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 16px;
+      background: #111;
+      color: #C8E88A;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .hero-info-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid #d8d2c6;
+      border-radius: 999px;
+      background: #fff;
+      color: #888;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 1;
+      font-family: inherit;
+    }
+    .hero-info-btn[aria-expanded="true"] {
+      background: #C8E88A;
+      border-color: #111;
+      color: #111;
+    }
+
     /* showcase video frames — padded, thick rounded border */
     .showcase-video-frame {
       position: relative;
@@ -1593,29 +1676,52 @@
     body.has-mobile-cta { padding-bottom: 76px; }
 
     @media (max-width: 760px) {
-      .wrap { padding: 0 16px; }
+      body.has-mobile-cta {
+        padding-left: 0.5cm;
+        padding-right: 0.5cm;
+        padding-bottom: calc(80px + 1cm + env(safe-area-inset-bottom, 0px));
+        overflow-x: clip;
+      }
+      main { padding-top: 0.5cm; }
+      .top-bar {
+        margin-left: -0.5cm;
+        margin-right: -0.5cm;
+        width: calc(100% + 1cm);
+      }
+      .wrap { padding: 0; }
       .hero-main {
         grid-template-columns: 1fr;
         gap: 20px;
         padding-top: 0.75cm;
       }
-      .hero-brand { padding-top: 1cm; margin-bottom: 0; }
-      .hero-brand-mark { height: 24px; }
-      .hero-brand-wordmark { height: 12px; }
-      .hero-copy { text-align: center; }
-      .hero-lead { margin-left: auto; margin-right: auto; font-size: 14px; }
-      .hero-visual { order: -1; }
-      .hero-screenshot-stack { min-height: 320px; max-width: 340px; }
+      .hero-brand {
+        padding-top: 0;
+        margin-bottom: 0.5cm;
+        justify-content: flex-start;
+        text-align: left;
+      }
+      .hero-brand-link { margin-inline: 0; }
+      .hero-brand-mark { height: 27px; }
+      .hero-brand-wordmark { display: none; }
+      .hero-info-btn { display: inline-flex; align-items: center; justify-content: center; }
+      .mobile-h1 { display: block; }
+      .mobile-sub { display: block; }
+      #hero-heading { display: none; }
+      #hero-sub-desktop { display: none; }
+      .hero-lead { display: none; }
+      .hero-copy { text-align: left; }
+      .hero-copy h1 { font-size: 2.3rem; }
+      .hero-sub { margin-left: 0; margin-right: 0; font-size: 19px; }
+      .mobile-sub { font-weight: 400; }
+      .mobile-sub strong { font-weight: 800; }
+      .hero-lead { margin-left: 0; margin-right: 0; font-size: 18px; }
+      .hero-meta { font-size: 15px; }
+      .hero-visual { order: 1; margin-top: 28px; margin-bottom: 8px; }
+      .hero-screenshot-stack { min-height: 320px; max-width: 340px; margin: 0; }
       .hero-shot--growth { width: 100%; bottom: 2%; }
       .hero-shot--soft { width: 84%; left: 2%; top: 0; }
       .hero-shot--hold { width: 68%; top: 32%; right: -4%; }
-      .chrome-band {
-        max-width: none;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: left;
-      }
-      .hero-sub { margin-left: auto; margin-right: auto; }
+      .chrome-band { display: none; }
       .problem-band { padding: 12px 0 28px; }
       .problem-band-header h2 { font-size: 1.3rem; }
       .problem-band-header .lead-in { font-size: 14px; }
@@ -1638,7 +1744,7 @@
       .solution-bridge h2 { font-size: 1.3rem; }
       .solution-bridge-sub { font-size: 1.15rem; margin-bottom: 22px; }
       .problem-icon-card figcaption span { font-size: 8px; }
-      .how-band { margin: 0 -16px; padding: 36px 16px; }
+      .how-band { margin: 0; padding: 36px 0; }
       .steps { gap: 28px; }
       .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
       .showcase-video-frame { max-width: 100%; }
@@ -1647,16 +1753,21 @@
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
-      .form-band { margin: 0 -16px; padding: 32px 16px 44px; }
+      .form-band { margin: 0; padding: 32px 0 44px; }
       .field-row { flex-direction: column; }
       .top-bar { padding: 10px 0; }
       .top-bar-marquee-item { font-size: 10px; gap: 18px; padding: 0 18px; }
-      .mobile-cta-bar { display: block; }
-      .site-footer { padding: 14px 16px 16px; }
+      .mobile-cta-bar {
+        display: block;
+        left: 0.5cm;
+        right: 0.5cm;
+        bottom: calc(0.5cm + env(safe-area-inset-bottom, 0px));
+      }
+      .site-footer { padding: 14px 0 calc(16px + 0.5cm); }
     }
 
     @media (max-width: 380px) {
-      .hero-copy h1 { font-size: 1.65rem; }
+      .hero-copy h1 { font-size: 2.05rem; }
       .top-bar-marquee-item { font-size: 9px; padding: 0 14px; gap: 14px; }
     }
 
@@ -1699,13 +1810,18 @@
       <div class="wrap hero-main">
         <div class="hero-copy">
         <h1 id="hero-heading">98% of your regretful decisions happen pre-purchase.</h1>
-        <p class="hero-sub">a chrome extension that pauses impulse buys before you pay.</p>
+        <h1 class="mobile-only mobile-h1">prevent destructive web-impulse buys.</h1>
+        <p class="hero-sub" id="hero-sub-desktop">a chrome extension that pauses impulse buys before you pay.</p>
+        <p class="hero-sub mobile-only mobile-sub">we're building cognoscene, a chrome extension that prevents unexpected shopping impulses causing you to go through a vicious cycle of <strong>guilt &amp; overspending.</strong></p>
         <div class="chrome-band" role="note">
           <strong>desktop chrome only</strong>
           <span>— laptop or desktop. not mobile safari or in-app browsers.</span>
         </div>
         <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
-        <a class="btn-primary" href="#waitlist">join the waitlist</a>
+        <div class="hero-cta-row">
+          <a class="btn-primary" href="#waitlist">join the waitlist</a>
+          <button type="button" class="hero-info-btn mobile-only" id="heroInfoBtn" aria-label="mobile apps roadmap" aria-expanded="false" aria-controls="heroRoadmapSheet">i</button>
+        </div>
         <p class="hero-meta">250 early-access spots · 2 months free · us$10 lifetime after</p>
         </div>
 
@@ -2654,6 +2770,40 @@
       tick();
       setInterval(tick, 1000);
     })();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var heroInfoBtn = document.getElementById('heroInfoBtn');
+      var heroSheet = document.getElementById('heroRoadmapSheet');
+      var heroSheetDismiss = document.getElementById('heroSheetDismiss');
+
+      function openHeroSheet() {
+        heroSheet.classList.add('is-open');
+        heroSheet.setAttribute('aria-hidden', 'false');
+        heroInfoBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeHeroSheet() {
+        heroSheet.classList.remove('is-open');
+        heroSheet.setAttribute('aria-hidden', 'true');
+        heroInfoBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      if (heroInfoBtn) heroInfoBtn.addEventListener('click', openHeroSheet);
+      if (heroSheetDismiss) heroSheetDismiss.addEventListener('click', closeHeroSheet);
+      if (heroSheet) heroSheet.addEventListener('click', function (e) {
+        if (e.target === heroSheet) closeHeroSheet();
+      });
+    });
   </script>
+
+  <div class="hero-roadmap-sheet mobile-only" id="heroRoadmapSheet" aria-hidden="true">
+    <div class="hero-sheet-dialog" role="dialog" aria-modal="true" aria-labelledby="heroSheetTitle">
+      <h3 id="heroSheetTitle">mobile apps are on the roadmap</h3>
+      <p>cognoscene is desktop chrome today. we're building native apps for android and ios, targeting late 2027. join the waitlist now — we'll email you when desktop beta opens, and you'll hear about mobile when it's ready. rest assured.</p>
+      <button type="button" class="hero-sheet-dismiss" id="heroSheetDismiss">got it</button>
+    </div>
+  </div>
 </body>
 </html>
