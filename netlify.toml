@@ -1,0 +1,5 @@
+# Cognoscene waitlist — static site (dedicated repo)
+
+[build]
+  publish = "."
+  command = ""
