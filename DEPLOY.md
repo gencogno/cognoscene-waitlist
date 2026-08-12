@@ -8,35 +8,40 @@ Publish config: `netlify.toml` at repo root (`publish = "."`).
 
 ---
 
-## Recommended — Git auto-deploy (iterate without re-uploading)
+## Recommended — auto-deploy on push
 
-After this one-time setup, every **`git push`** to `main` updates the live site in ~30 seconds.
+Pick **one** path.
 
-### A. One-time: push waitlist to GitHub
+### Path A — GitHub Actions (no Netlify Git link)
 
-From this repo root:
+Repo includes `.github/workflows/deploy.yml`. After you add two secrets, every push to `main` deploys.
+
+1. **Netlify token** — [app.netlify.com/user/applications#personal-access-tokens](https://app.netlify.com/user/applications#personal-access-tokens) → **New access token** → copy it.
+2. **Site ID** — Netlify → your site → **Project configuration** → **General** → **Site ID** → copy (for `wondrous-horse-8d0cb0`).
+3. **GitHub secrets** — [github.com/gencogno/cognoscene-waitlist/settings/secrets/actions](https://github.com/gencogno/cognoscene-waitlist/settings/secrets/actions):
+   - `NETLIFY_AUTH_TOKEN` = token from step 1
+   - `NETLIFY_SITE_ID` = site ID from step 2
+4. **Trigger deploy** — push any commit to `main`, or GitHub → **Actions** → **Deploy to Netlify** → **Run workflow**.
+
+### Path B — Netlify Git link
+
+1. [app.netlify.com](https://app.netlify.com) → site **wondrous-horse-8d0cb0**.
+2. **Project configuration** → **Build & deploy** → **Link repository**.
+3. GitHub → **`gencogno/cognoscene-waitlist`** → branch **`main`** → publish **`.`** → **Deploy**.
+
+If the site 404s, the Drop site may have been removed — create a new site from Git import, then update `SITE_URL` / `og:image` in `index.html`.
+
+### Path C — Netlify CLI (one-off)
 
 ```bash
-git add .
-git commit -m "waitlist: your change"
-git push origin main
+npx netlify-cli login
+npx netlify-cli link
+npx netlify-cli deploy --prod --dir=.
 ```
 
-(`demo.mp4` is ~10MB — OK for GitHub. Avoid committing many 20MB+ videos; use YouTube + `DEMO_VIDEO_URL` instead.)
+---
 
-### B. One-time: link Netlify to GitHub
-
-1. [app.netlify.com](https://app.netlify.com) → open site **wondrous-horse-8d0cb0** (your existing Drop site).
-2. **Project configuration** → **Build & deploy** → **Link repository**.
-3. Authorize **GitHub** → choose **`gencogno/cognoscene-waitlist`** → branch **`main`**.
-4. Netlify should detect **`netlify.toml`**:
-   - **Publish directory:** `.` (repo root)
-   - **Build command:** *(leave empty)*
-5. **Deploy site**.
-
-Your URL stays **`wondrous-horse-8d0cb0.netlify.app`**.
-
-### C. Day-to-day workflow
+## Day-to-day workflow
 
 ```bash
 # edit index.html (or assets) in Cursor
