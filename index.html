@@ -1717,10 +1717,12 @@
       .hero-lead { margin-left: 0; margin-right: 0; font-size: 18px; }
       .hero-meta { font-size: 15px; }
       .hero-visual { order: 1; margin-top: 28px; margin-bottom: 8px; }
-      .hero-screenshot-stack { min-height: 320px; max-width: 340px; margin: 0; }
-      .hero-shot--growth { width: 100%; bottom: 2%; }
-      .hero-shot--soft { width: 84%; left: 2%; top: 0; }
-      .hero-shot--hold { width: 68%; top: 32%; right: -4%; }
+      .hero-screenshot-stack { min-height: unset; max-width: 100%; margin: 0; display: flex; gap: 8px; align-items: flex-start; }
+      .hero-shot { position: static; width: auto; flex: 1; transform: none; }
+      .hero-shot--growth { display: none; }
+      .hero-shot--soft { box-shadow: 2px 2px 0 var(--lime); }
+      .hero-shot--hold { box-shadow: 4px 4px 0 var(--lime); }
+      .hero-shot-tag { margin-top: 8px; }
       .chrome-band { display: none; }
       .problem-band { padding: 12px 0 28px; }
       .problem-band-header h2 { font-size: 1.3rem; }
