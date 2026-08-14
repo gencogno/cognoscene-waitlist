@@ -357,9 +357,19 @@
       position: relative;
       max-width: 360px;
       margin: 0 auto;
+      padding: 12px;
+      background: var(--cream);
+      border: 6px solid var(--black);
+      border-radius: 32px;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       overflow: hidden;
     }
-
+    .showcase-video-frame:focus-within,
+    .showcase-video-frame:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+    }
     .showcase-video-hit {
       display: block;
       width: 100%;
@@ -1318,7 +1328,7 @@
     .steps {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 64px;
       max-width: 820px;
       margin: 0 auto;
     }
@@ -2019,8 +2029,6 @@
 
     <section class="solution-details" aria-label="three layers in detail">
       <div class="wrap">
-        <p class="section-eyebrow">three layers · in detail</p>
-        <p class="how-intro">cognoscene doesn't block browsing forever — it intercepts impulses while you shop, pauses checkout when you'd pay, then shows whether the purchase held up.</p>
 
         <div class="steps">
           <div class="step-row">
@@ -2028,7 +2036,7 @@
               <p class="step-label">first layer · observer</p>
               <h3 class="step-title">intercept unnecessary impulses</h3>
               <p class="step-copy">soft nudges while you browse shops — lookout pulses that remind you to be prudent as you're scrolling through hundreds of products.</p>
-              <p class="step-tier-note">you start noticing <strong>the urge</strong> before it becomes a decision.</p>
+              <p class="step-tier-note">you start noticing the urge before it becomes a decision.</p>
             </div>
             <div class="showcase-video-slider" data-video-slider="layer1">
               <div class="showcase-video-frame">
@@ -2054,12 +2062,12 @@
             </div>
           </div>
 
-          <div class="step-row reverse">
+          <div class="step-row">
             <div class="step-copy-block">
               <p class="step-label">second layer · rationalisation</p>
               <h3 class="step-title">48 hours to decide if you need this</h3>
               <p class="step-copy">you hit pay on a site you track — cognoscene pauses checkout and gives you 48 hours. decide if valuable or a waste of money.</p>
-              <p class="step-tier-note">48 hours reveals whether you <strong>wanted it</strong>, or just <strong>felt it</strong>.</p>
+              <p class="step-tier-note">48 hours reveals whether you wanted it, or just felt it.</p>
             </div>
             <div class="showcase-video-frame">
               <button type="button" class="showcase-video-hit" aria-label="enlarge rationalisation checkout hold demo">
@@ -2077,7 +2085,7 @@
               <p class="step-label">third layer · growth</p>
               <h3 class="step-title">reinforce your identity of prudence</h3>
               <p class="step-copy">as you become more conscious about spending, you'll see it on your dashboard — prudence streak, purchases rationalised, and savings over time.</p>
-              <p class="step-tier-note">you stop seeing yourself as <strong>someone who overspends</strong>.</p>
+              <p class="step-tier-note">you stop seeing yourself as someone who overspends.</p>
                   </div>
             <div class="showcase-video-slider" data-video-slider="layer3">
               <div class="showcase-video-frame">
