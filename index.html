@@ -357,9 +357,7 @@
       position: relative;
       max-width: 360px;
       margin: 0 auto;
-      padding: 12px;
-      background: var(--cream);
-      border: 6px solid var(--black);
+      border: 3px solid var(--black);
       border-radius: 32px;
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -408,6 +406,9 @@
       transition: opacity 0.2s ease;
       pointer-events: none;
     }
+    .showcase-video-hint::after {
+      content: "click to enlarge";
+    }
     .showcase-video-frame:hover .showcase-video-hint,
     .showcase-video-frame:focus-within .showcase-video-hint,
     .showcase-video-hit:hover .showcase-video-hint,
@@ -419,6 +420,9 @@
         opacity: 0.88;
         font-size: 11px;
         background: rgba(17, 17, 17, 0.4);
+      }
+      .showcase-video-hint::after {
+        content: "tap to enlarge";
       }
     }
     .showcase-video-frame--hero {
@@ -1783,15 +1787,16 @@
         order: -1;
         margin: 0.5cm auto 0.25cm;
       }
-      .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 320px; margin-left: auto; margin-right: auto; }
-      .solution-bridge h2 { font-size: 1.3rem; }
-      .solution-bridge-sub { font-size: 1.15rem; margin-bottom: 22px; }
+      .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
+      .solution-bridge { text-align: left; }
+      .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
+      .solution-bridge-sub { font-size: 1.15rem; margin: 0 0 22px; }
       .solution-details { margin: 0; padding: 36px 0; }
       .steps { gap: 28px; }
       .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
       .showcase-video-frame { max-width: 100%; }
-      .showcase-video-slider { max-width: 100%; }
-      .step-copy-block { text-align: center; }
+      .showcase-video-slider { max-width: 75%; margin: 0; }
+      .step-copy-block { text-align: left; }
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
@@ -2009,8 +2014,8 @@
     <section class="solution-bridge wrap" aria-labelledby="solution-heading">
       <p class="section-eyebrow">cognoscene · the key to the problem</p>
       <h2 id="solution-heading">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
+      <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
-      <p class="layers-index-label">3 layers</p>
       <div class="layers-index" aria-label="three product layers">
         <div class="layer-index-item">
           <span class="layer-action">preventing doom shop-scrolling</span>
@@ -2047,7 +2052,7 @@
                     </video>
                     <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
               </div>
-                  <span class="showcase-video-hint">click to enlarge</span>
+                  <span class="showcase-video-hint"></span>
                 </button>
                 </div>
               <div class="showcase-video-slider-nav" aria-label="observer demo clips">
@@ -2069,16 +2074,18 @@
               <p class="step-copy">you hit pay on a site you track — cognoscene pauses checkout and gives you 48 hours. decide if valuable or a waste of money.</p>
               <p class="step-tier-note">48 hours reveals whether you wanted it, or just felt it.</p>
             </div>
-            <div class="showcase-video-frame">
-              <button type="button" class="showcase-video-hit" aria-label="enlarge rationalisation checkout hold demo">
-                <video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-                  <source src="assets/videos/demo.mp4" type="video/mp4" />
-                </video>
-                <span class="showcase-video-hint">click to enlarge</span>
-              </button>
-              <span class="showcase-video-tag">layer 2 · rationalisation · 48h hold</span>
+            <div class="showcase-video-slider">
+              <div class="showcase-video-frame">
+                <button type="button" class="showcase-video-hit" aria-label="enlarge rationalisation checkout hold demo">
+                  <video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+                    <source src="assets/videos/demo.mp4" type="video/mp4" />
+                  </video>
+                  <span class="showcase-video-hint"></span>
+                </button>
               </div>
-                </div>
+              <span class="showcase-video-tag slider-caption">layer 2 · rationalisation · 48h hold</span>
+            </div>
+          </div>
 
           <div class="step-row">
             <div class="step-copy-block">
@@ -2096,7 +2103,7 @@
                     </video>
                     <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
                 </div>
-                  <span class="showcase-video-hint">click to enlarge</span>
+                  <span class="showcase-video-hint"></span>
                 </button>
               </div>
               <div class="showcase-video-slider-nav" aria-label="growth demo clips">

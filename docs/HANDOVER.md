@@ -59,7 +59,7 @@ cognoscene-waitlist/
 | Hero | Copy locked — lowercase, Buffer-style brand voice |
 | Problem band | **SVG loop diagram** (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
 | Problem copy | Lead-in in header; body = trap beat → regret quote → pivot (bold close) |
-| Mobile layout | Loop `order: -1` above copy; spacing 0.5cm above / 0.25cm below loop wrapper |
+| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; showcase videos scaled to 75% max-width; 'tap to enlarge' replaces 'click' for touch. |
 | Form | Email + Chrome y/n; Formspree POST; autoresponder copy in `docs/WAITLIST-PLAN.md` §4 |
 | Footer | Privacy + Terms linked |
 
