@@ -1085,7 +1085,7 @@
     }
     .problem-band-body {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 220px;
+      grid-template-columns: minmax(0, 1fr) 350px;
       gap: 36px 40px;
       align-items: start;
       max-width: var(--max);
@@ -1131,50 +1131,94 @@
       color: var(--black);
       margin-top: 18px;
     }
-    .problem-visual-stack {
+    .problem-loop-visual {
       position: sticky;
       top: 88px;
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .problem-icon-card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px 14px 14px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-    }
-    .problem-icon-wrap {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      background: var(--cream-2);
-      border-radius: 999px;
-      border: 2px solid var(--line);
+      align-items: flex-start;
+      margin-top: 0.5cm;
+      margin-bottom: 0.25cm;
     }
-    .problem-icon-wrap svg {
-      width: 44px;
-      height: 44px;
+    .lc-circle-stage {
+      --loop-scale: 1.25;
+      position: relative;
+      box-sizing: border-box;
+      width: calc(248px * var(--loop-scale));
+      padding-top: calc(45px * var(--loop-scale));
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+    .lc-circle-inner {
+      position: relative;
+      width: 248px;
+      height: 268px;
+      transform: scale(var(--loop-scale));
+      transform-origin: top center;
+      margin: 0 auto;
+      overflow: visible;
+    }
+    .lc-circle-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .lc-circle-card {
+      position: absolute;
+      width: 72px;
+      transform: translate(-50%, -100%);
+      z-index: 3;
+    }
+    .problem-loop-visual .loop-icon-card {
+      border: none;
+      border-radius: 12px;
+      background: var(--white);
+      padding: 10px 6px 8px;
+      text-align: center;
+      width: 100%;
+      box-shadow: 0 6px 20px rgba(17, 17, 17, 0.08);
+    }
+    .problem-loop-visual .loop-icon-card svg.loop-card-icon,
+    .problem-loop-visual .loop-icon-card img {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 6px;
       display: block;
+      object-fit: contain;
+      flex-shrink: 0;
     }
-    .problem-icon-card figcaption {
-      margin-top: 10px;
-      font-size: 11px;
+    .problem-loop-visual .loop-icon-card-name {
+      display: block;
+      font-size: 9px;
       font-weight: 800;
       color: var(--black);
-      line-height: 1.35;
+      margin-bottom: 2px;
     }
-    .problem-icon-card figcaption span {
+    .problem-loop-visual .loop-icon-card-sub {
       display: block;
-      font-size: 10px;
-      font-weight: 500;
+      font-size: 8px;
       color: var(--muted);
-      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .lc-circle-card--see { left: 124px; top: 48px; }
+    .lc-circle-card--buy { left: 205.3px; top: 189px; }
+    .lc-circle-card--regret { left: 42.7px; top: 189px; }
+    .lc-loop-kicker {
+      position: absolute;
+      left: 124px;
+      top: 135px;
+      transform: translateX(-50%);
+      font-size: 5.625px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #ff2a2a;
+      white-space: nowrap;
+      z-index: 4;
+      pointer-events: none;
     }
 
     /* solution bridge — cream page, wix copy, b/w layer cards */
@@ -1717,12 +1761,11 @@
       .hero-lead { margin-left: 0; margin-right: 0; font-size: 18px; }
       .hero-meta { font-size: 15px; }
       .hero-visual { order: 1; margin-top: 28px; margin-bottom: 8px; }
-      .hero-screenshot-stack { min-height: unset; max-width: 100%; margin: 0; display: flex; gap: 8px; align-items: flex-start; }
-      .hero-shot { position: static; width: auto; flex: 1; transform: none; }
+      .hero-screenshot-stack { position: relative; min-height: 260px; max-width: 100%; margin: 0; }
       .hero-shot--growth { display: none; }
-      .hero-shot--soft { box-shadow: 2px 2px 0 var(--lime); }
-      .hero-shot--hold { box-shadow: 4px 4px 0 var(--lime); }
-      .hero-shot-tag { margin-top: 8px; }
+      .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
+      .hero-shot--hold { position: absolute; right: 0; top: 28%; width: 68%; transform: none; box-shadow: 4px 4px 0 var(--lime); }
+      .hero-shot-tag { bottom: -20px; }
       .chrome-band { display: none; }
       .problem-band { padding: 12px 0 28px; }
       .problem-band-header h2 { font-size: 1.3rem; }
@@ -1731,21 +1774,14 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
-      .problem-visual-stack {
+      .problem-loop-visual {
         position: static;
         order: -1;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+        margin: 0.5cm auto 0.25cm;
       }
-      .problem-icon-card { padding: 12px 8px 10px; border-radius: 12px; }
-      .problem-icon-wrap { width: 56px; height: 56px; }
-      .problem-icon-wrap svg { width: 32px; height: 32px; }
-      .problem-icon-card figcaption { font-size: 9px; margin-top: 8px; }
       .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 320px; margin-left: auto; margin-right: auto; }
       .solution-bridge h2 { font-size: 1.3rem; }
       .solution-bridge-sub { font-size: 1.15rem; margin-bottom: 22px; }
-      .problem-icon-card figcaption span { font-size: 8px; }
       .how-band { margin: 0; padding: 36px 0; }
       .steps { gap: 28px; }
       .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
@@ -1810,7 +1846,7 @@
         </a>
       </div>
       <div class="wrap hero-main">
-        <div class="hero-copy">
+      <div class="hero-copy">
         <h1 id="hero-heading">98% of your regretful decisions happen pre-purchase.</h1>
         <h1 class="mobile-only mobile-h1">prevent destructive web-impulse buys.</h1>
         <p class="hero-sub" id="hero-sub-desktop">a chrome extension that pauses impulse buys before you pay.</p>
@@ -1821,11 +1857,11 @@
         </div>
         <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
         <div class="hero-cta-row">
-          <a class="btn-primary" href="#waitlist">join the waitlist</a>
+        <a class="btn-primary" href="#waitlist">join the waitlist</a>
           <button type="button" class="hero-info-btn mobile-only" id="heroInfoBtn" aria-label="mobile apps roadmap" aria-expanded="false" aria-controls="heroRoadmapSheet">i</button>
         </div>
         <p class="hero-meta">250 early-access spots · 2 months free · us$10 lifetime after</p>
-        </div>
+      </div>
 
         <div class="hero-visual" aria-label="product ui mockups">
         <div class="hero-screenshot-stack">
@@ -1853,22 +1889,22 @@
                 </div>
               </div>
             </div>
-          </div>
+        </div>
 
           <div class="hero-shot hero-shot--soft">
             <div class="hero-mock-head hero-mock-head--brand">
               <div class="hero-mock-brand" aria-label="cognoscene">
                 <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
                 <img class="hero-mock-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
-              </div>
-            </div>
+        </div>
+          </div>
             <div class="hero-mock-body hero-mock-body--soft">
               <img class="hero-mock-logo" src="assets/cognoscene-mark.png" alt="" />
               <p class="mock-soft-copy">let's take it easy — leave the site if you don't need anything.</p>
               <div class="mock-soft-actions">
                 <div class="mock-soft-btn mock-soft-btn--primary">leave site</div>
                 <div class="mock-soft-btn">continue</div>
-              </div>
+            </div>
             </div>
           </div>
 
@@ -1880,15 +1916,15 @@
               </div>
             </div>
             <div class="hero-mock-body">
-              <div class="mock-hold-body">
-                <div class="title">act with prudence — checkout paused.</div>
-                <div class="sub">48 hours to decide with intention.</div>
-                <div class="mock-timer-row">
+            <div class="mock-hold-body">
+              <div class="title">act with prudence — checkout paused.</div>
+              <div class="sub">48 hours to decide with intention.</div>
+              <div class="mock-timer-row">
                   <span class="mock-timer-label">time left</span>
                   <span class="mock-timer" id="heroHoldTimer" aria-hidden="true">48:00:00</span>
-                </div>
               </div>
             </div>
+          </div>
           </div>
 
           <span class="hero-shot-tag">sample ui · growth · browse · hold</span>
@@ -1901,67 +1937,67 @@
       <div class="wrap problem-band-header">
         <p class="section-eyebrow">the problem · how it begins</p>
         <h2 id="problem-heading">but why? why do we make these decisions in the first place?</h2>
-        <p class="lead-in">unexpected impulses — mostly from social feeds. endless posts, things you don't need, still feeling like you're missing out.</p>
+        <p class="lead-in">unexpected impulses — mostly from social feeds. influencers selling you gadgets you don't need, still making you feel like you're missing out.</p>
       </div>
 
       <div class="wrap problem-band-body">
         <div class="problem-copy">
           <div class="problem-beat">
-            <p class="problem-beat-label">the trap</p>
-            <p>a cardigan you didn't plan for. a gadget that looked useful at 11pm. a drop that screamed, "if you don't get me, you'll regret it forever." then the platform piles on: discounts, influencer pushes, bundles, BNPL.</p>
+            <p>you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
+            <p>then the package arrives. and when you open it, it dawned on you.</p>
           </div>
 
           <blockquote class="quote-line">"I wasted $78.49 for no reason."</blockquote>
 
           <div class="problem-beat">
-            <p class="problem-beat-label">the loop</p>
-            <p>you didn't set out to blow money. frozen cards and good intentions work <strong>for a few weeks</strong> — then it's midnight, Cheryl's selling a portable fan with detachable flowers, and checkout is one tap away. not enough friction to ask if you actually need this. <strong>regret, repeat.</strong></p>
+            <p>and you'll do it again. despite controlling yourself, the dopamine from social media and shopping makes checkout feel irresistible.</p>
+            <p><strong>there's nothing to interrupt the urge when it hits. so you regret, overspend and repeat.</strong></p>
           </div>
         </div>
 
-        <aside class="problem-visual-stack" aria-label="problem in three visuals">
-          <figure class="problem-icon-card">
-            <div class="problem-icon-wrap" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="14" y="6" width="20" height="36" rx="4" stroke="#111" stroke-width="2"/>
-                <rect x="17" y="12" width="14" height="5" rx="1.5" fill="#c8e88a"/>
-                <rect x="17" y="19" width="14" height="3" rx="1" fill="#ddd5c0"/>
-                <rect x="17" y="24" width="14" height="3" rx="1" fill="#ddd5c0"/>
-                <rect x="17" y="29" width="10" height="3" rx="1" fill="#ddd5c0"/>
-                <circle cx="32" cy="10" r="5" fill="#111"/>
-                <path d="M30 10h4M32 8v4" stroke="#c8e88a" stroke-width="1.5" stroke-linecap="round"/>
+        <aside class="problem-loop-visual" aria-label="see, buy, regret loop">
+          <div class="lc-circle-stage" aria-hidden="true">
+            <div class="lc-circle-inner">
+              <svg class="lc-circle-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 248 268" fill="none" aria-hidden="true">
+                <defs>
+                  <g id="loopDblChev">
+                    <path d="M-18.75 -6.563 L-9.375 0 L-18.75 6.563" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M-9.375 -6.563 L0 0 L-9.375 6.563" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                </defs>
+                <!-- hub (124,104.2) · r=21 · 150° · double chevron -->
+                <circle cx="124" cy="104.2" r="21" fill="none" stroke="#ff2a2a" stroke-width="1.5" opacity="0.2"/>
+                <path d="M 134.5 122.387 A 21 21 0 0 1 103 104.2" fill="none" stroke="#ff2a2a" stroke-width="3"/>
+                <path d="M 103 104.2 A 21 21 0 0 1 134.5 86.013" fill="none" stroke="#ff2a2a" stroke-width="3"/>
+                <path d="M 134.5 86.013 A 21 21 0 0 1 134.5 122.387" fill="none" stroke="#ff2a2a" stroke-width="3"/>
+                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(134.5 122.387) rotate(150)"/>
+                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(103 104.2) rotate(270)"/>
+                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(134.5 86.013) rotate(30)"/>
               </svg>
+              <div class="lc-circle-card lc-circle-card--see">
+                <div class="loop-icon-card">
+                  <svg class="loop-card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40"><rect x="14" y="6" width="20" height="36" rx="4" stroke="#111111" stroke-width="2" fill="none"/><rect x="17" y="12" width="14" height="5" rx="1.5" fill="#c8e88a"/><rect x="17" y="19" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="24" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="29" width="10" height="3" rx="1" fill="#ddd5c0"/><circle cx="32" cy="10" r="5" fill="#111111"/><path d="M30 10h4M32 8v4" stroke="#c8e88a" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  <span class="loop-icon-card-name">you see it</span>
+                  <span class="loop-icon-card-sub">fomo · endless scroll</span>
+                </div>
+              </div>
+              <div class="lc-circle-card lc-circle-card--buy">
+                <div class="loop-icon-card">
+                  <img src="assets/icons/icon-trap-cart.png" alt="" width="40" height="40" decoding="async" />
+                  <span class="loop-icon-card-name">you buy it</span>
+                  <span class="loop-icon-card-sub">gadget + case + bundle</span>
+                </div>
+              </div>
+              <div class="lc-circle-card lc-circle-card--regret">
+                <div class="loop-icon-card">
+                  <img src="assets/icons/icon-regret-bag.png" alt="" width="40" height="40" decoding="async" />
+                  <span class="loop-icon-card-name">you regret it</span>
+                  <span class="loop-icon-card-sub">regret · repeat</span>
+                </div>
+              </div>
+              <span class="lc-loop-kicker">unescapable loop</span>
             </div>
-            <figcaption>the feed<span>fomo · endless scroll</span></figcaption>
-          </figure>
-
-          <figure class="problem-icon-card">
-            <div class="problem-icon-wrap" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 12h6l4 18h16l4-14h6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="20" cy="36" r="2.5" fill="#111"/>
-                <circle cx="32" cy="36" r="2.5" fill="#111"/>
-                <rect x="28" y="6" width="12" height="8" rx="2" fill="var(--danger)"/>
-                <text x="34" y="12.5" text-anchor="middle" fill="#f5f0e8" font-size="6" font-weight="700">%</text>
-                <rect x="6" y="28" width="14" height="7" rx="2" stroke="var(--danger)" stroke-width="1.5"/>
-                <text x="13" y="33" text-anchor="middle" fill="var(--danger)" font-size="4.5" font-weight="700">bnpl</text>
-              </svg>
-            </div>
-            <figcaption>the trap<span>discounts · pay later</span></figcaption>
-          </figure>
-
-          <figure class="problem-icon-card">
-            <div class="problem-icon-wrap" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M36 14a14 14 0 1 0 4.2 10.1" stroke="var(--danger)" stroke-width="2" stroke-linecap="round"/>
-                <path d="M36 10v8h-8" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="17" y="19" width="14" height="11" rx="2" stroke="#111" stroke-width="2"/>
-                <path d="M17 24h14" stroke="#ddd5c0" stroke-width="2"/>
-                <text x="24" y="17" text-anchor="middle" fill="var(--danger)" font-size="5" font-weight="700">$78</text>
-              </svg>
-            </div>
-            <figcaption>the loop<span>regret · repeat</span></figcaption>
-          </figure>
+          </div>
         </aside>
       </div>
     </section>
@@ -2008,16 +2044,16 @@
                       <source src="assets/videos/observer-1.mp4" type="video/mp4" />
                     </video>
                     <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-                  </div>
+              </div>
                   <span class="showcase-video-hint">click to enlarge</span>
                 </button>
-              </div>
+                </div>
               <div class="showcase-video-slider-nav" aria-label="observer demo clips">
                 <button type="button" class="slider-arrow slider-prev" aria-label="previous clip">‹</button>
                 <div class="slider-pills" role="tablist">
                   <button type="button" class="slider-pill is-active" role="tab" data-slide="0" aria-selected="true">1st pulse</button>
                   <button type="button" class="slider-pill" role="tab" data-slide="1" aria-selected="false">3rd pulse</button>
-                </div>
+              </div>
                 <button type="button" class="slider-arrow slider-next" aria-label="next clip">›</button>
               </div>
               <span class="showcase-video-tag slider-caption">layer 1 · observer · 1st soft pulse</span>
@@ -2039,8 +2075,8 @@
                 <span class="showcase-video-hint">click to enlarge</span>
               </button>
               <span class="showcase-video-tag">layer 2 · rationalisation · 48h hold</span>
-            </div>
-          </div>
+              </div>
+                </div>
 
           <div class="step-row">
             <div class="step-copy-block">
@@ -2048,7 +2084,7 @@
               <h3 class="step-title">reinforce your identity of prudence</h3>
               <p class="step-copy">as you become more conscious about spending, you'll see it on your dashboard — prudence streak, purchases rationalised, and savings over time.</p>
               <p class="step-tier-note"><strong>founding premium</strong> · full growth dashboard · unlimited sites</p>
-            </div>
+                  </div>
             <div class="showcase-video-slider" data-video-slider="layer3">
               <div class="showcase-video-frame">
                 <button type="button" class="showcase-video-hit" aria-label="enlarge growth · popup tease">
@@ -2057,7 +2093,7 @@
                       <source src="assets/videos/growth-smol.mp4" type="video/mp4" />
                     </video>
                     <video class="showcase-video" data-video-slot="1" muted loop playsinline preload="metadata" aria-hidden="true"></video>
-                  </div>
+                </div>
                   <span class="showcase-video-hint">click to enlarge</span>
                 </button>
               </div>
@@ -2066,7 +2102,7 @@
                 <div class="slider-pills" role="tablist">
                   <button type="button" class="slider-pill is-active" role="tab" data-slide="0" aria-selected="true">popup</button>
                   <button type="button" class="slider-pill" role="tab" data-slide="1" aria-selected="false">dashboard</button>
-                </div>
+            </div>
                 <button type="button" class="slider-arrow slider-next" aria-label="next clip">›</button>
               </div>
               <span class="showcase-video-tag slider-caption">layer 3 · growth · popup tease</span>
@@ -2796,7 +2832,7 @@
       if (heroSheetDismiss) heroSheetDismiss.addEventListener('click', closeHeroSheet);
       if (heroSheet) heroSheet.addEventListener('click', function (e) {
         if (e.target === heroSheet) closeHeroSheet();
-      });
+        });
     });
   </script>
 
