@@ -13,9 +13,9 @@
 
 | Item | Value |
 |------|-------|
-| URL | `https://cognoscenewaitlist.netlify.app` (custom domain — founder to set) |
-| Host | **Netlify** auto-deploy on push to `main` |
-| Privacy | Repo is **private** — Netlify over GitHub Pages by founder preference |
+| URL | `https://gencogno.github.io/cognoscene-waitlist/` (custom domain — founder to set) |
+| Host | **GitHub Pages** — auto-deploy on push to `main` |
+| Privacy | Repo is **private** — GitHub Pages over GitHub Pages by founder preference |
 | Form backend | **Formspree** client POST — `FORMSPREE_FORM_ID` in `index.html` |
 | Form fields | Email (required) · Chrome on desktop y/n (required) — **no Telegram, no comment box** |
 
@@ -29,7 +29,7 @@ cognoscene-waitlist/
 ├── founding-terms.html     ← founding offer terms
 ├── privacy.html
 ├── terms.html
-├── DEPLOY.md               ← Netlify deploy + DNS guide
+├── DEPLOY.md               ← GitHub Pages deploy + DNS guide
 ├── MOBILE.md               ← mobile layout decisions
 ├── netlify.toml
 ├── assets/
