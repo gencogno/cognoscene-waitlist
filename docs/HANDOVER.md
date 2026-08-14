@@ -15,7 +15,7 @@
 |------|-------|
 | URL | `https://gencogno.github.io/cognoscene-waitlist/` (custom domain — founder to set) |
 | Host | **GitHub Pages** — auto-deploy on push to `main` |
-| Privacy | Repo is **private** — GitHub Pages over GitHub Pages by founder preference |
+| Privacy | Repo is **public** — GitHub Pages (Netlify removed 14 Aug 2026) |
 | Form backend | **Formspree** client POST — `FORMSPREE_FORM_ID` in `index.html` |
 | Form fields | Email (required) · Chrome on desktop y/n (required) — **no Telegram, no comment box** |
 
@@ -31,7 +31,6 @@ cognoscene-waitlist/
 ├── terms.html
 ├── DEPLOY.md               ← GitHub Pages deploy + DNS guide
 ├── MOBILE.md               ← mobile layout decisions
-├── netlify.toml
 ├── assets/
 │   ├── cognoscene-mark.png
 │   ├── cognoscene-wordmark.png
