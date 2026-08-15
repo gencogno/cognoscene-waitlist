@@ -84,13 +84,14 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation: mirror the gradient itself and its timing so the treatment lands on the left edge. */
+  /* Rationalisation travels from right -> left, so its gradient follows the same phase. */
   .layer-index-item:nth-child(2) {
     animation-direction: alternate-reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
     background: linear-gradient(270deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
+    animation-name: layer-edge-gradient-reverse;
     animation-direction: alternate-reverse;
   }
 
@@ -127,6 +128,12 @@
   @keyframes layer-edge-gradient {
     0% { opacity: 0; }
     100% { opacity: 0.5; }
+  }
+
+  /* Rationalisation: gradient is absent on the right, strongest at left. */
+  @keyframes layer-edge-gradient-reverse {
+    0% { opacity: 0.5; }
+    100% { opacity: 0; }
   }
 
   /* Growth uses the same pathway, just more apparent. */
