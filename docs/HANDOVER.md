@@ -2,7 +2,7 @@
 
 **Audience:** agents or devs working in this repo (`gencogno/cognoscene-waitlist`).  
 **Author context:** founder `cogno` · Singapore · pre-revenue Chrome extension · pre-incorporation.  
-**Last updated:** 14 Aug 2026 (Claude session, cont'd) · production commit `5f2ba10` (layers-index redesign, lightbox cross-layer swipe).
+**Last updated:** 15 Aug 2026 (ChatGPT session) · current production changes through commit `92b7ec5`.
 
 **Extension repo (separate):** `gencogno/cognoscene-statics-roadmap` — do not confuse. Changes here do not require a `manifest.json` bump.  
 **Master launch docs (extension repo):** `docs/agent-context/AGENT_HANDOVER.md` · `docs/agent-context/launch-sdd.md` · `docs/agent-context/waitlist-launch-spec.md` — those are the source of truth for GTM logic; `docs/WAITLIST-PLAN.md` in this repo is the distilled, waitlist-scoped version.
@@ -17,7 +17,7 @@
 | Host | **GitHub Pages** — auto-deploy on push to `main` |
 | Privacy | Repo is **public** — GitHub Pages (Netlify removed 14 Aug 2026) |
 | Form backend | **Formspree** client POST — `FORMSPREE_FORM_ID` in `index.html` |
-| Form fields | Email (required) · Chrome on desktop y/n (required) — **no Telegram, no comment box** |
+| Form fields | Email (required) · Chrome on desktop y/n (required) — current form remains desktop-first; mobile interest is a planned addition, not yet implemented |
 
 ---
 
@@ -25,7 +25,9 @@
 
 ```
 cognoscene-waitlist/
-├── index.html              ← production site (do not edit without explicit auth)
+├── index.html              ← production site
+├── css/
+│   └── layers.css          ← extracted layer-index + layer hero heading styles
 ├── founding-terms.html     ← founding offer terms
 ├── privacy.html
 ├── terms.html
@@ -36,49 +38,64 @@ cognoscene-waitlist/
 │   ├── cognoscene-wordmark.png
 │   ├── icons/
 │   │   ├── icon-trap-cart.png
-│   │   └── icon-regret-bag.png   ← grey circle removed (14 Aug 2026)
+│   │   └── icon-regret-bag.png
 │   └── ...
 ├── mockups/
-│   ├── mobile-iphone14-alternate.html  ← iterate here first before prod
-│   ├── waitlist.html                   ← full-page mockup (1920 artboard)
-│   ├── waitlist-short.html             ← short-form mobile mockup
-│   ├── mockup-artboard.css             ← required by waitlist.html
-│   └── mockup-artboard.js              ← required by waitlist.html
+│   ├── mobile-iphone14-alternate.html
+│   ├── waitlist.html
+│   ├── waitlist-short.html
+│   ├── mockup-artboard.css
+│   └── mockup-artboard.js
 ├── docs/
-│   ├── HANDOVER.md         ← this file
-│   └── WAITLIST-PLAN.md    ← launch phases, offers, tracker (email-only)
-└── scripts/                ← utility scripts (not deployed)
+│   ├── HANDOVER.md
+│   └── WAITLIST-PLAN.md
+└── scripts/
 ```
 
 ---
 
-## 3. Production site — current state (14 Aug 2026, updated post-Claude session)
+## 3. Production site — current state (15 Aug 2026)
 
 | Section | Status |
 |---------|--------|
 | Hero | Copy locked — lowercase, Buffer-style brand voice |
-| Problem band | **SVG loop diagram** (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
+| Problem band | SVG loop diagram (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
 | Problem copy | Lead-in in header; body = trap beat → regret quote → pivot (bold close) |
-| `solution-details` (formerly `how-band`) | Renamed. Eyebrow + intro + footnote removed — flows straight from `solution-bridge`. Layer copy rewritten; tier notes replaced with identity-level outcome lines (bolded emotional pivots): "you start noticing **the urge**...", "...whether you **wanted it**, or just **felt it**", "...**someone who overspends**." Reverse layout removed — all 3 layers same direction. Layer gap 40px → 64px (desktop). Decorative video frame (border/padding/shadow) removed. |
-| `solution-bridge` layers-index | Layer 1 action line updated ("nudges before the cart snowballs"). **Mobile redesign (superseding earlier alternating-tint version):** cards centered text, Be Vietnam Pro font at 19.6875px / -0.25px letter-spacing (matches brand sans, not the earlier Times New Roman iteration), white bg for observer/rationalisation with black text, black bg for growth with white text. Continuous 4s `layerSlide` (margin-left 0→18%, clamped to container edges, opposite phase odd/even via `alternate`/`alternate-reverse`). Animated green gradient overlay (`layerGradientFade`) fades in as each card reaches its slide endpoint, fades out on return — synced direction to match each card's own slide phase. Growth card additionally pulses opacity (`layerPulse`). All respect `prefers-reduced-motion`. |
-| `solution-details` showcase videos | Mobile max-width iterated: 75% → 93.75% → **84.375%** (current, ×0.9 from previous). |
-| Video lightbox (enlarged view) | **New: cross-layer navigation.** Previously each layer's enlarge button only cycled clips within its own layer (2 clips max). Now `MASTER_CLIPS` array combines all 5 clips (observer×2, rationalisation×1, growth×2) into one continuous sequence — prev/next arrows, keyboard arrows, and pills all traverse the full set regardless of which layer's button opened the lightbox. Inline per-card small previews are unchanged and still layer-scoped. **Mobile-only swipe gesture** added via Pointer Events (`pointerdown`/`pointerup`, not touch events — more reliable for Chrome DevTools mobile emulation and real touch), gated by `matchMedia('(max-width: 760px)')`. Lightbox video corners rounded (`border-radius: 24px`) to match the frame, fixing a sharp-corner visual clash. |
-| `founding-band` | Trimmed — removed redundant feature list (already covered in solution-details), replaced with urgency framing ("closes when the first 250 spots fill or in 30 days — whichever comes first"). |
-| OG/meta tags | Updated from stale Netlify URLs to `gencogno.github.io/cognoscene-waitlist` (canonical, og:url, og:image, SITE_URL var). |
-| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; 'tap to enlarge' replaces 'click' for touch. |
-| Form | Email + Chrome y/n; Formspree POST; autoresponder copy in `docs/WAITLIST-PLAN.md` §4 |
+| `solution-details` | Layer showcase remains 3 layers with video lightbox and mobile swipe behavior |
+| `solution-bridge` layers-index | Desktop remains a 3-column index. Mobile cards use centered text; Observer/Growth move toward the right endpoint; Rationalisation moves toward the left endpoint. Growth has a darker/more apparent green treatment. |
+| Layer gradient | Extracted to `css/layers.css`. Gradient opacity is pendulum-style and synchronized to the card's motion timing. Rationalisation uses the inverse travel direction. Current implementation uses endpoint/return opacity timing; verify visual orientation on both halves if another agent changes the animation. |
+| Layer hero headings | `.step-title` increased by 25% from previous desktop/mobile sizes. |
+| Kicker alignment | `.layers-index-label` is centered. `.solution-bridge-sub` is also intended to be centered above the layer index and should remain centered. |
+| `solution-details` showcase videos | Mobile max-width current = 84.375%. |
+| Video lightbox | Cross-layer navigation across all 5 clips; mobile swipe via Pointer Events; rounded video corners. |
+| `founding-band` | Uses urgency framing around first 250 spots / 30-day window. |
+| OG/meta | Production canonical/OG URLs use GitHub Pages. |
+| Founding terms | Canonical updated to `https://gencogno.github.io/cognoscene-waitlist/founding-terms.html`. |
+| Form | Email + Chrome y/n; Formspree POST. **Mobile platform interest is not yet implemented.** |
 | Footer | Privacy + Terms linked |
 
-**Open items flagged, not yet actioned:**
-- `layerSlide` animation still animates `margin-left`, not `transform` — flagged for reflow cost, not urgent, cosmetically identical either way.
-- Video slot 1 still empty on both observer and growth sliders (3rd-pulse clip, dashboard clip) — outstanding from earlier session, unrelated to the new cross-layer lightbox nav (nav logic is ready, just needs the actual video files).
-- No social proof element near form submit — still outstanding.
-- `WAITLIST_SIGNUPS` is hardcoded, requires manual updates from Formspree dashboard as signups roll in.
-- No analytics configured — `PLAUSIBLE_DOMAIN` empty in `index.html`.
-- **Planned hosting migration:** GitHub Pages → **Cloudflare Pages** once site is finalized (Netlify credits running low; Cloudflare has no bandwidth ceiling on free tier and instant cache invalidation, unlike GitHub Pages' CDN lag). Migration steps documented in `docs/WAITLIST-PLAN.md`.
-- If mobile swipe is still unreliable in testing, check whether swipes starting directly on the native video `controls` bar are being intercepted by the browser for seeking before reaching the pointer handler.
+### Founding offer — current strategic position
 
-**Committed version to preserve:** `b0f169a` on `main` (pre-Claude-session baseline). This session's changes are additive on top, not a revert of that baseline.
+The founding offer remains:
+
+- 2 months of premium free after install/activation during the founding beta;
+- then US$10 one-time for lifetime premium;
+- no payment at waitlist signup;
+- 250 founding spots;
+- waitlist closes 30 days after public launch or when the cap is reached, whichever comes first.
+
+This is intentional: the user can experience the product before paying. Do not convert the waitlist into an upfront-payment funnel without explicit founder approval.
+
+### Mobile demand — planned, not yet actioned
+
+Recommended next funnel change:
+
+- Keep **one waitlist**, not a separate mobile waitlist.
+- Add a lightweight platform-intent field: **Chrome / Mobile / Both**.
+- Add a small mobile-interest CTA near the form, framed as **exploring mobile**, not “coming soon”.
+- Use platform selection as a demand signal before committing engineering resources to a mobile build.
+
+Do not implement these changes unless the founder asks; they are recommendations, not current production behavior.
 
 ---
 
@@ -91,7 +108,7 @@ cognoscene-waitlist/
 | Black | `#111111` |
 | Typography | Be Vietnam Pro |
 | Voice | all-lowercase, Buffer-style |
-| Logo mark | `assets/cognoscene-mark.png` (concentric-ring ∅) — **do not substitute SVG placeholder** |
+| Logo mark | `assets/cognoscene-mark.png` (concentric-ring ∅) |
 | Wordmark | `assets/cognoscene-wordmark.png` (lowercase cogn∅scene) |
 
 ---
@@ -101,10 +118,11 @@ cognoscene-waitlist/
 - **Waitlist edits = this repo only.** Do not spill into the extension repo unless founder explicitly asks.
 - **Do not bump `manifest.json`** — that lives in the extension repo; waitlist changes do not touch it.
 - **Smallest diff only** — one ask = one surface. Do not touch adjacent sections, copy, or assets not named in the prompt.
-- **Mobile-scoped by default** — as of 14 Aug 2026, active work is scoped to mobile CSS (`@media (max-width: 760px)`) only unless founder explicitly says "desktop" or "both." Confirm scope before editing if ambiguous. Do not let desktop and mobile silently drift — full-file reverts have previously wiped concurrent mobile work from other agents; always diff against the live repo state immediately before editing, not a stale local copy.
-- **Mockup-first for layout changes** — iterate in `mockups/mobile-iphone14-alternate.html` or `mockups/waitlist-short.html` before editing `index.html` production.
-- **Comms channel: email only.** Telegram has been fully removed from this project.
+- **Mobile-scoped by default** unless founder explicitly says desktop or both. Confirm scope when ambiguous.
+- **Mockup-first for major layout changes** — use the mockup files before production when appropriate.
+- **Comms channel: email only.** Telegram is retired.
 - **No Telegram, no clinical/shopping-addiction language, no unsupported stats** in any copy or docs.
+- **Do not use temporary Actions workflows as a routine editing mechanism.** Prefer direct repository file updates for small component files.
 
 ---
 
@@ -126,3 +144,30 @@ cognoscene-waitlist/
 | Master launch SDD | `docs/agent-context/launch-sdd.md` |
 | Waitlist launch spec (full) | `docs/agent-context/waitlist-launch-spec.md` |
 | Stripe webhook spec | `docs/agent-context/stripe-webhook-spec.md` |
+
+---
+
+## 8. ChatGPT commit log — 15 Aug 2026
+
+**Purpose:** distinguish changes made by ChatGPT from changes made by Claude/Cursor/other agents. The commits below were made in this repository by the ChatGPT GitHub session.
+
+| Commit | Date (UTC) | Change |
+|---|---|---|
+| `02b56b6` | 13:54 | Initial layer-index gradient fix |
+| `e0619a2` | 13:54 | Improve layer-index gradient |
+| `1606c56` | 13:56 | Reverse Rationalisation gradient pathway (workflow-based; later superseded) |
+| `178958d` / `3df847b` | 13:57 | Darken Growth gradient (workflow/direct patch; superseded by component CSS) |
+| `c91920b` / `a7bf572` | 13:59 | Gradient direction attempts (superseded) |
+| `ae738e8` / `2ae875c` / `d39e7b7` | 14:01–14:03 | Layer-gradient direction/timing attempts; earlier workflow attempts were superseded |
+| `2261a21` | 14:09 | Removed failed temporary gradient workflow |
+| `1c11d9d` | 14:15 | Extracted layer-index CSS into `css/layers.css` |
+| `9aa19d7` | 14:28 | Wired layer styling refactor into production CSS structure |
+| `2916dd8` | 14:32 | Reversed Rationalisation gradient direction |
+| `a62479a` | 14:34 | Synced Rationalisation gradient with card movement |
+| `2101de9` | 14:36 | Increased layer hero headings by 25% |
+| `63e4353` | 14:38 | Added pendulum-style gradient opacity keyframes |
+| `d586577` | 14:42 | Synced gradient pendulum timing with card movement |
+| `706441d` | 14:45 | Corrected `founding-terms.html` canonical from Netlify to GitHub Pages |
+| `92b7ec5` | 14:48 | Aligned gradient pendulum to both card endpoints; centered layer kicker |
+
+**Important:** Some earlier workflow commits in the list are historical attempts and were superseded. The current production state should be read from the latest files on `main`, not inferred from those intermediate commits.
