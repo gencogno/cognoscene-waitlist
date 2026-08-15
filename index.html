@@ -14,6 +14,7 @@
   <meta property="og:image" content="https://gencogno.github.io/cognoscene-waitlist/assets/og-share.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="theme-color" content="#111111" />
+  <link rel="stylesheet" href="css/layers.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;800&display=swap" rel="stylesheet" />
@@ -1262,38 +1263,7 @@
       color: var(--black);
       margin-bottom: 16px;
     }
-    .layers-index {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .layer-index-item {
-      background: var(--white);
-      border: 1px solid var(--black);
-      border-radius: 16px;
-      padding: 16px 14px;
-    }
-    .layer-index-item .layer-action {
-      display: block;
-      font-size: 11px;
-      color: var(--black);
-      opacity: 0.62;
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-    .layer-index-item .layer-name {
-      display: block;
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--black);
-      line-height: 1.2;
-      text-transform: lowercase;
-    }
-
-    /* how it works / 3 layers */
+      /* how it works / 3 layers */
     .solution-details {
       background: var(--cream);
       margin: 0 -24px;
@@ -1788,93 +1758,7 @@
         order: -1;
         margin: 0.5cm auto 0.25cm;
       }
-      .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
-      .layer-index-item {
-        position: relative;
-        overflow: hidden;
-        width: 82%;
-        padding: 8px 10px;
-        text-align: center;
-        background: var(--white);
-        animation-name: layerSlide;
-        animation-duration: 4s;
-        animation-timing-function: ease-in-out;
-        animation-iteration-count: infinite;
-      }
-      .layer-index-item::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
-        opacity: 0;
-        animation-name: layerGradientFade;
-        animation-duration: 4s;
-        animation-timing-function: ease-in-out;
-        animation-iteration-count: infinite;
-      }
-      .layer-index-item .layer-action,
-      .layer-index-item .layer-name {
-        position: relative;
-        z-index: 1;
-        color: var(--black);
-      }
-      .layer-index-item .layer-action {
-        margin-bottom: 1px;
-      }
-      .layer-index-item .layer-name {
-        font-family: var(--sans);
-        letter-spacing: -0.25px;
-        font-size: 19.6875px;
-        line-height: 1.05;
-      }
-      .layer-index-item:nth-child(odd) {
-        animation-direction: alternate;
-      }
-      .layer-index-item:nth-child(odd)::after {
-        animation-direction: alternate;
-      }
-      .layer-index-item:nth-child(even) {
-        animation-direction: alternate-reverse;
-      }
-      .layer-index-item:nth-child(even)::after {
-        animation-direction: alternate-reverse;
-        animation-name: layerGradientFadeReverse;
-      }
-      .layer-index-item:nth-child(3) {
-        background: var(--black);
-        animation-name: layerSlide, layerPulse;
-        animation-duration: 4s, 4s;
-        animation-timing-function: ease-in-out, ease-in-out;
-        animation-iteration-count: infinite, infinite;
-      }
-      .layer-index-item:nth-child(3)::after {
-        background: linear-gradient(90deg, transparent 0%, #315d0f 55%, #a9d06f 100%);
-        animation-name: layerGradientFadeGrowth;
-      }
-      .layer-index-item:nth-child(3) .layer-action,
-      .layer-index-item:nth-child(3) .layer-name {
-        color: var(--white);
-      }
-      @keyframes layerSlide {
-        0% { margin-left: 0; }
-        100% { margin-left: 18%; }
-      }
-      @keyframes layerPulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
-      }
-      @keyframes layerGradientFade {
-        0%, 100% { opacity: 0.08; }
-        50% { opacity: 0.5; }
-      }
-      @keyframes layerGradientFadeGrowth {
-        0%, 100% { opacity: 0.12; }
-        50% { opacity: 0.68; }
-      }
-      @keyframes layerGradientFadeReverse {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 0.08; }
+
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
