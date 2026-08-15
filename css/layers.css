@@ -69,9 +69,18 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0;
-    transform-origin: center;
-    background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
+    opacity: 0.5;
+    background: linear-gradient(
+      90deg,
+      var(--lime) 0%,
+      var(--lime-muted) 8%,
+      transparent 18%,
+      transparent 82%,
+      var(--lime-muted) 92%,
+      var(--lime) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 0% 50%;
     animation: layer-edge-gradient 4s ease-in-out infinite alternate;
   }
 
@@ -99,7 +108,6 @@
   }
 
   .layer-index-item:nth-child(2)::after {
-    background: linear-gradient(270deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
     animation-name: layer-edge-gradient-reverse;
     animation-direction: alternate-reverse;
   }
@@ -114,7 +122,15 @@
   }
 
   .layer-index-item:nth-child(3)::after {
-    background: linear-gradient(90deg, transparent 0%, #315d0f 55%, #91bb55 100%);
+    background: linear-gradient(
+      90deg,
+      #91bb55 0%,
+      #315d0f 8%,
+      transparent 18%,
+      transparent 82%,
+      #315d0f 92%,
+      #91bb55 100%
+    );
     animation-name: layer-edge-gradient-growth;
   }
 
@@ -133,25 +149,26 @@
     50% { opacity: 0.7; }
   }
 
-  /* Observer + Growth: green edge follows the card to both endpoints. */
+  /* Observer + Growth: green is at the contacted edge only.
+     0% = left contact, 50% = midpoint, 100% = right contact. */
   @keyframes layer-edge-gradient {
-    0% { opacity: 0.5; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.5; transform: scaleX(-1); }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 50% 50%; }
+    100% { background-position: 100% 50%; }
   }
 
-  /* Rationalisation: reversed travel means its green edge follows the opposite endpoint. */
+  /* Rationalisation: same edge-contact logic, but the card travels right -> left. */
   @keyframes layer-edge-gradient-reverse {
-    0% { opacity: 0.5; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.5; transform: scaleX(-1); }
+    0% { background-position: 100% 50%; }
+    50% { background-position: 50% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
-  /* Growth uses the same pendulum timing, just more apparent. */
+  /* Growth uses the same edge-contact pathway, just more apparent. */
   @keyframes layer-edge-gradient-growth {
-    0% { opacity: 0.68; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.68; transform: scaleX(-1); }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 50% 50%; }
+    100% { background-position: 100% 50%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
