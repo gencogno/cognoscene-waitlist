@@ -2,7 +2,7 @@
 
 **Audience:** agents or devs working in this repo (`gencogno/cognoscene-waitlist`).  
 **Author context:** founder `cogno` · Singapore · pre-revenue Chrome extension · pre-incorporation.  
-**Last updated:** 14 Aug 2026 (Claude session) · production commit `ed57359` (mobile layer-index slide animation).
+**Last updated:** 14 Aug 2026 (Claude session, cont'd) · production commit `5f2ba10` (layers-index redesign, lightbox cross-layer swipe).
 
 **Extension repo (separate):** `gencogno/cognoscene-statics-roadmap` — do not confuse. Changes here do not require a `manifest.json` bump.  
 **Master launch docs (extension repo):** `docs/agent-context/AGENT_HANDOVER.md` · `docs/agent-context/launch-sdd.md` · `docs/agent-context/waitlist-launch-spec.md` — those are the source of truth for GTM logic; `docs/WAITLIST-PLAN.md` in this repo is the distilled, waitlist-scoped version.
@@ -60,20 +60,23 @@ cognoscene-waitlist/
 | Problem band | **SVG loop diagram** (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
 | Problem copy | Lead-in in header; body = trap beat → regret quote → pivot (bold close) |
 | `solution-details` (formerly `how-band`) | Renamed. Eyebrow + intro + footnote removed — flows straight from `solution-bridge`. Layer copy rewritten; tier notes replaced with identity-level outcome lines (bolded emotional pivots): "you start noticing **the urge**...", "...whether you **wanted it**, or just **felt it**", "...**someone who overspends**." Reverse layout removed — all 3 layers same direction. Layer gap 40px → 64px (desktop). Decorative video frame (border/padding/shadow) removed. |
-| `solution-bridge` layers-index | Layer 1 action line updated to match new copy direction ("nudges before the cart snowballs"). Mobile: alternating left/right layout with cream-2 tint on even items, plus continuous 4s slide animation (`layerSlide` keyframe, clamped to container edges via width 82% + margin-left 18%, opposite phase odd/even, respects `prefers-reduced-motion`). |
+| `solution-bridge` layers-index | Layer 1 action line updated ("nudges before the cart snowballs"). **Mobile redesign (superseding earlier alternating-tint version):** cards centered text, Be Vietnam Pro font at 19.6875px / -0.25px letter-spacing (matches brand sans, not the earlier Times New Roman iteration), white bg for observer/rationalisation with black text, black bg for growth with white text. Continuous 4s `layerSlide` (margin-left 0→18%, clamped to container edges, opposite phase odd/even via `alternate`/`alternate-reverse`). Animated green gradient overlay (`layerGradientFade`) fades in as each card reaches its slide endpoint, fades out on return — synced direction to match each card's own slide phase. Growth card additionally pulses opacity (`layerPulse`). All respect `prefers-reduced-motion`. |
+| `solution-details` showcase videos | Mobile max-width iterated: 75% → 93.75% → **84.375%** (current, ×0.9 from previous). |
+| Video lightbox (enlarged view) | **New: cross-layer navigation.** Previously each layer's enlarge button only cycled clips within its own layer (2 clips max). Now `MASTER_CLIPS` array combines all 5 clips (observer×2, rationalisation×1, growth×2) into one continuous sequence — prev/next arrows, keyboard arrows, and pills all traverse the full set regardless of which layer's button opened the lightbox. Inline per-card small previews are unchanged and still layer-scoped. **Mobile-only swipe gesture** added via Pointer Events (`pointerdown`/`pointerup`, not touch events — more reliable for Chrome DevTools mobile emulation and real touch), gated by `matchMedia('(max-width: 760px)')`. Lightbox video corners rounded (`border-radius: 24px`) to match the frame, fixing a sharp-corner visual clash. |
 | `founding-band` | Trimmed — removed redundant feature list (already covered in solution-details), replaced with urgency framing ("closes when the first 250 spots fill or in 30 days — whichever comes first"). |
 | OG/meta tags | Updated from stale Netlify URLs to `gencogno.github.io/cognoscene-waitlist` (canonical, og:url, og:image, SITE_URL var). |
-| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; showcase videos scaled to 93.75% max-width (mobile only — up from 75%); 'tap to enlarge' replaces 'click' for touch. |
+| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; 'tap to enlarge' replaces 'click' for touch. |
 | Form | Email + Chrome y/n; Formspree POST; autoresponder copy in `docs/WAITLIST-PLAN.md` §4 |
 | Footer | Privacy + Terms linked |
 
 **Open items flagged, not yet actioned:**
-- `layerSlide` animation currently animates `margin-left` — should be refactored to `transform: translateX()` to avoid layout reflow cost (flagged, not urgent, cosmetically identical either way).
-- Video slot 1 still empty on both observer and growth sliders (3rd-pulse clip, dashboard clip) — outstanding from earlier session.
+- `layerSlide` animation still animates `margin-left`, not `transform` — flagged for reflow cost, not urgent, cosmetically identical either way.
+- Video slot 1 still empty on both observer and growth sliders (3rd-pulse clip, dashboard clip) — outstanding from earlier session, unrelated to the new cross-layer lightbox nav (nav logic is ready, just needs the actual video files).
 - No social proof element near form submit — still outstanding.
 - `WAITLIST_SIGNUPS` is hardcoded, requires manual updates from Formspree dashboard as signups roll in.
 - No analytics configured — `PLAUSIBLE_DOMAIN` empty in `index.html`.
 - **Planned hosting migration:** GitHub Pages → **Cloudflare Pages** once site is finalized (Netlify credits running low; Cloudflare has no bandwidth ceiling on free tier and instant cache invalidation, unlike GitHub Pages' CDN lag). Migration steps documented in `docs/WAITLIST-PLAN.md`.
+- If mobile swipe is still unreliable in testing, check whether swipes starting directly on the native video `controls` bar are being intercepted by the browser for seeking before reaching the pointer handler.
 
 **Committed version to preserve:** `b0f169a` on `main` (pre-Claude-session baseline). This session's changes are additive on top, not a revert of that baseline.
 
