@@ -84,12 +84,13 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation travels right -> left first, so its gradient does too. */
+  /* Rationalisation: mirror the gradient itself and its timing so the treatment lands on the left edge. */
   .layer-index-item:nth-child(2) {
     animation-direction: alternate-reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
+    background: linear-gradient(270deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
     animation-direction: alternate-reverse;
   }
 
