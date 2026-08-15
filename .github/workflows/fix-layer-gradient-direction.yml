@@ -1,0 +1,42 @@
+name: fix layer gradient direction
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix gradient directions
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old_observer = '      .layer-index-item:nth-child(1)::after {\n        background: linear-gradient(90deg, transparent 0%, var(--green) 55%, var(--lime) 100%);'
+          new_observer = '      .layer-index-item:nth-child(1)::after {\n        background: linear-gradient(270deg, transparent 0%, var(--green) 55%, var(--lime) 100%);'
+          if old_observer in s:
+              s = s.replace(old_observer, new_observer, 1)
+          old_growth = '      .layer-index-item:nth-child(3)::after {\n        background: linear-gradient(90deg, transparent 0%, var(--green) 55%, var(--lime) 100%);'
+          new_growth = '      .layer-index-item:nth-child(3)::after {\n        background: linear-gradient(270deg, transparent 0%, var(--green) 55%, var(--lime) 100%);'
+          if old_growth in s:
+              s = s.replace(old_growth, new_growth, 1)
+          old_rational = '      .layer-index-item:nth-child(2)::after {\n        background: linear-gradient(270deg, transparent 0%, var(--purple) 55%, var(--blue) 100%);'
+          new_rational = '      .layer-index-item:nth-child(2)::after {\n        background: linear-gradient(90deg, transparent 0%, var(--purple) 55%, var(--blue) 100%);'
+          if old_rational in s:
+              s = s.replace(old_rational, new_rational, 1)
+          p.write_text(s)
+          PY
+      - name: Commit patch and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .github/workflows/fix-layer-gradient-direction.yml
+          git add index.html .github/workflows/fix-layer-gradient-direction.yml
+          git commit -m "style: fix layer gradient direction"
+          git push
