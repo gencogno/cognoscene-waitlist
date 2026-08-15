@@ -1791,24 +1791,46 @@
       .layer-index-item {
         width: 82%;
         padding: 12px 10px;
+        text-align: center;
+        background: var(--lime-muted);
         animation-name: layerSlide;
         animation-duration: 4s;
         animation-timing-function: ease-in-out;
         animation-iteration-count: infinite;
       }
+      .layer-index-item .layer-action,
+      .layer-index-item .layer-name {
+        color: var(--black);
+      }
+      .layer-index-item .layer-name {
+        font-family: 'Times New Roman', Times, serif;
+        letter-spacing: -0.5px;
+        font-size: 17.5px;
+      }
       .layer-index-item:nth-child(odd) {
-        text-align: left;
-        background: var(--white);
         animation-direction: alternate;
       }
       .layer-index-item:nth-child(even) {
-        text-align: right;
-        background: var(--cream-2);
         animation-direction: alternate-reverse;
+      }
+      .layer-index-item:nth-child(3) {
+        background: var(--lime);
+        animation-name: layerSlide, layerPulse;
+        animation-duration: 4s, 4s;
+        animation-timing-function: ease-in-out, ease-in-out;
+        animation-iteration-count: infinite, infinite;
+      }
+      .layer-index-item:nth-child(3) .layer-action,
+      .layer-index-item:nth-child(3) .layer-name {
+        color: var(--white);
       }
       @keyframes layerSlide {
         0% { margin-left: 0; }
         100% { margin-left: 18%; }
+      }
+      @keyframes layerPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
