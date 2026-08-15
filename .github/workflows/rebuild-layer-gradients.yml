@@ -1,0 +1,76 @@
+name: rebuild layer gradients
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild CSS
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text()
+
+          s = re.sub(
+              r'(\.layer-index-item:nth-child\(even\)::after \{\n\s*animation-direction: alternate-reverse;\n)(?:\s*animation-name: [^;]+;\n)?',
+              r'\1',
+              s,
+              count=1,
+          )
+
+          s = re.sub(
+              r'\.layer-index-item:nth-child\(3\)::after \{.*?\n\s*\}',
+              '''.layer-index-item:nth-child(3)::after {
+        background: linear-gradient(90deg, transparent 0%, #315d0f 55%, #91bb55 100%);
+        animation-name: layerEdgeGradientGrowth;
+      }''',
+              s,
+              count=1,
+              flags=re.S,
+          )
+
+          s = re.sub(
+              r'@keyframes layerGradientFade \{.*?\n\s*\}\n\s*@keyframes layerGradientFadeGrowth \{.*?\n\s*\}\n\s*@keyframes layerGradientFadeReverse \{.*?\n\s*\}',
+              '''@keyframes layerEdgeGradient {
+        0% { opacity: 0; }
+        100% { opacity: 0.5; }
+      }
+      @keyframes layerEdgeGradientGrowth {
+        0% { opacity: 0; }
+        100% { opacity: 0.68; }
+      }''',
+              s,
+              count=1,
+              flags=re.S,
+          )
+
+          s = s.replace('animation-name: layerGradientFade;', 'animation-name: layerEdgeGradient;', 1)
+          s = s.replace('animation-name: layerGradientFadeGrowth;', 'animation-name: layerEdgeGradientGrowth;', 1)
+          s = re.sub(r'\n\s*animation-name: layerGradientFadeReverse;', '', s)
+          s = s.replace('layerGradientFade', 'layerEdgeGradient')
+
+          p.write_text(s)
+          PY
+      - name: Verify
+        run: |
+          ! grep -qE 'layerGradientFade|layerGradientFadeGrowth|layerGradientFadeReverse' index.html
+          grep -q 'layerEdgeGradient' index.html
+          grep -q 'layerEdgeGradientGrowth' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m "fix: rebuild layer gradient animation"
+          git push
+          rm -f .github/workflows/rebuild-layer-gradients.yml
+          git add -u .github/workflows/rebuild-layer-gradients.yml
+          git commit -m "chore: remove temporary gradient workflow"
+          git push
