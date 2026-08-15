@@ -1,6 +1,6 @@
 # Cognoscene waitlist — deploy
 
-**Live site:** [cognoscenewaitlist.netlify.app](https://cognoscenewaitlist.netlify.app)
+**Live site:** [cognoscene.github.io/cognoscene-waitlist](https://gencogno.github.io/cognoscene-waitlist/)
 
 Repo: **`gencogno/cognoscene-waitlist`** (waitlist only — separate from extension code).
 
@@ -8,40 +8,15 @@ Publish config: `netlify.toml` at repo root (`publish = "."`).
 
 ---
 
-## Recommended — auto-deploy on push
+## Recommended — GitHub Pages
 
-Pick **one** path.
+The canonical production site is **GitHub Pages**:
 
-### Path A — GitHub Actions (no Netlify Git link)
+`https://gencogno.github.io/cognoscene-waitlist/`
 
-Repo includes `.github/workflows/deploy.yml`. After you add two secrets, every push to `main` deploys.
+Pushes to `main` are deployed through the repository's GitHub Pages configuration.
 
-1. **Netlify token** — [app.netlify.com/user/applications#personal-access-tokens](https://app.netlify.com/user/applications#personal-access-tokens) → **New access token** → copy it.
-2. **Site ID** — Netlify → site **cognoscenewaitlist** → **Project configuration** → **General** → **Site ID** → copy.
-3. **GitHub secrets** — [github.com/gencogno/cognoscene-waitlist/settings/secrets/actions](https://github.com/gencogno/cognoscene-waitlist/settings/secrets/actions):
-   - `NETLIFY_AUTH_TOKEN` = token from step 1
-   - `NETLIFY_SITE_ID` = site ID from step 2
-4. **Trigger deploy** — push any commit to `main`, or GitHub → **Actions** → **Deploy to Netlify** → **Run workflow**.
-
-### Path B — Netlify Git link
-
-1. [app.netlify.com](https://app.netlify.com) → site **cognoscenewaitlist**.
-2. **Project configuration** → **Build & deploy** → **Link repository**.
-3. GitHub → **`gencogno/cognoscene-waitlist`** → branch **`main`** → publish **`.`** → **Deploy**.
-
-If the site 404s, confirm the linked site is **cognoscenewaitlist** and `publish = "."` in `netlify.toml`.
-
-### Path C — Netlify CLI (one-off)
-
-```bash
-npx netlify-cli login
-npx netlify-cli link
-npx netlify-cli deploy --prod --dir=.
-```
-
----
-
-## Day-to-day workflow
+### Day-to-day workflow
 
 ```bash
 # edit index.html (or assets) in Cursor
@@ -50,25 +25,7 @@ git commit -m "waitlist: your change"
 git push origin main
 ```
 
-Netlify → **Deploys** tab shows the build. No drag-and-drop.
-
-### If Git link fails
-
-| Problem | Fix |
-|---------|-----|
-| Wrong folder deployed | Confirm root `netlify.toml` has `publish = "."` |
-| Site not updating | Check Deploys log; confirm you pushed to `main` |
-| 404 on legal pages | Paths are relative — ensure files live at repo root |
-| Large video push rejected | GitHub file limit 100MB; compress or host externally |
-
----
-
-## Legacy — Netlify Drop (manual)
-
-1. [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Drag this repo folder (must contain `index.html` at root).
-
-Use only if Git link is not set up yet.
+After the push, GitHub Pages publishes the updated site. Allow a short propagation period before checking the live URL.
 
 ---
 
@@ -76,9 +33,9 @@ Use only if Git link is not set up yet.
 
 | Variable | Purpose |
 |----------|---------|
-| `SITE_URL` | `https://cognoscenewaitlist.netlify.app` — keep in sync with canonical / OG tags |
+| `SITE_URL` | `https://gencogno.github.io/cognoscene-waitlist/` — keep in sync with canonical / OG tags |
 | `FORMSPREE_FORM_ID` | Waitlist form submissions (`mbgropvn`) |
-| `PLAUSIBLE_DOMAIN` | Optional — e.g. `cognoscenewaitlist.netlify.app` |
+| `PLAUSIBLE_DOMAIN` | Optional — e.g. `gencogno.github.io` |
 | `WAITLIST_DEADLINE` | ISO date — waitlist auto-closes (launch + 30 days, SGT) |
 | `WAITLIST_SIGNUPS` | Manual count from Formspree — drives spots remaining + cap lock |
 | `WAITLIST_CAP` | `250` |
@@ -114,7 +71,7 @@ Add `poster.jpg` optional. Large files: host externally and update `<source src>
 ## Open Graph
 
 - `assets/og-share.png` — 1200×630 PNG (required for X/LinkedIn previews)
-- Head tags use `https://cognoscenewaitlist.netlify.app/assets/og-share.png`
+- Head tags use `https://gencogno.github.io/cognoscene-waitlist/assets/og-share.png`
 
 ---
 
@@ -142,7 +99,7 @@ Optional Plausible: set `PLAUSIBLE_DOMAIN` in `index.html` site config.
 
 ## After launch checklist
 
-- [ ] Git linked + test push deploys
+- [ ] GitHub Pages enabled and publishing from the intended branch/folder
 - [ ] `WAITLIST_DEADLINE` set to launch + 30 days (SGT)
 - [ ] `WAITLIST_SIGNUPS` matches Formspree count
 - [ ] Test signup from phone
@@ -150,8 +107,6 @@ Optional Plausible: set `PLAUSIBLE_DOMAIN` in `index.html` site config.
 - [ ] Formspree email notifications on
 - [ ] Share preview test (paste URL in iMessage / X)
 
----
-
 ## Custom domain (later)
 
-Netlify → Domain management → Add domain → DNS at registrar. Update `SITE_URL`, canonical, and OG tags to match.
+If a custom domain is added later, update `SITE_URL`, canonical, and OG tags to match.
