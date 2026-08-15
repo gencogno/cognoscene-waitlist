@@ -357,9 +357,7 @@
       position: relative;
       max-width: 360px;
       margin: 0 auto;
-      padding: 12px;
-      background: var(--cream);
-      border: 6px solid var(--black);
+      border: 3px solid var(--black);
       border-radius: 32px;
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -408,6 +406,9 @@
       transition: opacity 0.2s ease;
       pointer-events: none;
     }
+    .showcase-video-hint::after {
+      content: "click to enlarge";
+    }
     .showcase-video-frame:hover .showcase-video-hint,
     .showcase-video-frame:focus-within .showcase-video-hint,
     .showcase-video-hit:hover .showcase-video-hint,
@@ -419,6 +420,9 @@
         opacity: 0.88;
         font-size: 11px;
         background: rgba(17, 17, 17, 0.4);
+      }
+      .showcase-video-hint::after {
+        content: "tap to enlarge";
       }
     }
     .showcase-video-frame--hero {
@@ -1303,28 +1307,32 @@
       text-align: center;
     }
 
+    .solution-details .section-eyebrow {
+      text-align: left;
+    }
+
     .solution-details h2 {
       font-family: var(--serif);
       font-size: clamp(1.4rem, 3vw, 1.85rem);
       font-weight: 400;
-      text-align: center;
+      text-align: left;
       margin-bottom: 12px;
       letter-spacing: -0.05em;
     }
 
     .how-intro {
-      text-align: center;
+      text-align: left;
       font-size: 14px;
       color: var(--mid);
       max-width: 520px;
-      margin: 0 auto 36px;
+      margin: 0 0 36px;
       line-height: 1.55;
     }
 
     .steps {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 64px;
       max-width: 820px;
       margin: 0 auto;
     }
@@ -1363,7 +1371,7 @@
     .step-tier-note strong { color: var(--green); font-weight: 800; }
 
     .how-footnote {
-      text-align: center;
+      text-align: left;
       margin-top: 32px;
       font-size: 12px;
       color: var(--muted);
@@ -2033,7 +2041,7 @@
               <p class="step-label">first layer · observer</p>
               <h3 class="step-title">intercept unnecessary impulses</h3>
               <p class="step-copy">soft nudges while you browse shops — lookout pulses that remind you to be prudent as you're scrolling through hundreds of products.</p>
-              <p class="step-tier-note">you start noticing the urge before it becomes a decision.</p>
+              <p class="step-tier-note">you start noticing <strong>the urge</strong> before it becomes a decision.</p>
             </div>
             <div class="showcase-video-slider" data-video-slider="layer1">
               <div class="showcase-video-frame">
@@ -2064,7 +2072,7 @@
               <p class="step-label">second layer · rationalisation</p>
               <h3 class="step-title">48 hours to decide if you need this</h3>
               <p class="step-copy">you hit pay on a site you track — cognoscene pauses checkout and gives you 48 hours. decide if valuable or a waste of money.</p>
-              <p class="step-tier-note">48 hours reveals whether you wanted it, or just felt it.</p>
+              <p class="step-tier-note">48 hours reveals whether you <strong>wanted it</strong>, or just <strong>felt it</strong>.</p>
             </div>
             <div class="showcase-video-slider">
               <div class="showcase-video-frame">
@@ -2084,7 +2092,7 @@
               <p class="step-label">third layer · growth</p>
               <h3 class="step-title">reinforce your identity of prudence</h3>
               <p class="step-copy">as you become more conscious about spending, you'll see it on your dashboard — prudence streak, purchases rationalised, and savings over time.</p>
-              <p class="step-tier-note">you stop seeing yourself as someone who overspends.</p>
+              <p class="step-tier-note">you stop seeing yourself as <strong>someone who overspends</strong>.</p>
                   </div>
             <div class="showcase-video-slider" data-video-slider="layer3">
               <div class="showcase-video-frame">
@@ -2110,6 +2118,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
