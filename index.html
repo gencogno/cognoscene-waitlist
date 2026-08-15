@@ -1789,36 +1789,68 @@
       }
       .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
       .layer-index-item {
+        position: relative;
+        overflow: hidden;
         width: 82%;
-        padding: 12px 10px;
+        padding: 8px 10px;
         text-align: center;
-        background: var(--lime-muted);
+        background: var(--white);
         animation-name: layerSlide;
+        animation-duration: 4s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
+      .layer-index-item::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 45%, var(--lime) 100%);
+        background-size: 250% 100%;
+        opacity: 0.4;
+        animation-name: gradientSweep;
         animation-duration: 4s;
         animation-timing-function: ease-in-out;
         animation-iteration-count: infinite;
       }
       .layer-index-item .layer-action,
       .layer-index-item .layer-name {
+        position: relative;
+        z-index: 1;
         color: var(--black);
       }
+      .layer-index-item .layer-action {
+        margin-bottom: 2px;
+      }
       .layer-index-item .layer-name {
-        font-family: 'Times New Roman', Times, serif;
+        font-family: var(--sans);
         letter-spacing: -0.5px;
-        font-size: 17.5px;
+        font-size: 21.875px;
+        line-height: 1.05;
       }
       .layer-index-item:nth-child(odd) {
+        animation-direction: alternate;
+      }
+      .layer-index-item:nth-child(odd)::after {
         animation-direction: alternate;
       }
       .layer-index-item:nth-child(even) {
         animation-direction: alternate-reverse;
       }
+      .layer-index-item:nth-child(even)::after {
+        animation-direction: alternate-reverse;
+      }
       .layer-index-item:nth-child(3) {
-        background: var(--lime);
+        background: var(--black);
         animation-name: layerSlide, layerPulse;
         animation-duration: 4s, 4s;
         animation-timing-function: ease-in-out, ease-in-out;
         animation-iteration-count: infinite, infinite;
+      }
+      .layer-index-item:nth-child(3)::after {
+        background: linear-gradient(90deg, transparent 0%, var(--green) 45%, var(--lime) 100%);
+        background-size: 250% 100%;
+        opacity: 0.55;
       }
       .layer-index-item:nth-child(3) .layer-action,
       .layer-index-item:nth-child(3) .layer-name {
@@ -1831,6 +1863,10 @@
       @keyframes layerPulse {
         0%, 100% { opacity: 1; }
         50% { opacity: 0.7; }
+      }
+      @keyframes gradientSweep {
+        0% { background-position: 200% 0; }
+        100% { background-position: -50% 0; }
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
@@ -2826,22 +2862,23 @@
 
       var lightboxFrame = document.querySelector('.video-lightbox-frame');
       if (lightboxFrame) {
-        var touchStartX = 0;
-        var touchStartY = 0;
+        var pointerStartX = 0;
+        var pointerStartY = 0;
+        var pointerDown = false;
         var swipeThreshold = 40;
 
-        lightboxFrame.addEventListener('touchstart', function (event) {
+        lightboxFrame.addEventListener('pointerdown', function (event) {
           if (!lightboxOpen || !isMobileViewport.matches) return;
-          touchStartX = event.changedTouches[0].screenX;
-          touchStartY = event.changedTouches[0].screenY;
-        }, { passive: true });
+          pointerDown = true;
+          pointerStartX = event.clientX;
+          pointerStartY = event.clientY;
+        });
 
-        lightboxFrame.addEventListener('touchend', function (event) {
-          if (!lightboxOpen || !isMobileViewport.matches) return;
-          var touchEndX = event.changedTouches[0].screenX;
-          var touchEndY = event.changedTouches[0].screenY;
-          var deltaX = touchEndX - touchStartX;
-          var deltaY = touchEndY - touchStartY;
+        lightboxFrame.addEventListener('pointerup', function (event) {
+          if (!pointerDown || !lightboxOpen || !isMobileViewport.matches) return;
+          pointerDown = false;
+          var deltaX = event.clientX - pointerStartX;
+          var deltaY = event.clientY - pointerStartY;
 
           if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
             if (deltaX < 0) {
@@ -2850,7 +2887,11 @@
               goToMaster(currentMasterIndex - 1);
             }
           }
-        }, { passive: true });
+        });
+
+        lightboxFrame.addEventListener('pointercancel', function () {
+          pointerDown = false;
+        });
       }
     })();
 
