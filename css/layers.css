@@ -41,13 +41,43 @@
   text-transform: lowercase;
 }
 
+/* Solution hero heading: centered and 1.25x larger. The existing HTML text remains
+   semantic; pseudo-elements only split the visual styling so "friction" can be lime. */
 .solution-bridge h2 {
-  text-align: center;
+  text-align: center !important;
+  font-size: 0 !important;
+  margin: 0 auto 16px !important;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.solution-bridge h2::before,
+.solution-bridge h2::after {
+  font-family: var(--serif);
   font-size: clamp(1.6875rem, 4vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.solution-bridge h2::before {
+  content: "hence, we built an extension to prevent you from shopping destructively using ";
+  color: var(--black);
+  font-weight: 400;
+}
+
+.solution-bridge h2::after {
+  content: "friction.";
+  color: var(--lime);
+  font-weight: 800;
 }
 
 /* Mobile layer index */
 @media (max-width: 760px) {
+  .solution-bridge h2::before,
+  .solution-bridge h2::after {
+    font-size: 1.625rem;
+  }
+
   .layers-index {
     grid-template-columns: 1fr;
     gap: 12px;
