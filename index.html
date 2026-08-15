@@ -640,6 +640,7 @@
       height: auto;
       max-height: calc(100vh - 160px);
       background: var(--cream);
+      border-radius: 24px;
       transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
     #videoLightboxPlayer.is-fading {
@@ -1805,10 +1806,9 @@
         position: absolute;
         inset: 0;
         pointer-events: none;
-        background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 45%, var(--lime) 100%);
-        background-size: 250% 100%;
-        opacity: 0.4;
-        animation-name: gradientSweep;
+        background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
+        opacity: 0;
+        animation-name: layerGradientFade;
         animation-duration: 4s;
         animation-timing-function: ease-in-out;
         animation-iteration-count: infinite;
@@ -1820,12 +1820,12 @@
         color: var(--black);
       }
       .layer-index-item .layer-action {
-        margin-bottom: 2px;
+        margin-bottom: 1px;
       }
       .layer-index-item .layer-name {
         font-family: var(--sans);
-        letter-spacing: -0.5px;
-        font-size: 21.875px;
+        letter-spacing: -0.25px;
+        font-size: 19.6875px;
         line-height: 1.05;
       }
       .layer-index-item:nth-child(odd) {
@@ -1848,9 +1848,7 @@
         animation-iteration-count: infinite, infinite;
       }
       .layer-index-item:nth-child(3)::after {
-        background: linear-gradient(90deg, transparent 0%, var(--green) 45%, var(--lime) 100%);
-        background-size: 250% 100%;
-        opacity: 0.55;
+        background: linear-gradient(90deg, transparent 0%, var(--green) 55%, var(--lime) 100%);
       }
       .layer-index-item:nth-child(3) .layer-action,
       .layer-index-item:nth-child(3) .layer-name {
@@ -1864,9 +1862,9 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0.7; }
       }
-      @keyframes gradientSweep {
-        0% { background-position: 200% 0; }
-        100% { background-position: -50% 0; }
+      @keyframes layerGradientFade {
+        0% { opacity: 0; }
+        100% { opacity: 0.5; }
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
