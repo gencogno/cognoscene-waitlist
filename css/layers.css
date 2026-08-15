@@ -71,11 +71,56 @@
   font-weight: 800;
 }
 
-/* Mobile layer index */
+/* Waitlist platform intent */
+.waitlist-platform-field {
+  margin: 14px 0 8px;
+}
+
+.waitlist-platform-label {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+  color: var(--black);
+}
+
+.waitlist-platform-options {
+  display: flex;
+  gap: 10px;
+}
+
+.waitlist-platform-options .radio-pill {
+  min-width: 0;
+}
+
+.waitlist-mobile-caveat {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--lime);
+  background: var(--white);
+  color: var(--mid);
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: left;
+}
+
 @media (max-width: 760px) {
   .solution-bridge h2::before,
   .solution-bridge h2::after {
     font-size: 1.625rem;
+  }
+
+  .waitlist-platform-options {
+    gap: 8px;
+  }
+
+  .waitlist-platform-options .radio-pill {
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+
+  .waitlist-mobile-caveat {
+    font-size: 11px;
   }
 
   .layers-index {
@@ -124,7 +169,6 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation travels from right -> left, so its gradient follows the same phase. */
   .layer-index-item:nth-child(2) {
     animation-direction: alternate-reverse;
   }
@@ -135,7 +179,6 @@
     animation-direction: alternate-reverse;
   }
 
-  /* Growth keeps the stronger, darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
     animation-name: layer-slide, layer-pulse;
@@ -164,21 +207,18 @@
     50% { opacity: 0.7; }
   }
 
-  /* Observer + Growth: green edge follows the card to both endpoints. */
   @keyframes layer-edge-gradient {
     0% { opacity: 0.5; transform: scaleX(-1); }
     50% { opacity: 0; transform: scaleX(1); }
     100% { opacity: 0.5; transform: scaleX(-1); }
   }
 
-  /* Rationalisation: reversed travel means its green edge follows the opposite endpoint. */
   @keyframes layer-edge-gradient-reverse {
     0% { opacity: 0.5; transform: scaleX(-1); }
     50% { opacity: 0; transform: scaleX(1); }
     100% { opacity: 0.5; transform: scaleX(-1); }
   }
 
-  /* Growth uses the same pendulum timing, just more apparent. */
   @keyframes layer-edge-gradient-growth {
     0% { opacity: 0.68; transform: scaleX(-1); }
     50% { opacity: 0; transform: scaleX(1); }
@@ -193,14 +233,12 @@
   }
 }
 
-/* Layer hero headings: +25% from the existing desktop size (1.15rem -> 1.4375rem). */
 @media (min-width: 761px) {
   .step-title {
     font-size: 1.4375rem;
   }
 }
 
-/* Layer hero headings: +25% from the existing mobile size (1.05rem -> 1.3125rem). */
 @media (max-width: 760px) {
   .step-title {
     font-size: 1.3125rem;
