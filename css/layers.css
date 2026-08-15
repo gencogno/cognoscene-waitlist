@@ -12,6 +12,10 @@
   margin: 0 auto;
 }
 
+.layers-index-label {
+  text-align: center;
+}
+
 .layer-index-item {
   background: var(--white);
   border: 1px solid var(--black);
@@ -124,25 +128,22 @@
     50% { opacity: 0.7; }
   }
 
-  /* Observer + Growth: fade in toward the right endpoint, then fade out on the return. */
+  /* Observer + Growth: gradient is strongest at either endpoint and clears through the middle. */
   @keyframes layer-edge-gradient {
-    0% { opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { opacity: 0; }
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0; }
   }
 
-  /* Rationalisation: fade in toward the left endpoint, then fade out on the return. */
+  /* Rationalisation: same pendulum timing, but its movement and gradient direction are reversed. */
   @keyframes layer-edge-gradient-reverse {
-    0% { opacity: 0; }
-    50% { opacity: 0.5; }
-    100% { opacity: 0; }
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0; }
   }
 
   /* Growth uses the same pendulum timing, just more apparent. */
   @keyframes layer-edge-gradient-growth {
-    0% { opacity: 0; }
-    50% { opacity: 0.68; }
-    100% { opacity: 0; }
+    0%, 100% { opacity: 0.68; }
+    50% { opacity: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
