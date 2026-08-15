@@ -1,13 +1,14 @@
 # Cognoscene Waitlist Launch Plan
 
 **Scope:** founding cohort only · email-only comms · Singapore-first signups.  
-**Last updated:** 14 Aug 2026.  
+**Last updated:** 15 Aug 2026 (ChatGPT session).  
 **Full spec (canonical):** `docs/agent-context/waitlist-launch-spec.md` in `gencogno/cognoscene-statics-roadmap`.
 
 ---
 
 ## Changelog
 
+- 15 Aug 2026 — ChatGPT reviewed founding offer + form; recommended one waitlist with platform-intent capture for Chrome / Mobile / Both. Mobile interest is **not yet implemented**. Founding offer remains pay-later.
 - 14 Aug 2026 — distilled from statics roadmap `waitlist-launch-spec.md`. Telegram removed; email-only.
 - 1 Aug 2026 — original spec authored (Cursor).
 
@@ -28,6 +29,18 @@
 - Dashboard unlocked
 - Same entitlement flag as premium: `userTier === 'premium'`
 - Backend: `plan_type: lifetime` in Supabase (not in extension today)
+
+### Founding offer positioning
+
+Keep the current offer structure:
+
+- 2 months premium free after install/activation during the founding beta;
+- then US$10 one-time for lifetime premium;
+- no payment at waitlist signup;
+- 250 founding spots;
+- close 30 days after public launch or when the cap is reached, whichever comes first.
+
+The strategic intent is **experience first, pay later**. Do not add upfront payment to the waitlist without founder approval.
 
 ### Public pricing (post-founder window)
 
@@ -53,18 +66,37 @@
 
 ---
 
-## 3. Form (locked)
+## 3. Form — current state + recommended next change
 
 **Live in:** `index.html` · backend: Formspree (`FORMSPREE_FORM_ID`).
+
+### Current locked fields
 
 | Field | Required |
 |-------|----------|
 | Email | Yes |
 | Chrome on desktop (y/n) | Yes |
 
+### Recommended next iteration — NOT YET IMPLEMENTED
+
+Keep **one waitlist**, but add one lightweight platform-intent field:
+
+| Field | Values | Required |
+|-------|--------|----------|
+| Where would you want Cognoscene? | Chrome / Mobile / Both | Yes |
+
+Recommended adjacent CTA copy:
+
+> **want cognoscene on mobile?**  
+> we're exploring what a mobile version should look like.
+
+Avoid “coming soon” language because mobile has not been committed as a shipped product. Do not create a separate mobile waitlist unless founder explicitly chooses that path.
+
 ### Autoresponder (on submit)
 
 > you're on the cognoscene waitlist. we'll contact you when your batch opens. founding offer: us$10 once for lifetime premium — details when you get install access. no charge today.
+
+If platform intent is added, the autoresponder can remain unchanged; platform preference is primarily a segmentation signal.
 
 ---
 
@@ -187,14 +219,17 @@ founding window closes [DATE] or at [X] spots — whichever first.
 
 ## 7. Tracker sheet (columns)
 
-| email | signed_up | batch | invited | installed | 1st_hold | dropped | upgrade_sent | paid | unlocked | notes |
-|-------|-----------|-------|---------|-----------|----------|---------|--------------|------|----------|-------|
+| email | signed_up | platform | batch | invited | installed | 1st_hold | dropped | upgrade_sent | paid | unlocked | notes |
+|-------|-----------|----------|-------|---------|-----------|----------|---------|--------------|------|----------|-------|
+
+`platform` should use: `chrome`, `mobile`, or `both` once the recommended form field is implemented. Until then, leave blank rather than inferring.
 
 **Primary beta metrics**
 
 1. Hold → drop rate (among users who triggered hold)
 2. Upgrade sent → paid → unlocked (funnel integrity)
-3. Bypass / urgente usage (secondary)
+3. Platform mix (chrome vs mobile vs both) once platform intent is live
+4. Bypass / urgente usage (secondary)
 
 ---
 
@@ -205,8 +240,9 @@ founding window closes [DATE] or at [X] spots — whichever first.
 | Pay doesn't unlock | Webhook before paid wave; manual flip runbook |
 | Email mismatch | Wix + Stripe both say "same email" |
 | Lifetime ARPU collapse | Cap spots; never reopen silently |
-| Overpromising on Wix | "Pay when batch opens" · "features may change" |
 | Support overload | Batch size limit; pin FAQ in autoresponder |
+| Mobile demand pollutes desktop funnel | Keep one waitlist but segment by platform intent; do not create a separate duplicate funnel |
+| Mobile overpromise | Use “exploring mobile” language, not “coming soon” |
 
 ---
 
@@ -216,6 +252,8 @@ founding window closes [DATE] or at [X] spots — whichever first.
 - [ ] Window end date: `___`
 - [ ] Batch 1 size: `___`
 - [ ] Install delivery: unpacked zip vs private link vs CWS unlisted
+- [ ] Add platform-intent field: Chrome / Mobile / Both
+- [ ] Add mobile-interest CTA near form
 
 ---
 
@@ -224,3 +262,31 @@ founding window closes [DATE] or at [X] spots — whichever first.
 - Do not add a second `userTier` value for lifetime in v1 — use `premium` + server `plan_type`.
 - The founding checkout edge function is not yet deployed — do not open upsell until it is.
 - Formspree form ID is in `index.html` — replace placeholder before going live.
+- GitHub Pages is the current canonical production host; do not reintroduce Netlify URLs into canonical/meta copy.
+
+---
+
+## 11. ChatGPT commit log — 15 Aug 2026
+
+These commits were made by the **ChatGPT GitHub session**. Other agents may have made additional commits before or after them.
+
+| Commit | UTC | Change |
+|---|---|---|
+| `02b56b6` | 13:54 | Initial layer-index gradient fix |
+| `e0619a2` | 13:54 | Improve layer-index gradient |
+| `1606c56` | 13:56 | Reverse Rationalisation gradient pathway (workflow attempt; superseded) |
+| `178958d` / `3df847b` | 13:57 | Darken Growth gradient (superseded by component CSS) |
+| `c91920b` / `a7bf572` | 13:59 | Gradient direction attempts (superseded) |
+| `ae738e8` / `2ae875c` / `d39e7b7` | 14:01–14:03 | Gradient direction/timing attempts; earlier workflow attempts superseded |
+| `2261a21` | 14:09 | Removed failed temporary gradient workflow |
+| `1c11d9d` | 14:15 | Extracted layer-index CSS into `css/layers.css` |
+| `9aa19d7` | 14:28 | Wired layer styling refactor into production CSS structure |
+| `2916dd8` | 14:32 | Reversed Rationalisation gradient direction |
+| `a62479a` | 14:34 | Synced Rationalisation gradient with card movement |
+| `2101de9` | 14:36 | Increased layer hero headings by 25% |
+| `63e4353` | 14:38 | Added pendulum-style gradient opacity keyframes |
+| `d586577` | 14:42 | Synced gradient pendulum timing with card movement |
+| `706441d` | 14:45 | Corrected founding-terms canonical from Netlify to GitHub Pages |
+| `92b7ec5` | 14:48 | Aligned gradient pendulum to both card endpoints; centered layer kicker |
+
+Earlier failed/superseded workflow commits are retained in Git history for auditability but should not be treated as current production logic.
