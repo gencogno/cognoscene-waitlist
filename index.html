@@ -1788,13 +1788,27 @@
         margin: 0.5cm auto 0.25cm;
       }
       .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
+      .layer-index-item {
+        width: 82%;
+        padding: 12px 10px;
+        animation-name: layerSlide;
+        animation-duration: 4s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
       .layer-index-item:nth-child(odd) {
         text-align: left;
         background: var(--white);
+        animation-direction: alternate;
       }
       .layer-index-item:nth-child(even) {
         text-align: right;
         background: var(--cream-2);
+        animation-direction: alternate-reverse;
+      }
+      @keyframes layerSlide {
+        0% { margin-left: 0; }
+        100% { margin-left: 18%; }
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
