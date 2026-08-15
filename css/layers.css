@@ -124,22 +124,25 @@
     50% { opacity: 0.7; }
   }
 
-  /* Observer + Growth: gradient is absent on the left, strongest at right. */
+  /* Observer + Growth: fade in toward the right endpoint, then fade out on the return. */
   @keyframes layer-edge-gradient {
     0% { opacity: 0; }
-    100% { opacity: 0.5; }
-  }
-
-  /* Rationalisation: gradient is absent on the right, strongest at left. */
-  @keyframes layer-edge-gradient-reverse {
-    0% { opacity: 0.5; }
+    50% { opacity: 0.5; }
     100% { opacity: 0; }
   }
 
-  /* Growth uses the same pathway, just more apparent. */
+  /* Rationalisation: fade in toward the left endpoint, then fade out on the return. */
+  @keyframes layer-edge-gradient-reverse {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0; }
+  }
+
+  /* Growth uses the same pendulum timing, just more apparent. */
   @keyframes layer-edge-gradient-growth {
     0% { opacity: 0; }
-    100% { opacity: 0.68; }
+    50% { opacity: 0.68; }
+    100% { opacity: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
