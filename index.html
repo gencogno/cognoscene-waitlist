@@ -1839,6 +1839,7 @@
       }
       .layer-index-item:nth-child(even)::after {
         animation-direction: alternate-reverse;
+        animation-name: layerGradientFadeReverse;
       }
       .layer-index-item:nth-child(3) {
         background: var(--black);
@@ -1864,12 +1865,16 @@
         50% { opacity: 0.7; }
       }
       @keyframes layerGradientFade {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 0.08; }
+        0%, 100% { opacity: 0.08; }
+        50% { opacity: 0.5; }
       }
       @keyframes layerGradientFadeGrowth {
-        0%, 100% { opacity: 0.68; }
-        50% { opacity: 0.12; }
+        0%, 100% { opacity: 0.12; }
+        50% { opacity: 0.68; }
+      }
+      @keyframes layerGradientFadeReverse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.08; }
       }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
