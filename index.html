@@ -1788,6 +1788,28 @@
         margin: 0.5cm auto 0.25cm;
       }
       .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
+      .layer-index-item {
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+      .layer-index-item::before {
+        content: attr(data-step);
+        flex-shrink: 0;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--black);
+        color: var(--cream);
+        font-size: 11px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .layer-index-item .layer-action { margin-bottom: 2px; }
       .solution-bridge { text-align: left; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 0 16px; }
       .solution-bridge-sub { font-size: 1.15rem; margin: 0 0 22px; }
@@ -2017,15 +2039,15 @@
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
-        <div class="layer-index-item">
+        <div class="layer-index-item" data-step="1">
           <span class="layer-action">nudges before the cart snowballs</span>
           <strong class="layer-name">observer</strong>
         </div>
-        <div class="layer-index-item">
+        <div class="layer-index-item" data-step="2">
           <span class="layer-action">48 hours to decide if its a waste</span>
           <strong class="layer-name">rationalisation</strong>
         </div>
-        <div class="layer-index-item">
+        <div class="layer-index-item" data-step="3">
           <span class="layer-action">impulse-driven to prudence</span>
           <strong class="layer-name">growth</strong>
         </div>
