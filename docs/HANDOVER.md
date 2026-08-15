@@ -2,7 +2,7 @@
 
 **Audience:** agents or devs working in this repo (`gencogno/cognoscene-waitlist`).  
 **Author context:** founder `cogno` · Singapore · pre-revenue Chrome extension · pre-incorporation.  
-**Last updated:** 14 Aug 2026 · production commit `b0f169a` (SVG loop, problem section).
+**Last updated:** 14 Aug 2026 (Claude session) · production commit `ed57359` (mobile layer-index slide animation).
 
 **Extension repo (separate):** `gencogno/cognoscene-statics-roadmap` — do not confuse. Changes here do not require a `manifest.json` bump.  
 **Master launch docs (extension repo):** `docs/agent-context/AGENT_HANDOVER.md` · `docs/agent-context/launch-sdd.md` · `docs/agent-context/waitlist-launch-spec.md` — those are the source of truth for GTM logic; `docs/WAITLIST-PLAN.md` in this repo is the distilled, waitlist-scoped version.
@@ -52,18 +52,30 @@ cognoscene-waitlist/
 
 ---
 
-## 3. Production site — current state (14 Aug 2026)
+## 3. Production site — current state (14 Aug 2026, updated post-Claude session)
 
 | Section | Status |
 |---------|--------|
 | Hero | Copy locked — lowercase, Buffer-style brand voice |
 | Problem band | **SVG loop diagram** (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
 | Problem copy | Lead-in in header; body = trap beat → regret quote → pivot (bold close) |
-| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; showcase videos scaled to 75% max-width; 'tap to enlarge' replaces 'click' for touch. |
+| `solution-details` (formerly `how-band`) | Renamed. Eyebrow + intro + footnote removed — flows straight from `solution-bridge`. Layer copy rewritten; tier notes replaced with identity-level outcome lines (bolded emotional pivots): "you start noticing **the urge**...", "...whether you **wanted it**, or just **felt it**", "...**someone who overspends**." Reverse layout removed — all 3 layers same direction. Layer gap 40px → 64px (desktop). Decorative video frame (border/padding/shadow) removed. |
+| `solution-bridge` layers-index | Layer 1 action line updated to match new copy direction ("nudges before the cart snowballs"). Mobile: alternating left/right layout with cream-2 tint on even items, plus continuous 4s slide animation (`layerSlide` keyframe, clamped to container edges via width 82% + margin-left 18%, opposite phase odd/even, respects `prefers-reduced-motion`). |
+| `founding-band` | Trimmed — removed redundant feature list (already covered in solution-details), replaced with urgency framing ("closes when the first 250 spots fill or in 30 days — whichever comes first"). |
+| OG/meta tags | Updated from stale Netlify URLs to `gencogno.github.io/cognoscene-waitlist` (canonical, og:url, og:image, SITE_URL var). |
+| Mobile layout | Loop `order: -1` above copy; solution details left-aligned to match hero; showcase videos scaled to 93.75% max-width (mobile only — up from 75%); 'tap to enlarge' replaces 'click' for touch. |
 | Form | Email + Chrome y/n; Formspree POST; autoresponder copy in `docs/WAITLIST-PLAN.md` §4 |
 | Footer | Privacy + Terms linked |
 
-**Committed version to preserve:** `b0f169a` on `main`. Do not revert or destructively overwrite this baseline without founder sign-off.
+**Open items flagged, not yet actioned:**
+- `layerSlide` animation currently animates `margin-left` — should be refactored to `transform: translateX()` to avoid layout reflow cost (flagged, not urgent, cosmetically identical either way).
+- Video slot 1 still empty on both observer and growth sliders (3rd-pulse clip, dashboard clip) — outstanding from earlier session.
+- No social proof element near form submit — still outstanding.
+- `WAITLIST_SIGNUPS` is hardcoded, requires manual updates from Formspree dashboard as signups roll in.
+- No analytics configured — `PLAUSIBLE_DOMAIN` empty in `index.html`.
+- **Planned hosting migration:** GitHub Pages → **Cloudflare Pages** once site is finalized (Netlify credits running low; Cloudflare has no bandwidth ceiling on free tier and instant cache invalidation, unlike GitHub Pages' CDN lag). Migration steps documented in `docs/WAITLIST-PLAN.md`.
+
+**Committed version to preserve:** `b0f169a` on `main` (pre-Claude-session baseline). This session's changes are additive on top, not a revert of that baseline.
 
 ---
 
@@ -86,6 +98,7 @@ cognoscene-waitlist/
 - **Waitlist edits = this repo only.** Do not spill into the extension repo unless founder explicitly asks.
 - **Do not bump `manifest.json`** — that lives in the extension repo; waitlist changes do not touch it.
 - **Smallest diff only** — one ask = one surface. Do not touch adjacent sections, copy, or assets not named in the prompt.
+- **Mobile-scoped by default** — as of 14 Aug 2026, active work is scoped to mobile CSS (`@media (max-width: 760px)`) only unless founder explicitly says "desktop" or "both." Confirm scope before editing if ambiguous. Do not let desktop and mobile silently drift — full-file reverts have previously wiped concurrent mobile work from other agents; always diff against the live repo state immediately before editing, not a stale local copy.
 - **Mockup-first for layout changes** — iterate in `mockups/mobile-iphone14-alternate.html` or `mockups/waitlist-short.html` before editing `index.html` production.
 - **Comms channel: email only.** Telegram has been fully removed from this project.
 - **No Telegram, no clinical/shopping-addiction language, no unsupported stats** in any copy or docs.
