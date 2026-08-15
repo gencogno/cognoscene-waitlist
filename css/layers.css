@@ -149,3 +149,17 @@
     }
   }
 }
+
+/* Layer hero headings: +25% from the existing desktop size (1.15rem -> 1.4375rem). */
+@media (min-width: 761px) {
+  .step-title {
+    font-size: 1.4375rem;
+  }
+}
+
+/* Layer hero headings: +25% from the existing mobile size (1.05rem -> 1.3125rem). */
+@media (max-width: 760px) {
+  .step-title {
+    font-size: 1.3125rem;
+  }
+}
