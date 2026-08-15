@@ -1,0 +1,143 @@
+/* Cognoscene layer index component
+   Shared component styles + mobile motion.
+   Desktop keeps the existing static 3-column cards.
+*/
+
+.layers-index {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.layer-index-item {
+  background: var(--white);
+  border: 1px solid var(--black);
+  border-radius: 16px;
+  padding: 16px 14px;
+}
+
+.layer-index-item .layer-action {
+  display: block;
+  font-size: 11px;
+  color: var(--black);
+  opacity: 0.62;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.layer-index-item .layer-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--black);
+  line-height: 1.2;
+  text-transform: lowercase;
+}
+
+/* Mobile layer index */
+@media (max-width: 760px) {
+  .layers-index {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .layer-index-item {
+    position: relative;
+    overflow: hidden;
+    width: 82%;
+    padding: 8px 10px;
+    text-align: center;
+    background: var(--white);
+    animation: layer-slide 4s ease-in-out infinite alternate;
+  }
+
+  .layer-index-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
+    animation: layer-edge-gradient 4s ease-in-out infinite alternate;
+  }
+
+  .layer-index-item .layer-action,
+  .layer-index-item .layer-name {
+    position: relative;
+    z-index: 1;
+    color: var(--black);
+  }
+
+  .layer-index-item .layer-action {
+    margin-bottom: 1px;
+  }
+
+  .layer-index-item .layer-name {
+    font-family: var(--sans);
+    letter-spacing: -0.25px;
+    font-size: 19.6875px;
+    line-height: 1.05;
+  }
+
+  /* Rationalisation travels right -> left first, so its gradient does too. */
+  .layer-index-item:nth-child(2) {
+    animation-direction: alternate-reverse;
+  }
+
+  .layer-index-item:nth-child(2)::after {
+    animation-direction: alternate-reverse;
+  }
+
+  /* Growth keeps the stronger, darker green treatment. */
+  .layer-index-item:nth-child(3) {
+    background: var(--black);
+    animation-name: layer-slide, layer-pulse;
+    animation-duration: 4s, 4s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+  }
+
+  .layer-index-item:nth-child(3)::after {
+    background: linear-gradient(90deg, transparent 0%, #315d0f 55%, #91bb55 100%);
+    animation-name: layer-edge-gradient-growth;
+  }
+
+  .layer-index-item:nth-child(3) .layer-action,
+  .layer-index-item:nth-child(3) .layer-name {
+    color: var(--white);
+  }
+
+  @keyframes layer-slide {
+    0% { margin-left: 0; }
+    100% { margin-left: 18%; }
+  }
+
+  @keyframes layer-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Observer + Growth: gradient is absent on the left, strongest at right. */
+  @keyframes layer-edge-gradient {
+    0% { opacity: 0; }
+    100% { opacity: 0.5; }
+  }
+
+  /* Growth uses the same pathway, just more apparent. */
+  @keyframes layer-edge-gradient-growth {
+    0% { opacity: 0; }
+    100% { opacity: 0.68; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .layer-index-item,
+    .layer-index-item::after {
+      animation: none;
+    }
+  }
+}
