@@ -1,0 +1,35 @@
+name: darken growth gradient
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch growth gradient
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old = 'linear-gradient(90deg, transparent 0%, var(--green) 55%, var(--lime) 100%)'
+          new = 'linear-gradient(90deg, transparent 0%, #315d0f 55%, #a9d06f 100%)'
+          if old not in s:
+              raise SystemExit('growth gradient target not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s)
+          PY
+      - name: Commit patch and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .github/workflows/darken-growth-gradient.yml
+          git add index.html .github/workflows/darken-growth-gradient.yml
+          git commit -m "style: darken growth gradient"
+          git push
