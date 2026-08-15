@@ -1,0 +1,70 @@
+name: fix layer gradient timing
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fix gradient timing
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old = """      .layer-index-item:nth-child(odd)::after {
+        animation-direction: alternate;
+      }
+      .layer-index-item:nth-child(even) {
+        animation-direction: alternate-reverse;
+      }
+      .layer-index-item:nth-child(even)::after {
+        animation-direction: alternate-reverse;
+      }"""
+          new = """      .layer-index-item:nth-child(odd)::after {
+        animation-direction: alternate;
+      }
+      .layer-index-item:nth-child(even) {
+        animation-direction: alternate-reverse;
+      }
+      .layer-index-item:nth-child(even)::after {
+        animation-direction: alternate;
+      }"""
+          if old not in s:
+              raise SystemExit('Layer gradient direction block not found')
+          s = s.replace(old, new, 1)
+          old_keys = """      @keyframes layerGradientFade {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.08; }
+      }
+      @keyframes layerGradientFadeGrowth {
+        0%, 100% { opacity: 0.68; }
+        50% { opacity: 0.12; }
+      }"""
+          new_keys = """      @keyframes layerGradientFade {
+        0% { opacity: 0; }
+        100% { opacity: 0.5; }
+      }
+      @keyframes layerGradientFadeGrowth {
+        0% { opacity: 0; }
+        100% { opacity: 0.68; }
+      }"""
+          if old_keys not in s:
+              raise SystemExit('Layer gradient keyframes not found')
+          s = s.replace(old_keys, new_keys, 1)
+          p.write_text(s)
+          PY
+      - name: Commit patch and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .github/workflows/fix-layer-gradient-timing.yml
+          git add index.html .github/workflows/fix-layer-gradient-timing.yml
+          git commit -m "fix: align layer gradients with card edges"
+          git push
