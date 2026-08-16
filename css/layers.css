@@ -147,7 +147,7 @@
     pointer-events: none;
     opacity: 0;
     transform-origin: center;
-    background: linear-gradient(90deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
+    background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
     animation: layer-edge-gradient 4s ease-in-out infinite alternate;
   }
 
@@ -169,16 +169,19 @@
     line-height: 1.05;
   }
 
+  /* Rationalisation travels right -> left, so its gradient uses the exact same
+     right-edge treatment but reverses the animation phase with the card. */
   .layer-index-item:nth-child(2) {
     animation-direction: alternate-reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
-    background: linear-gradient(270deg, transparent 0%, var(--lime-muted) 55%, var(--lime) 100%);
-    animation-name: layer-edge-gradient-reverse;
+    background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
+    animation-name: layer-edge-gradient;
     animation-direction: alternate-reverse;
   }
 
+  /* Growth follows Observer exactly, with a darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
     animation-name: layer-slide, layer-pulse;
@@ -188,8 +191,9 @@
   }
 
   .layer-index-item:nth-child(3)::after {
-    background: linear-gradient(90deg, transparent 0%, #315d0f 55%, #91bb55 100%);
+    background: linear-gradient(90deg, transparent 0%, transparent 62%, #315d0f 82%, #6f9f37 100%);
     animation-name: layer-edge-gradient-growth;
+    animation-direction: normal;
   }
 
   .layer-index-item:nth-child(3) .layer-action,
@@ -207,22 +211,16 @@
     50% { opacity: 0.7; }
   }
 
+  /* The gradient is always on the right side. Opacity is the only animated
+     property, and its phase matches the card's 4s travel exactly. */
   @keyframes layer-edge-gradient {
-    0% { opacity: 0.5; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.5; transform: scaleX(-1); }
-  }
-
-  @keyframes layer-edge-gradient-reverse {
-    0% { opacity: 0.5; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.5; transform: scaleX(-1); }
+    0% { opacity: 0; }
+    100% { opacity: 0.62; }
   }
 
   @keyframes layer-edge-gradient-growth {
-    0% { opacity: 0.68; transform: scaleX(-1); }
-    50% { opacity: 0; transform: scaleX(1); }
-    100% { opacity: 0.68; transform: scaleX(-1); }
+    0% { opacity: 0; }
+    100% { opacity: 0.78; }
   }
 
   @media (prefers-reduced-motion: reduce) {
