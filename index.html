@@ -298,6 +298,14 @@
       background-position: 100% 0;
       transition: background-position 1s ease;
     }
+    .highlight-swipe.is-glow {
+      transition: background-position 1s ease, box-shadow 1s ease, filter 1s ease;
+      box-shadow: 0 0 0 rgba(200, 232, 138, 0);
+    }
+    .highlight-swipe.is-glow.swipe-in {
+      box-shadow: 0 0 22px 4px rgba(200, 232, 138, 0.55);
+      filter: brightness(1.05);
+    }
     .swipe-in .stat-highlight,
     .swipe-in .highlight,
     .swipe-in.highlight-swipe,
@@ -1308,8 +1316,8 @@
       pointer-events: none;
     }
     .lc-hub-img {
-      width: 72px;
-      height: 72px;
+      width: 54px;
+      height: 54px;
       object-fit: contain;
       display: block;
     }
@@ -2102,7 +2110,7 @@
           <div class="problem-beat">
             <p>and you'll do it again. despite controlling yourself, the dopamine from social media and shopping makes checkout feel irresistible.</p>
             <p><strong>there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.</strong></p>
-            <p>hence, we built an extension to prevent you from shopping destructively using friction.</p>
+            <p class="highlight-swipe-text"><span class="highlight-swipe is-glow">hence, we built an extension to prevent you from shopping destructively using friction.</span></p>
           </div>
         </div>
 
@@ -2110,7 +2118,7 @@
           <div class="lc-circle-stage" aria-hidden="true">
             <div class="lc-circle-inner">
               <div class="lc-hub-img-wrap" aria-hidden="true">
-                <img src="assets/canva-loop.png" alt="" class="lc-hub-img" width="72" height="72" decoding="async" />
+                <img src="assets/canva-loop.png" alt="" class="lc-hub-img" width="54" height="54" decoding="async" />
               </div>
               <div class="lc-circle-card lc-circle-card--see">
                 <div class="loop-icon-card">
