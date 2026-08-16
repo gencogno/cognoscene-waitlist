@@ -153,6 +153,18 @@
   margin-right: auto !important;
 }
 
+/* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
+.hero-cta-row > .btn-primary,
+.mobile-cta-bar a {
+  font-size: 0;
+}
+
+.hero-cta-row > .btn-primary::after,
+.mobile-cta-bar a::after {
+  content: "yeah, i need this!";
+  font-size: 14px;
+}
+
 @media (max-width: 760px) {
   /* Remove a further 2cm from the already-reduced mobile hero reserve. */
   .hero {
@@ -211,7 +223,8 @@
     padding: 8px 10px;
     text-align: center;
     background: var(--white);
-    animation: layer-slide 4s ease-in-out infinite alternate;
+    animation: layer-slide 4s ease-in-out infinite alternate,
+               layer-edge-right 4s ease-in-out infinite alternate;
   }
 
   .layer-index-item::after {
@@ -252,10 +265,14 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation travels right -> left. Its green treatment remains literal
-     right-edge treatment and follows the actual card position. */
+  /* Rationalisation travels right -> left. Starts at right edge, so
+     right gradient peaks at 0% (start), left gradient peaks at 100% (end). */
   .layer-index-item:nth-child(2) {
-    animation-direction: alternate-reverse;
+    animation-name: layer-slide, layer-edge-left;
+    animation-duration: 4s, 4s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: alternate-reverse, alternate-reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
@@ -266,10 +283,11 @@
   /* Growth follows Observer exactly, with a darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
-    animation-name: layer-slide, layer-pulse;
-    animation-duration: 4s, 4s;
-    animation-timing-function: ease-in-out, ease-in-out;
-    animation-iteration-count: infinite, infinite;
+    animation-name: layer-slide, layer-pulse, layer-edge-right;
+    animation-duration: 4s, 4s, 4s;
+    animation-timing-function: ease-in-out, ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite, infinite;
+    animation-direction: alternate, alternate, alternate;
   }
 
   .layer-index-item:nth-child(3)::before {
@@ -286,8 +304,25 @@
   }
 
   @keyframes layer-slide {
-    0% { margin-left: 0; }
+    0%   { margin-left: 0; }
     100% { margin-left: 18%; }
+  }
+
+  /* Gradient opacity — keyframed to exact card travel.
+     layer-slide: 0% = left edge, 100% = right edge (ease-in-out, 4s, alternate).
+     Fade window = last 25% of travel (~1s). At edge contact = 0 opacity. */
+  @keyframes layer-edge-right {
+    0%   { --edge-right-opacity: 0; }
+    75%  { --edge-right-opacity: 0; }
+    95%  { --edge-right-opacity: 1; }
+    100% { --edge-right-opacity: 0; }
+  }
+
+  @keyframes layer-edge-left {
+    0%   { --edge-left-opacity: 0; }
+    75%  { --edge-left-opacity: 0; }
+    95%  { --edge-left-opacity: 1; }
+    100% { --edge-left-opacity: 0; }
   }
 
   @keyframes layer-pulse {
