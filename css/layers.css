@@ -137,7 +137,7 @@
     padding: 8px 10px;
     text-align: center;
     background: var(--white);
-    animation: layer-slide 4s ease-in-out infinite alternate;
+    animation: layer-slide-round 4s ease-in-out infinite;
   }
 
   .layer-index-item::after {
@@ -145,9 +145,18 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0;
+    opacity: var(--edge-right-opacity, 0);
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation: layer-edge-gradient-right-round 4s ease-in-out infinite;
+  }
+
+  .layer-index-item:nth-child(1)::before,
+  .layer-index-item:nth-child(3)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--edge-left-opacity, 0);
+    background: linear-gradient(90deg, var(--lime-muted) 0%, var(--lime) 18%, transparent 38%);
   }
 
   .layer-index-item .layer-action,
@@ -171,41 +180,21 @@
   /* Rationalisation travels right -> left, retaining the same literal right-edge
      green treatment while its card moves in the opposite direction. */
   .layer-index-item:nth-child(2) {
-    animation-direction: alternate-reverse;
+    animation-direction: reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation-name: layer-edge-gradient-right-round;
-    animation-direction: alternate-reverse;
-  }
-
-  /* Observer and Growth keep the existing movement while their gradients can
-     appear at either edge of the travel. */
-  .layer-index-item:nth-child(1)::before,
-  .layer-index-item:nth-child(3)::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0;
-    background: linear-gradient(90deg, var(--lime-muted) 0%, var(--lime) 18%, transparent 38%);
-    animation: layer-edge-gradient-left 4s ease-in-out infinite alternate;
-  }
-
-  .layer-index-item:nth-child(1)::after,
-  .layer-index-item:nth-child(3)::after {
-    animation-name: layer-edge-gradient-right-round;
+    opacity: var(--edge-right-opacity, 0);
   }
 
   /* Growth follows Observer exactly, with a darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
-    animation-name: layer-slide, layer-pulse;
+    animation-name: layer-slide-round, layer-pulse;
     animation-duration: 4s, 4s;
     animation-timing-function: ease-in-out, ease-in-out;
     animation-iteration-count: infinite, infinite;
-    animation-direction: alternate, normal;
   }
 
   .layer-index-item:nth-child(3)::before {
@@ -221,26 +210,14 @@
     color: var(--white);
   }
 
-  @keyframes layer-slide {
-    0% { margin-left: 0; }
-    100% { margin-left: 18%; }
+  @keyframes layer-slide-round {
+    0%, 100% { margin-left: 0; }
+    50% { margin-left: 18%; }
   }
 
   @keyframes layer-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
-  }
-
-  /* Right-edge green peaks exactly when the card reaches its rightmost position. */
-  @keyframes layer-edge-gradient-right-round {
-    0%, 100% { opacity: 0; }
-    43%, 57% { opacity: 0.62; }
-  }
-
-  /* Left-edge green peaks exactly when the card reaches its leftmost position. */
-  @keyframes layer-edge-gradient-left {
-    0%, 100% { opacity: 0.62; }
-    43%, 57% { opacity: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
