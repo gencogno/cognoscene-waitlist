@@ -284,22 +284,25 @@
       background-size: 200% 100%;
       background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
       background-position: 100% 0;
-      animation: highlight-swipe 1s ease forwards 0.3s;
+      transition: background-position 1s ease;
     }
     .founding-card .highlight {
       background-size: 200% 100%;
       background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
       background-position: 100% 0;
-      animation: highlight-swipe 1s ease forwards 0.5s;
+      transition: background-position 1s ease;
     }
     .highlight-swipe {
       background-size: 200% 100%;
       background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
       background-position: 100% 0;
-      animation: highlight-swipe 1s ease forwards 0.4s;
+      transition: background-position 1s ease;
     }
-    @keyframes highlight-swipe {
-      to { background-position: 0% 0; }
+    .swipe-in .stat-highlight,
+    .swipe-in .highlight,
+    .swipe-in.highlight-swipe,
+    .swipe-in .highlight-swipe {
+      background-position: 0% 0;
     }
     .hero-sub {
       font-size: 15px;
@@ -1298,9 +1301,9 @@
     .lc-circle-card--regret { left: 42.7px; top: 189px; }
     .lc-hub-img-wrap {
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -60%);
+      left: 124px;
+      top: 104.2px;
+      transform: translate(-50%, -50%);
       z-index: 4;
       pointer-events: none;
     }
@@ -2099,6 +2102,7 @@
           <div class="problem-beat">
             <p>and you'll do it again. despite controlling yourself, the dopamine from social media and shopping makes checkout feel irresistible.</p>
             <p><strong>there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.</strong></p>
+            <p>hence, we built an extension to prevent you from shopping destructively using friction.</p>
           </div>
         </div>
 
@@ -2136,9 +2140,7 @@
       </div>
     </section>
 
-    <section class="solution-bridge wrap" id="solution" aria-labelledby="solution-heading">
-      <p class="section-eyebrow solution-bridge-eyebrow">cognoscene · the key to the problem</p>
-      <h2 id="solution-heading" class="solution-bridge-h2">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
+    <section class="solution-bridge wrap" id="solution" aria-label="the solution — three layers">
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
@@ -3070,6 +3072,27 @@
         });
     });
 
+    // scroll-triggered swipe highlight animation
+    (function() {
+      var targets = document.querySelectorAll('.stat-highlight, .founding-card .highlight, .highlight-swipe');
+      var parents = new Set();
+      targets.forEach(function(el) {
+        parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
+      });
+      if (!('IntersectionObserver' in window)) {
+        parents.forEach(function(el) { el.classList.add('swipe-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('swipe-in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      parents.forEach(function(el) { io.observe(el); });
+    })();
 
   </script>
 
