@@ -154,12 +154,9 @@
 }
 
 /* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
-.hero-cta-row > .btn-primary {
-  font-size: 0;
-}
-
+.hero-cta-row > .btn-primary,
 .mobile-cta-bar a {
-  font-size: 14px;
+  font-size: 0;
 }
 
 .hero-cta-row > .btn-primary::after {
@@ -167,60 +164,18 @@
   font-size: 14px;
 }
 
-.mobile-cta-bar a::after {
-  content: none;
-}
-
 @media (max-width: 760px) {
-  /* Remove a further 2cm from the already-reduced mobile hero reserve. */
-  .hero {
-    padding-bottom: 0;
-  }
-
-  .hero-visual {
-    min-height: 71px;
-  }
-
-  .hero-screenshot-stack {
-    min-height: 71px !important;
-  }
-
+  .hero { padding-bottom: 0; }
+  .hero-visual { min-height: 71px; }
+  .hero-screenshot-stack { min-height: 71px !important; }
   .solution-bridge h2::before,
-  .solution-bridge h2::after {
-    font-size: 1.625rem;
-  }
-
-  .waitlist-platform-options {
-    gap: 4px;
-    padding: 3px;
-  }
-
-  .waitlist-platform-options .radio-pill {
-    padding: 9px 8px;
-    font-size: 12px;
-  }
-
-  .waitlist-mobile-caveat {
-    font-size: 11px;
-  }
-
-  /* "3 layers" + subtitle: unified intro block, centered above cards */
-  .layers-index-label {
-    text-align: center;
-    margin-bottom: 4px;
-  }
-
-  .solution-bridge-sub {
-    text-align: center;
-    margin-bottom: 16px;
-  }
-
-  .layers-index {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    max-width: 100%;
-    margin: 0;
-  }
+  .solution-bridge h2::after { font-size: 1.625rem; }
+  .waitlist-platform-options { gap: 4px; padding: 3px; }
+  .waitlist-platform-options .radio-pill { padding: 9px 8px; font-size: 12px; }
+  .waitlist-mobile-caveat { font-size: 11px; }
+  .layers-index-label { text-align: center; margin-bottom: 4px; }
+  .solution-bridge-sub { text-align: center; margin-bottom: 16px; }
+  .layers-index { grid-template-columns: 1fr; gap: 12px; max-width: 100%; margin: 0; }
 
   .layer-index-item {
     position: relative;
@@ -249,9 +204,7 @@
     mix-blend-mode: normal;
   }
 
-  .layer-index-item::before {
-    display: none;
-  }
+  .layer-index-item::before { display: none; }
 
   .layer-index-item .layer-action,
   .layer-index-item .layer-name {
@@ -260,10 +213,7 @@
     color: var(--black);
   }
 
-  .layer-index-item .layer-action {
-    margin-bottom: 2px;
-  }
-
+  .layer-index-item .layer-action { margin-bottom: 2px; }
   .layer-index-item .layer-name {
     font-family: var(--sans);
     letter-spacing: -0.25px;
@@ -271,20 +221,12 @@
     line-height: 1.05;
   }
 
-  .layer-index-item:nth-child(odd) {
-    animation-direction: alternate;
-  }
-
-  .layer-index-item:nth-child(odd)::after {
-    animation-direction: alternate;
-  }
-
-  .layer-index-item:nth-child(even) {
-    animation-direction: alternate-reverse;
-  }
-
+  .layer-index-item:nth-child(odd) { animation-direction: alternate; }
+  .layer-index-item:nth-child(odd)::after { animation-direction: alternate; }
+  .layer-index-item:nth-child(even) { animation-direction: alternate-reverse; }
+  .layer-index-item:nth-child(even)::after { animation-direction: alternate-reverse; }
   .layer-index-item:nth-child(even)::after {
-    animation-direction: alternate-reverse;
+    background: linear-gradient(270deg, var(--lime) 0%, var(--lime-muted) 35%, transparent 100%);
   }
 
   .layer-index-item:nth-child(3) {
@@ -301,33 +243,18 @@
   }
 
   .layer-index-item:nth-child(3) .layer-action,
-  .layer-index-item:nth-child(3) .layer-name {
-    color: var(--white);
-  }
+  .layer-index-item:nth-child(3) .layer-name { color: var(--white); }
 
   @keyframes layer-slide {
-    0%   { margin-left: 0; }
+    0% { margin-left: 0; }
     100% { margin-left: 18%; }
   }
 
-  /* One edge gradient: visible at the current endpoint,
-     fades out in the first 1s leaving it, then fades back in
-     during the final 1s approaching the opposite endpoint. */
+  /* Opacity-only edge gradient: 1s out, 2s clear, 1s in. */
   @keyframes gradient-left {
-    0% {
-      opacity: 1;
-      background: linear-gradient(90deg, var(--green) 0%, rgba(168, 200, 112, 0.55) 28%, transparent 100%);
-    }
-    25% {
-      opacity: 0;
-    }
-    75% {
-      opacity: 0;
-      background: linear-gradient(270deg, var(--green) 0%, rgba(168, 200, 112, 0.55) 28%, transparent 100%);
-    }
-    100% {
-      opacity: 1;
-    }
+    0%, 100% { opacity: 1; }
+    25% { opacity: 0; }
+    75% { opacity: 0; }
   }
 
   @keyframes layer-pulse {
@@ -337,20 +264,14 @@
 
   @media (prefers-reduced-motion: reduce) {
     .layer-index-item,
-    .layer-index-item::after {
-      animation: none;
-    }
+    .layer-index-item::after { animation: none; }
   }
 }
 
 @media (min-width: 761px) {
-  .step-title {
-    font-size: 1.15rem;
-  }
+  .step-title { font-size: 1.15rem; }
 }
 
 @media (max-width: 760px) {
-  .step-title {
-    font-size: 1.05rem;
-  }
+  .step-title { font-size: 1.05rem; }
 }
