@@ -153,18 +153,30 @@
   margin-right: auto !important;
 }
 
+/* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
+.hero-cta-row > .btn-primary,
+.mobile-cta-bar a {
+  font-size: 0;
+}
+
+.hero-cta-row > .btn-primary::after,
+.mobile-cta-bar a::after {
+  content: "yeah, i need this!";
+  font-size: 14px;
+}
+
 @media (max-width: 760px) {
-  /* Remove the remaining 3cm of reserved mobile hero height. */
+  /* Remove a further 2cm from the already-reduced mobile hero reserve. */
   .hero {
     padding-bottom: 0;
   }
 
   .hero-visual {
-    min-height: 147px;
+    min-height: 71px;
   }
 
   .hero-screenshot-stack {
-    min-height: 147px !important;
+    min-height: 71px !important;
   }
 
   .solution-bridge h2::before,
