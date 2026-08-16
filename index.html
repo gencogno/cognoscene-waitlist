@@ -175,6 +175,47 @@
     .chrome-band strong { font-weight: 800; color: var(--black); }
     .chrome-band span { color: var(--black); }
 
+    /* anchor nav */
+    .anchor-nav {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      background: var(--black);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .anchor-nav::-webkit-scrollbar { display: none; }
+    .anchor-nav-inner {
+      display: flex;
+      gap: 0;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      white-space: nowrap;
+    }
+    .anchor-nav-link {
+      display: inline-block;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .anchor-nav-link:hover,
+    .anchor-nav-link.is-active {
+      color: var(--lime);
+      border-bottom-color: var(--lime);
+    }
+    @media (max-width: 600px) {
+      .anchor-nav-inner { padding: 0 12px; }
+      .anchor-nav-link { padding: 10px 12px; font-size: 11px; }
+    }
     /* hero — brand sits below top bar; copy + visual grid */
     .hero {
       padding-bottom: 48px;
@@ -229,6 +270,15 @@
       margin-bottom: 12px;
     }
 
+    .stat-highlight {
+      font-weight: 900;
+      font-size: 1.15em;
+      background: var(--lime);
+      color: var(--black);
+      padding: 0 4px 2px;
+      border-radius: 3px;
+      display: inline;
+    }
     .hero-sub {
       font-size: 15px;
       font-weight: 800;
@@ -1072,6 +1122,16 @@
       max-width: 620px;
       margin: 0 auto 28px;
     }
+    .lead-in::first-letter {
+      float: left;
+      font-size: 4.2em;
+      line-height: 0.78;
+      font-weight: 900;
+      color: var(--lime);
+      margin-right: 6px;
+      margin-top: 4px;
+      font-family: inherit;
+    }
     .problem-band .section-eyebrow {
       text-align: center;
       margin-bottom: 16px;
@@ -1214,6 +1274,18 @@
     .lc-circle-card--see { left: 124px; top: 48px; }
     .lc-circle-card--buy { left: 205.3px; top: 189px; }
     .lc-circle-card--regret { left: 42.7px; top: 189px; }
+    .lc-canva-loop {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px auto 0;
+    }
+    .lc-canva-loop-img {
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
     .lc-loop-kicker {
       position: absolute;
       left: 124px;
@@ -1391,7 +1463,11 @@
     }
     .founding-card .highlight {
       font-weight: 800;
+      font-size: 1.12em;
       color: var(--black);
+      background: var(--lime);
+      padding: 0 3px 1px;
+      border-radius: 2px;
     }
     .founding-card-note {
       margin-top: 12px;
@@ -1546,6 +1622,38 @@
       text-decoration: underline;
     }
 
+    .form-platform {
+      margin: 14px 0 4px;
+    }
+    .form-platform-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+    .platform-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .platform-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--black);
+    }
+    .platform-option input[type="radio"] {
+      accent-color: var(--green);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
     .btn-submit {
       width: 100%;
       margin-top: 0.35cm;
@@ -1819,6 +1927,17 @@
     </div>
   </header>
 
+  <nav class="anchor-nav" aria-label="page sections">
+    <div class="anchor-nav-inner">
+      <a class="anchor-nav-link" href="#problem">problem</a>
+      <a class="anchor-nav-link" href="#solution">solution</a>
+      <a class="anchor-nav-link" href="#observer">observer</a>
+      <a class="anchor-nav-link" href="#rationalisation">rationalise</a>
+      <a class="anchor-nav-link" href="#growth">growth</a>
+      <a class="anchor-nav-link" href="#waitlist">join</a>
+    </div>
+  </nav>
+
   <main>
     <section class="hero" aria-labelledby="hero-heading">
       <div class="wrap hero-brand">
@@ -1829,7 +1948,7 @@
       </div>
       <div class="wrap hero-main">
       <div class="hero-copy">
-        <h1 id="hero-heading">98% of your regretful decisions happen pre-purchase.</h1>
+        <h1 id="hero-heading"><span class="stat-highlight">98%</span> of your regretful decisions happen pre-purchase.</h1>
         <h1 class="mobile-only mobile-h1">prevent destructive web-impulse buys.</h1>
         <p class="hero-sub" id="hero-sub-desktop">a chrome extension that pauses impulse buys before you pay.</p>
         <p class="hero-sub mobile-only mobile-sub">we're building cognoscene, a chrome extension that prevents unexpected shopping impulses causing you to go through a vicious cycle of <strong>guilt &amp; overspending.</strong></p>
@@ -1839,7 +1958,7 @@
         </div>
         <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
         <div class="hero-cta-row">
-        <a class="btn-primary" href="#waitlist">yeah, i need this!</a>
+        <a class="btn-primary" href="#waitlist">i need this!</a>
           <button type="button" class="hero-info-btn mobile-only" id="heroInfoBtn" aria-label="mobile apps roadmap" aria-expanded="false" aria-controls="heroRoadmapSheet">i</button>
         </div>
         <p class="hero-meta">250 early-access spots · 2 months free · us$10 lifetime after</p>
@@ -1915,10 +2034,8 @@
       </div>
     </section>
 
-    <section class="problem-band" aria-labelledby="problem-heading">
+    <section class="problem-band" id="problem" aria-labelledby="problem-heading">
       <div class="wrap problem-band-header">
-        <p class="section-eyebrow">the problem · how it begins</p>
-        <h2 id="problem-heading">but why? why do we make these decisions in the first place?</h2>
         <p class="lead-in">unexpected impulses — mostly from social feeds. influencers selling you gadgets you don't need, still making you feel like you're missing out.</p>
       </div>
 
@@ -1959,34 +2076,47 @@
               <div class="lc-circle-card lc-circle-card--see">
                 <div class="loop-icon-card">
                   <svg class="loop-card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40"><rect x="14" y="6" width="20" height="36" rx="4" stroke="#111111" stroke-width="2" fill="none"/><rect x="17" y="12" width="14" height="5" rx="1.5" fill="#c8e88a"/><rect x="17" y="19" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="24" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="29" width="10" height="3" rx="1" fill="#ddd5c0"/><circle cx="32" cy="10" r="5" fill="#111111"/><path d="M30 10h4M32 8v4" stroke="#c8e88a" stroke-width="1.5" stroke-linecap="round"/></svg>
-                  <span class="loop-icon-card-name">you see it</span>
+                  <span class="loop-icon-card-name">see</span>
                   <span class="loop-icon-card-sub">fomo · endless scroll</span>
                 </div>
               </div>
               <div class="lc-circle-card lc-circle-card--buy">
                 <div class="loop-icon-card">
                   <img src="assets/icons/icon-trap-cart.png" alt="" width="40" height="40" decoding="async" />
-                  <span class="loop-icon-card-name">you buy it</span>
+                  <span class="loop-icon-card-name">buy</span>
                   <span class="loop-icon-card-sub">gadget + case + bundle</span>
                 </div>
               </div>
               <div class="lc-circle-card lc-circle-card--regret">
                 <div class="loop-icon-card">
                   <img src="assets/icons/icon-regret-bag.png" alt="" width="40" height="40" decoding="async" />
-                  <span class="loop-icon-card-name">you regret it</span>
+                  <span class="loop-icon-card-name">regret</span>
                   <span class="loop-icon-card-sub">regret · repeat</span>
                 </div>
               </div>
-              <span class="lc-loop-kicker">unescapable loop</span>
+              <div class="lc-canva-loop">
+                <img
+                  src="assets/canva-loop.png"
+                  alt="the impulse buying cycle: see, buy, regret, repeat"
+                  class="lc-canva-loop-img"
+                  width="320"
+                  height="320"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="solution-bridge wrap" aria-labelledby="solution-heading">
+    <div class="problem-bridge-title wrap">
       <p class="section-eyebrow">cognoscene · the key to the problem</p>
       <h2 id="solution-heading">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
+    </div>
+
+    <section class="solution-bridge wrap" id="solution" aria-labelledby="solution-heading">
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
@@ -2009,7 +2139,7 @@
       <div class="wrap">
 
         <div class="steps">
-          <div class="step-row">
+          <div class="step-row" id="observer">
             <div class="step-copy-block">
               <p class="step-label">first layer · observer</p>
               <h3 class="step-title">intercept unnecessary impulses</h3>
@@ -2040,7 +2170,7 @@
             </div>
           </div>
 
-          <div class="step-row">
+          <div class="step-row" id="rationalisation">
             <div class="step-copy-block">
               <p class="step-label">second layer · rationalisation</p>
               <h3 class="step-title">48 hours to decide if you need this</h3>
@@ -2060,7 +2190,7 @@
             </div>
           </div>
 
-          <div class="step-row">
+          <div class="step-row" id="growth">
             <div class="step-copy-block">
               <p class="step-label">third layer · growth</p>
               <h3 class="step-title">reinforce your identity of prudence</h3>
@@ -2097,12 +2227,10 @@
 
     <section class="founding-band wrap" aria-labelledby="founding-heading">
       <a class="founding-card" href="#waitlist">
-        <h3 id="founding-heading">founding member offer</h3>
+        <h3 id="founding-heading"><strong>founding member offer</strong></h3>
         <p><span class="highlight">2 months free.</span> then lock in lifetime premium for <span class="highlight">us$10</span> — one-time, no subscription.</p>
-        <p>
-          this offer closes when the first <strong>250</strong> spots fill or in 30 days — whichever comes first. after that, it's gone.
-        </p>
-        <p class="founding-card-note">no charge today.</p>
+        <p>this offer closes when the first <span class="highlight">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
+        <p class="founding-card-note"><span class="highlight">no charge today.</span></p>
         <span class="founding-card-cta">join the waitlist →</span>
       </a>
       <p class="founding-card-terms">
@@ -2130,6 +2258,24 @@
           <form id="waitlistForm" novalidate>
             <label class="visually-hidden" for="email">email address</label>
             <input class="field" id="email" name="email" type="email" placeholder="email address *" required autocomplete="email" />
+
+            <div class="form-platform">
+              <span class="form-platform-label">i'm joining for</span>
+              <div class="platform-options" role="radiogroup" aria-label="platform interest">
+                <label class="platform-option">
+                  <input type="radio" name="platform" value="web" required />
+                  <span>web (all browsers)</span>
+                </label>
+                <label class="platform-option">
+                  <input type="radio" name="platform" value="mobile" />
+                  <span>mobile (android &amp; ios)</span>
+                </label>
+                <label class="platform-option">
+                  <input type="radio" name="platform" value="both" />
+                  <span>both</span>
+                </label>
+              </div>
+            </div>
 
             <label class="form-check">
               <input type="checkbox" name="ready" value="yes" required />
@@ -2172,7 +2318,7 @@
   </footer>
 
   <div class="mobile-cta-bar" aria-label="quick action">
-    <a href="#waitlist">yeah, i need this!</a>
+    <a href="#waitlist">i need this!</a>
   </div>
 
   <div class="video-lightbox" id="videoLightbox" aria-hidden="true">
@@ -2901,6 +3047,24 @@
         if (e.target === heroSheet) closeHeroSheet();
         });
     });
+
+    // anchor nav active state on scroll
+    (function() {
+      var links = document.querySelectorAll('.anchor-nav-link');
+      var sections = Array.from(links).map(function(l) {
+        return document.querySelector(l.getAttribute('href'));
+      }).filter(Boolean);
+      function onScroll() {
+        var y = window.scrollY + 80;
+        var active = sections[0];
+        sections.forEach(function(s) { if (s.offsetTop <= y) active = s; });
+        links.forEach(function(l) {
+          l.classList.toggle('is-active', l.getAttribute('href') === '#' + active.id);
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
   </script>
 
   <div class="hero-roadmap-sheet mobile-only" id="heroRoadmapSheet" aria-hidden="true">
