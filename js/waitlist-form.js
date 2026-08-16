@@ -5,7 +5,10 @@
 (function () {
   'use strict';
 
-  var MOBILE_CAVEAT = 'if you ticked this, that means you believe a mobile version that disrupts shopping impulses would help you immensely to prevent shopping-centric financial vulnerabilities & purchase regret.';
+  var MOBILE_CAVEATS = {
+    mobile: 'you believe a mobile version that disrupts shopping impulses would help you prevent shopping-centric financial vulnerabilities & purchase regret wherever you shop.',
+    both: 'you want cognoscene to follow you across chrome and mobile — so the same friction can interrupt shopping impulses wherever they happen.'
+  };
 
   function onReady(callback) {
     if (document.readyState === 'loading') {
@@ -70,7 +73,6 @@
     var caveat = document.createElement('p');
     caveat.className = 'waitlist-mobile-caveat';
     caveat.hidden = true;
-    caveat.textContent = MOBILE_CAVEAT;
     fieldRow.appendChild(caveat);
 
     var legalRow = legal.closest('.form-check');
@@ -78,8 +80,11 @@
 
     function updateMobileCaveat() {
       var selected = form.querySelector('input[name="platform"]:checked');
-      var isMobile = selected && (selected.value === 'mobile' || selected.value === 'both');
-      caveat.hidden = !isMobile;
+      var selectedValue = selected ? selected.value : '';
+      var message = MOBILE_CAVEATS[selectedValue] || '';
+      var shouldShow = !!message;
+      caveat.hidden = !shouldShow;
+      caveat.textContent = message;
     }
   }
 
