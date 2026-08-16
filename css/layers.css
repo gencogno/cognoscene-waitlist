@@ -154,12 +154,16 @@
 }
 
 @media (max-width: 760px) {
-  /* Reduce the remaining mobile hero-to-problem gap by 3cm. */
+  /* Remove the remaining 3cm of reserved mobile hero height. */
   .hero {
     padding-bottom: 0;
   }
 
   .hero-visual {
+    min-height: 147px;
+  }
+
+  .hero-screenshot-stack {
     min-height: 147px;
   }
 
