@@ -2,7 +2,7 @@
 
 **Audience:** agents or devs working in this repo (`gencogno/cognoscene-waitlist`).  
 **Author context:** founder `cogno` · Singapore · pre-revenue Chrome extension · pre-incorporation.  
-**Last updated:** 16 Aug 2026 (ChatGPT session) · current production changes through commit `1cc5f4f`.
+**Last updated:** 16 Aug 2026 (ChatGPT session) · current production changes through commit `c134397`.
 
 **Extension repo (separate):** `gencogno/cognoscene-statics-roadmap` — do not confuse. Changes here do not require a `manifest.json` bump.  
 **Master launch docs (extension repo):** `docs/agent-context/AGENT_HANDOVER.md` · `docs/agent-context/launch-sdd.md` · `docs/agent-context/waitlist-launch-spec.md` — those are the source of truth for GTM logic; `docs/WAITLIST-PLAN.md` in this repo is the distilled, waitlist-scoped version.
@@ -53,7 +53,7 @@ cognoscene-waitlist/
 | Problem band | SVG loop diagram (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
 | `solution-details` | 3-layer showcase with video lightbox and mobile swipe behavior |
 | `solution-bridge` layers-index | Desktop remains a 3-column index. Mobile cards use centered text; Observer/Growth move toward the right endpoint; Rationalisation moves toward the left endpoint. Growth uses a darker/more apparent green treatment. |
-| Layer gradient | Extracted to `css/layers.css`. Current implementation uses a shared right-edge gradient treatment synchronized with card movement timing. Rationalisation reverses the animation phase with its card rather than using a separate mirrored gradient system. **Visual result is not considered final by founder and may need another pass.** |
+| Layer gradient | Extracted to `css/layers.css`. Current mobile implementation uses one shared opacity-only gradient animation synchronized to the 4s card movement cycle: 1s visible, 2s clear, 1s visible on the return. Observer/Rationalisation/Growth all currently inherit the animation; Growth alone overrides the gradient treatment and uses `mix-blend-mode: overlay`. The current visual state is the working baseline after removing the earlier direction-swap glitch. |
 | Layer hero headings | `.step-title` increased by 25% from previous desktop/mobile sizes. |
 | Kicker alignment | `.layers-index-label` centered. `.solution-bridge-sub` centered and should remain centered. |
 | `solution-details` showcase videos | Mobile max-width current = 84.375%. |
@@ -61,7 +61,8 @@ cognoscene-waitlist/
 | `founding-band` | Uses first 250 spots / 30-day urgency framing. |
 | OG/meta | Production canonical/OG URLs use GitHub Pages. |
 | Founding terms | Canonical = `https://gencogno.github.io/cognoscene-waitlist/founding-terms.html`. |
-| Form | Email + required Platform selector (Chrome / Mobile / Both) + required legal consent. Formspree POST includes `platform`. Old readiness checkbox removed. |
+| Form | Email + required Platform selector (Chrome / Mobile / Both) + required legal consent. Formspree POST includes `platform`. Old readiness checkbox removed. Privacy/legal checkbox has an additional `16px` top margin to visually separate it from the preceding consent control. |
+| Sticky mobile CTA | Uses one real label, `yeah, i need this!`; duplicate pseudo-text was removed. |
 | Footer | Privacy + Terms linked |
 
 ### Founding offer — current strategic position
@@ -166,8 +167,18 @@ The selected platform is added to the Formspree payload as `platform`. The old `
 | `a2bdb10` | Created separate ChatGPT handover; **superseded and removed** |
 | `dc5142c` | Removed duplicate ChatGPT handover; consolidated into this `docs/HANDOVER.md` |
 | `1cc5f4f` | Simplified all layer gradients into shared right-edge behavior synchronized with card movement |
+| `0771736` | Reverted mobile gradients to the standard sweep animation baseline |
+| `83892fb` | Restored the edge-contact gradient experiment |
+| `394553b` | Set the gradient timing so the endpoint fade occupies 1s |
+| `876d426` | Refined Growth card gradient treatment while keeping the original green |
+| `0715b74` | Removed the Growth card's double-gradient overlap; reduced it to one edge gradient layer |
+| `9257607` | Reverted an unintended shared overlay change; restored the pre-overlay edge-gradient state |
+| `1c06439` | Scoped `mix-blend-mode: overlay` to Growth only |
+| `4d814c8` | Removed duplicate sticky mobile CTA text; kept one real label |
+| `386e18f` | Removed gradient keyframe direction-swapping that caused a visible animation jump; kept opacity-only timing |
+| `c134397` | Added `16px` top spacing to the last `.form-check` so the privacy/legal checkbox is visually separated |
 
-**Historical note:** Earlier ChatGPT gradient workflow commits (`02b56b6`, `e0619a2`, `1606c56`, `178958d`, `3df847b`, `c91920b`, `a7bf572`, `ae738e8`, `2ae875c`, `d39e7b7`, `2261a21`) are superseded experiments. Do not reconstruct current behavior from them.
+**Historical note:** `3e14a6d` applied overlay too broadly and was subsequently superseded/reverted. Earlier ChatGPT gradient workflow commits (`02b56b6`, `e0619a2`, `1606c56`, `178958d`, `3df847b`, `c91920b`, `a7bf572`, `ae738e8`, `2ae875c`, `d39e7b7`, `2261a21`) are also superseded experiments. Do not reconstruct current behavior from them.
 
 ---
 
