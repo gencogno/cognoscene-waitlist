@@ -118,12 +118,7 @@
     var cards = Array.prototype.slice.call(layerIndex.querySelectorAll('.layer-index-item'));
     if (!cards.length) return;
 
-    var edgeRange = 72;
     var rafId = null;
-
-    function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
-    }
 
     function update() {
       rafId = null;
@@ -131,10 +126,10 @@
 
       cards.forEach(function (card) {
         var rect = card.getBoundingClientRect();
-        var leftDistance = Math.max(0, rect.left - bounds.left);
-        var rightDistance = Math.max(0, bounds.right - rect.right);
-        card.style.setProperty('--edge-left-opacity', (1 - clamp(leftDistance / edgeRange, 0, 1)).toFixed(3));
-        card.style.setProperty('--edge-right-opacity', (1 - clamp(rightDistance / edgeRange, 0, 1)).toFixed(3));
+        var leftDistance = rect.left - bounds.left;
+        var rightDistance = bounds.right - rect.right;
+        card.style.setProperty('--edge-left-opacity', leftDistance <= 1 ? '1' : '0');
+        card.style.setProperty('--edge-right-opacity', rightDistance <= 1 ? '1' : '0');
       });
     }
 
