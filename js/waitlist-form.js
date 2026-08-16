@@ -123,7 +123,16 @@
     var cards = Array.prototype.slice.call(layerIndex.querySelectorAll('.layer-index-item'));
     if (!cards.length) return;
 
+    // Fade zone: pixels from the edge where the gradient begins fading in.
+    // layer-slide is 4s ease-in-out over ~18% of container width (~65px on a 360px card).
+    // 1 second of travel at average speed ≈ 16px; use 20px for a comfortable fade window.
+    var FADE_ZONE = 20;
+
     var rafId = null;
+
+    function clamp(val, min, max) {
+      return val < min ? min : val > max ? max : val;
+    }
 
     function update() {
       rafId = null;
@@ -133,8 +142,29 @@
         var rect = card.getBoundingClientRect();
         var leftDistance = rect.left - bounds.left;
         var rightDistance = bounds.right - rect.right;
-        card.style.setProperty('--edge-left-opacity', leftDistance <= 1 ? '1' : '0');
-        card.style.setProperty('--edge-right-opacity', rightDistance <= 1 ? '1' : '0');
+
+        // Gradient fades in as card approaches edge (distance < FADE_ZONE),
+        // reaches full opacity at the edge (distance <= 0), and is 0 when far away.
+        // At edge contact: opacity = 1. At FADE_ZONE away: opacity = 0.
+        // Brief asks the reverse: gradient fades *away* as card approaches — 
+        // i.e. opacity 1→0 over the last 1 second before edge contact.
+        // So: far from edge = 0, within FADE_ZONE = ramp 0→1, at edge = 1... 
+        // but brief says at/after contact opacity = 0. Correct interpretation:
+        // gradient appears only while card is still moving toward edge (not yet touching),
+        // and disappears exactly at contact. So: opacity peaks at FADE_ZONE away, 
+        // hits 0 at <=1px (contact). Map: [FADE_ZONE → 0] distance → [0 → 1] then back to 0 at edge.
+        // Simplest correct read: gradient animates 1→0 over the final 1 second.
+        // That means: at FADE_ZONE distance → opacity 1; at 0 distance → opacity 0.
+        var leftOpacity = leftDistance > FADE_ZONE ? 0 :
+          leftDistance <= 1 ? 0 :
+          clamp((leftDistance - 1) / (FADE_ZONE - 1), 0, 1);
+
+        var rightOpacity = rightDistance > FADE_ZONE ? 0 :
+          rightDistance <= 1 ? 0 :
+          clamp((rightDistance - 1) / (FADE_ZONE - 1), 0, 1);
+
+        card.style.setProperty('--edge-left-opacity', leftOpacity.toFixed(3));
+        card.style.setProperty('--edge-right-opacity', rightOpacity.toFixed(3));
       });
     }
 
