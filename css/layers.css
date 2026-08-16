@@ -156,6 +156,7 @@
   }
 
   .layer-index-item:nth-child(1)::before,
+  .layer-index-item:nth-child(2)::before,
   .layer-index-item:nth-child(3)::before {
     content: '';
     position: absolute;
