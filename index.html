@@ -212,6 +212,9 @@
       color: var(--lime);
       border-bottom-color: var(--lime);
     }
+    @media (min-width: 601px) {
+      .anchor-nav { display: none; }
+    }
     @media (max-width: 600px) {
       .anchor-nav-inner { padding: 0 12px; }
       .anchor-nav-link { padding: 10px 12px; font-size: 11px; }
@@ -278,6 +281,25 @@
       padding: 0 4px 2px;
       border-radius: 3px;
       display: inline;
+      background-size: 200% 100%;
+      background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
+      background-position: 100% 0;
+      animation: highlight-swipe 1s ease forwards 0.3s;
+    }
+    .founding-card .highlight {
+      background-size: 200% 100%;
+      background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
+      background-position: 100% 0;
+      animation: highlight-swipe 1s ease forwards 0.5s;
+    }
+    .highlight-swipe {
+      background-size: 200% 100%;
+      background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
+      background-position: 100% 0;
+      animation: highlight-swipe 1s ease forwards 0.4s;
+    }
+    @keyframes highlight-swipe {
+      to { background-position: 0% 0; }
     }
     .hero-sub {
       font-size: 15px;
@@ -1274,6 +1296,20 @@
     .lc-circle-card--see { left: 124px; top: 48px; }
     .lc-circle-card--buy { left: 205.3px; top: 189px; }
     .lc-circle-card--regret { left: 42.7px; top: 189px; }
+    .lc-hub-img-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -60%);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .lc-hub-img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      display: block;
+    }
     .lc-canva-loop {
       display: flex;
       justify-content: center;
@@ -1304,6 +1340,18 @@
     .solution-bridge {
       text-align: center;
       padding: 44px 0 48px;
+      padding-left: 0;
+    }
+    .solution-bridge-eyebrow {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .solution-bridge-h2 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .solution-bridge-sub {
+      text-align: center !important;
     }
     .solution-bridge .section-eyebrow {
       margin-bottom: 14px;
@@ -1335,6 +1383,16 @@
       text-transform: lowercase;
       color: var(--black);
       margin-bottom: 16px;
+    }
+    a.layer-index-item {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      display: block;
+      transition: opacity 0.15s;
+    }
+    a.layer-index-item:hover {
+      opacity: 0.72;
     }
       /* how it works / 3 layers */
     .solution-details {
@@ -1927,17 +1985,6 @@
     </div>
   </header>
 
-  <nav class="anchor-nav" aria-label="page sections">
-    <div class="anchor-nav-inner">
-      <a class="anchor-nav-link" href="#problem">problem</a>
-      <a class="anchor-nav-link" href="#solution">solution</a>
-      <a class="anchor-nav-link" href="#observer">observer</a>
-      <a class="anchor-nav-link" href="#rationalisation">rationalise</a>
-      <a class="anchor-nav-link" href="#growth">growth</a>
-      <a class="anchor-nav-link" href="#waitlist">join</a>
-    </div>
-  </nav>
-
   <main>
     <section class="hero" aria-labelledby="hero-heading">
       <div class="wrap hero-brand">
@@ -2036,13 +2083,14 @@
 
     <section class="problem-band" id="problem" aria-labelledby="problem-heading">
       <div class="wrap problem-band-header">
-        <p class="lead-in">unexpected impulses — mostly from social feeds. influencers selling you gadgets you don't need, still making you feel like you're missing out.</p>
+        <p class="section-eyebrow">the problem · how it begins</p>
+        <p class="highlight-swipe-text"><span class="highlight-swipe">unexpected impulses</span> — mostly from social feeds. influencers selling you gadgets you don't need, still making you feel like you're missing out.</p>
       </div>
 
       <div class="wrap problem-band-body">
         <div class="problem-copy">
           <div class="problem-beat">
-            <p>you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
+            <p class="lead-in">you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
             <p>then the package arrives. and when you open it, it dawned on you.</p>
           </div>
 
@@ -2057,22 +2105,9 @@
         <aside class="problem-loop-visual" aria-label="see, buy, regret loop">
           <div class="lc-circle-stage" aria-hidden="true">
             <div class="lc-circle-inner">
-              <svg class="lc-circle-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 248 268" fill="none" aria-hidden="true">
-                <defs>
-                  <g id="loopDblChev">
-                    <path d="M-18.75 -6.563 L-9.375 0 L-18.75 6.563" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M-9.375 -6.563 L0 0 L-9.375 6.563" fill="none" stroke="#ff2a2a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                  </g>
-                </defs>
-                <!-- hub (124,104.2) · r=21 · 150° · double chevron -->
-                <circle cx="124" cy="104.2" r="21" fill="none" stroke="#ff2a2a" stroke-width="1.5" opacity="0.2"/>
-                <path d="M 134.5 122.387 A 21 21 0 0 1 103 104.2" fill="none" stroke="#ff2a2a" stroke-width="3"/>
-                <path d="M 103 104.2 A 21 21 0 0 1 134.5 86.013" fill="none" stroke="#ff2a2a" stroke-width="3"/>
-                <path d="M 134.5 86.013 A 21 21 0 0 1 134.5 122.387" fill="none" stroke="#ff2a2a" stroke-width="3"/>
-                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(134.5 122.387) rotate(150)"/>
-                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(103 104.2) rotate(270)"/>
-                <use href="#loopDblChev" xlink:href="#loopDblChev" transform="translate(134.5 86.013) rotate(30)"/>
-              </svg>
+              <div class="lc-hub-img-wrap" aria-hidden="true">
+                <img src="assets/canva-loop.png" alt="" class="lc-hub-img" width="72" height="72" decoding="async" />
+              </div>
               <div class="lc-circle-card lc-circle-card--see">
                 <div class="loop-icon-card">
                   <svg class="loop-card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="40" height="40"><rect x="14" y="6" width="20" height="36" rx="4" stroke="#111111" stroke-width="2" fill="none"/><rect x="17" y="12" width="14" height="5" rx="1.5" fill="#c8e88a"/><rect x="17" y="19" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="24" width="14" height="3" rx="1" fill="#ddd5c0"/><rect x="17" y="29" width="10" height="3" rx="1" fill="#ddd5c0"/><circle cx="32" cy="10" r="5" fill="#111111"/><path d="M30 10h4M32 8v4" stroke="#c8e88a" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -2094,44 +2129,31 @@
                   <span class="loop-icon-card-sub">regret · repeat</span>
                 </div>
               </div>
-              <div class="lc-canva-loop">
-                <img
-                  src="assets/canva-loop.png"
-                  alt="the impulse buying cycle: see, buy, regret, repeat"
-                  class="lc-canva-loop-img"
-                  width="320"
-                  height="320"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+
             </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <div class="problem-bridge-title wrap">
-      <p class="section-eyebrow">cognoscene · the key to the problem</p>
-      <h2 id="solution-heading">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
-    </div>
-
     <section class="solution-bridge wrap" id="solution" aria-labelledby="solution-heading">
+      <p class="section-eyebrow solution-bridge-eyebrow">cognoscene · the key to the problem</p>
+      <h2 id="solution-heading" class="solution-bridge-h2">hence, we built an extension to prevent you from shopping destructively using friction.</h2>
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
-        <div class="layer-index-item">
+        <a class="layer-index-item" href="#observer">
           <span class="layer-action">nudges before the cart snowballs</span>
           <strong class="layer-name">observer</strong>
-        </div>
-        <div class="layer-index-item">
+        </a>
+        <a class="layer-index-item" href="#rationalisation">
           <span class="layer-action">48 hours to decide if its a waste</span>
           <strong class="layer-name">rationalisation</strong>
-        </div>
-        <div class="layer-index-item">
+        </a>
+        <a class="layer-index-item" href="#growth">
           <span class="layer-action">impulse-driven to prudence</span>
           <strong class="layer-name">growth</strong>
-        </div>
+        </a>
       </div>
     </section>
 
@@ -3048,23 +3070,7 @@
         });
     });
 
-    // anchor nav active state on scroll
-    (function() {
-      var links = document.querySelectorAll('.anchor-nav-link');
-      var sections = Array.from(links).map(function(l) {
-        return document.querySelector(l.getAttribute('href'));
-      }).filter(Boolean);
-      function onScroll() {
-        var y = window.scrollY + 80;
-        var active = sections[0];
-        sections.forEach(function(s) { if (s.offsetTop <= y) active = s; });
-        links.forEach(function(l) {
-          l.classList.toggle('is-active', l.getAttribute('href') === '#' + active.id);
-        });
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
+
   </script>
 
   <div class="hero-roadmap-sheet mobile-only" id="heroRoadmapSheet" aria-hidden="true">
