@@ -137,7 +137,7 @@
     padding: 8px 10px;
     text-align: center;
     background: var(--white);
-    animation: layer-slide-round 4s ease-in-out infinite;
+    animation: layer-slide 4s ease-in-out infinite alternate;
   }
 
   .layer-index-item::after {
@@ -147,7 +147,7 @@
     pointer-events: none;
     opacity: 0;
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation: layer-edge-gradient-right 4s ease-in-out infinite;
+    animation: layer-edge-gradient-right-round 4s ease-in-out infinite;
   }
 
   .layer-index-item .layer-action,
@@ -171,17 +171,17 @@
   /* Rationalisation travels right -> left, retaining the same literal right-edge
      green treatment while its card moves in the opposite direction. */
   .layer-index-item:nth-child(2) {
-    animation-direction: reverse;
+    animation-direction: alternate-reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation-name: layer-edge-gradient-right;
-    animation-direction: reverse;
+    animation-name: layer-edge-gradient-right-round;
+    animation-direction: alternate-reverse;
   }
 
-  /* Observer and Growth make a complete left -> right -> left round trip.
-     Green appears only as the moving card reaches either screen edge. */
+  /* Observer and Growth keep the existing movement while their gradients can
+     appear at either edge of the travel. */
   .layer-index-item:nth-child(1)::before,
   .layer-index-item:nth-child(3)::before {
     content: '';
@@ -190,7 +190,7 @@
     pointer-events: none;
     opacity: 0;
     background: linear-gradient(90deg, var(--lime-muted) 0%, var(--lime) 18%, transparent 38%);
-    animation: layer-edge-gradient-left 4s ease-in-out infinite;
+    animation: layer-edge-gradient-left 4s ease-in-out infinite alternate;
   }
 
   .layer-index-item:nth-child(1)::after,
@@ -201,10 +201,11 @@
   /* Growth follows Observer exactly, with a darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
-    animation-name: layer-slide-round, layer-pulse;
+    animation-name: layer-slide, layer-pulse;
     animation-duration: 4s, 4s;
     animation-timing-function: ease-in-out, ease-in-out;
     animation-iteration-count: infinite, infinite;
+    animation-direction: alternate, normal;
   }
 
   .layer-index-item:nth-child(3)::before {
@@ -220,9 +221,9 @@
     color: var(--white);
   }
 
-  @keyframes layer-slide-round {
-    0%, 100% { margin-left: 0; }
-    50% { margin-left: 18%; }
+  @keyframes layer-slide {
+    0% { margin-left: 0; }
+    100% { margin-left: 18%; }
   }
 
   @keyframes layer-pulse {
@@ -234,11 +235,6 @@
   @keyframes layer-edge-gradient-right-round {
     0%, 100% { opacity: 0; }
     43%, 57% { opacity: 0.62; }
-  }
-
-  @keyframes layer-edge-gradient-right {
-    0% { opacity: 0; }
-    100% { opacity: 0.62; }
   }
 
   /* Left-edge green peaks exactly when the card reaches its leftmost position. */
