@@ -101,6 +101,13 @@
   text-align: left;
 }
 
+/* Center solution-detail video blocks inside their grid cells. */
+.solution-details .showcase-video-slider {
+  justify-self: center;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 @media (max-width: 760px) {
   /* Remove the excess vertical gap beneath the hero visual. */
   .hero {
