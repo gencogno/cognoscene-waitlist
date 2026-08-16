@@ -2,7 +2,7 @@
 
 **Audience:** agents or devs working in this repo (`gencogno/cognoscene-waitlist`).  
 **Author context:** founder `cogno` · Singapore · pre-revenue Chrome extension · pre-incorporation.  
-**Last updated:** 16 Aug 2026 (ChatGPT session) · current production changes through commit `c134397`.
+**Last updated:** 16 Aug 2026 (Claude session) · current production changes through commit `6e5fc75`.
 
 **Extension repo (separate):** `gencogno/cognoscene-statics-roadmap` — do not confuse. Changes here do not require a `manifest.json` bump.  
 **Master launch docs (extension repo):** `docs/agent-context/AGENT_HANDOVER.md` · `docs/agent-context/launch-sdd.md` · `docs/agent-context/waitlist-launch-spec.md` — those are the source of truth for GTM logic; `docs/WAITLIST-PLAN.md` in this repo is the distilled, waitlist-scoped version.
@@ -27,7 +27,7 @@
 cognoscene-waitlist/
 ├── index.html              ← production site
 ├── css/
-│   └── layers.css          ← extracted layer-index, layer hero, solution hero, and waitlist form styles
+│   └── layers.css          ← layer-index, solution hero, waitlist form, and CTA styles
 ├── js/
 │   └── waitlist-form.js    ← platform-intent + mobile caveat + Formspree payload enhancement
 ├── founding-terms.html     ← founding offer terms
@@ -50,20 +50,32 @@ cognoscene-waitlist/
 | Section | Status |
 |---------|--------|
 | Hero | Copy locked — lowercase, Buffer-style brand voice |
+| Hero CTA | Text: `yeah, i need this!` — set directly in `index.html` HTML, not via CSS pseudo-element |
+| Sticky mobile CTA | Text: `yeah, i need this!` — set directly in `index.html` HTML |
 | Problem band | SVG loop diagram (1.25× scale) — see-you-buy-regret cards with hub chevrons; faint shadow on cards (no border) |
+| Problem band last paragraph | `there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.` |
+| `solution-bridge` "3 layers" block | `layers-index-label` and `solution-bridge-sub` are centered and visually grouped as one intro block above the cards on mobile. Spacing: `layers-index-label` margin-bottom 4px, `solution-bridge-sub` margin-bottom 16px. |
 | `solution-details` | 3-layer showcase with video lightbox and mobile swipe behavior |
-| `solution-bridge` layers-index | Desktop remains a 3-column index. Mobile cards use centered text; Observer/Growth move toward the right endpoint; Rationalisation moves toward the left endpoint. Growth uses a darker/more apparent green treatment. |
-| Layer gradient | Extracted to `css/layers.css`. Current mobile implementation uses one shared opacity-only gradient animation synchronized to the 4s card movement cycle: 1s visible, 2s clear, 1s visible on the return. Observer/Rationalisation/Growth all currently inherit the animation; Growth alone overrides the gradient treatment and uses `mix-blend-mode: overlay`. The current visual state is the working baseline after removing the earlier direction-swap glitch. |
+| `solution-bridge` layers-index | Desktop: 3-column static index. Mobile: single column, cards 82% width, center-aligned text. Observer (card 1) and Growth (card 3) animate left→right (`layer-slide`, `alternate`). Rationalisation (card 2) animates right→left (`alternate-reverse`). |
+| Layer gradient — spec | Approaching edge: opacity 0→1 (builds as card nears). At contact: opacity 1. Moving away: opacity 1→0 over 1s. |
+| Layer gradient — implementation | Pure CSS keyframes (`layer-edge-right`, `layer-edge-left`) on a 4s `ease-in-out alternate` cycle, locked to `layer-slide` timing. No JS involved. `alternate` direction handles the away-fade automatically. |
+| Layer gradient — card 1 (Observer) | `layer-edge-right` · `alternate` · lime radial at right edge |
+| Layer gradient — card 2 (Rationalisation) | `layer-edge-left` · `alternate-reverse` · lime radial at left edge |
+| Layer gradient — card 3 (Growth) | `layer-edge-right` · `alternate` · lime radial at right edge. Black background card — gradient is `var(--lime) 0%, transparent 42%` (no dark midstop). |
 | Layer hero headings | `.step-title` increased by 25% from previous desktop/mobile sizes. |
-| Kicker alignment | `.layers-index-label` centered. `.solution-bridge-sub` centered and should remain centered. |
 | `solution-details` showcase videos | Mobile max-width current = 84.375%. |
 | Video lightbox | Cross-layer navigation across all 5 clips; mobile swipe via Pointer Events; rounded video corners. |
 | `founding-band` | Uses first 250 spots / 30-day urgency framing. |
 | OG/meta | Production canonical/OG URLs use GitHub Pages. |
 | Founding terms | Canonical = `https://gencogno.github.io/cognoscene-waitlist/founding-terms.html`. |
-| Form | Email + required Platform selector (Chrome / Mobile / Both) + required legal consent. Formspree POST includes `platform`. Old readiness checkbox removed. Privacy/legal checkbox has an additional `16px` top margin to visually separate it from the preceding consent control. |
-| Sticky mobile CTA | Uses one real label, `yeah, i need this!`; duplicate pseudo-text was removed. |
+| Form | Email + required Platform selector (Chrome / Mobile / Both) + required legal consent. Formspree POST includes `platform`. Old readiness checkbox removed. |
 | Footer | Privacy + Terms linked |
+
+### CTA copy — important implementation note
+
+The hero CTA (`.btn-primary` in `.hero-cta-row`) and sticky mobile CTA (`.mobile-cta-bar a`) both display `yeah, i need this!`. This is set **directly in `index.html` HTML**. `layers.css` previously used a `font-size: 0` + `::after` pseudo-element hack to override the copy — that block has been removed. Do not reintroduce it. If copy changes are needed, edit `index.html` directly.
+
+The form submit button (`#submitBtn`) and founding card CTA remain `join the waitlist` — do not change those.
 
 ### Founding offer — current strategic position
 
@@ -79,21 +91,13 @@ This is intentional: the user can experience the product before paying. Do not c
 
 ### Mobile demand — now implemented as validation
 
-The waitlist now captures platform intent in one form:
+The waitlist captures platform intent in one form:
 
 - `chrome`
 - `mobile`
 - `both`
 
-There is **not** a separate mobile waitlist.
-
-When `mobile` or `both` is selected, the form shows this qualification copy:
-
-> if you ticked this, that means you believe a mobile version that disrupts shopping impulses would help you immensely to prevent shopping-centric financial vulnerabilities & purchase regret.
-
-This is intentionally a user-validation / pre-seed demand signal, not a promise that mobile is already available.
-
-The selected platform is added to the Formspree payload as `platform`. The old `ready` field is removed from the payload.
+There is **not** a separate mobile waitlist. When `mobile` or `both` is selected, the form shows qualification copy. The selected platform is added to the Formspree payload as `platform`. The old `ready` field is removed from the payload.
 
 ---
 
@@ -122,6 +126,8 @@ The selected platform is added to the Formspree payload as `platform`. The old `
 - **No Telegram, no clinical/shopping-addiction language, no unsupported stats** in any copy or docs.
 - **Do not use temporary Actions workflows as a routine editing mechanism.** Prefer direct repository file updates for small component files.
 - Founder prefers focused CSS/JS files over repeatedly expanding the monolithic `index.html`.
+- **CTA copy lives in `index.html` HTML directly** — do not use pseudo-element overrides in CSS.
+- **Gradient control is CSS-only** — do not reintroduce JS polling (`getBoundingClientRect` rAF loops) for gradient opacity. All gradient animation is keyframe-driven and locked to `layer-slide` timing.
 
 ---
 
@@ -146,12 +152,12 @@ The selected platform is added to the Formspree payload as `platform`. The old `
 
 ---
 
-## 8. ChatGPT commit log — 15–16 Aug 2026
+## 8. Commit log
 
-**Purpose:** distinguish changes made by ChatGPT from changes made by Claude/Cursor/other agents. The commits below were made in this repository by the ChatGPT GitHub session. Earlier attempts are historical and may be superseded; current files on `main` are the source of truth.
+### ChatGPT session — 15–16 Aug 2026
 
 | Commit | Change |
-|---|---|
+|--------|--------|
 | `1c11d9d` | Extracted layer-index CSS into `css/layers.css` |
 | `9aa19d7` | Wired layer styling refactor into production CSS structure |
 | `2916dd8` | Reversed Rationalisation gradient direction |
@@ -164,41 +170,44 @@ The selected platform is added to the Formspree payload as `platform`. The old `
 | `2212a31` | Centered / enlarged solution hero and highlighted `friction.` in lime |
 | `5015cd2` | Added `js/waitlist-form.js` for platform intent and mobile qualification |
 | `190f41e` | Added waitlist platform/caveat styling to `css/layers.css` |
-| `a2bdb10` | Created separate ChatGPT handover; **superseded and removed** |
-| `dc5142c` | Removed duplicate ChatGPT handover; consolidated into this `docs/HANDOVER.md` |
+| `dc5142c` | Removed duplicate ChatGPT handover; consolidated into `docs/HANDOVER.md` |
 | `1cc5f4f` | Simplified all layer gradients into shared right-edge behavior synchronized with card movement |
-| `0771736` | Reverted mobile gradients to the standard sweep animation baseline |
-| `83892fb` | Restored the edge-contact gradient experiment |
-| `394553b` | Set the gradient timing so the endpoint fade occupies 1s |
-| `876d426` | Refined Growth card gradient treatment while keeping the original green |
-| `0715b74` | Removed the Growth card's double-gradient overlap; reduced it to one edge gradient layer |
-| `9257607` | Reverted an unintended shared overlay change; restored the pre-overlay edge-gradient state |
-| `1c06439` | Scoped `mix-blend-mode: overlay` to Growth only |
-| `4d814c8` | Removed duplicate sticky mobile CTA text; kept one real label |
-| `386e18f` | Removed gradient keyframe direction-swapping that caused a visible animation jump; kept opacity-only timing |
-| `c134397` | Added `16px` top spacing to the last `.form-check` so the privacy/legal checkbox is visually separated |
 
-**Historical note:** `3e14a6d` applied overlay too broadly and was subsequently superseded/reverted. Earlier ChatGPT gradient workflow commits (`02b56b6`, `e0619a2`, `1606c56`, `178958d`, `3df847b`, `c91920b`, `a7bf572`, `ae738e8`, `2ae875c`, `d39e7b7`, `2261a21`) are also superseded experiments. Do not reconstruct current behavior from them.
+**Historical note:** Earlier ChatGPT gradient workflow commits (`02b56b6`, `e0619a2`, `1606c56`, `178958d`, `3df847b`, `c91920b`, `a7bf572`, `ae738e8`, `2ae875c`, `d39e7b7`, `2261a21`) are superseded experiments. Do not reconstruct current behavior from them.
+
+### Claude session — 16 Aug 2026
+
+| Commit | Change |
+|--------|--------|
+| `aaaec8a` | Problem copy, 3-layers centering, gradient fade, CTA copy (multi-change pass) |
+| `0ddcae0` | `layers.css`: 3-layers mobile centering + redundant CTA hack removed |
+| `ccc85f1` | `waitlist-form.js`: replaced JS gradient polling with CSS keyframe approach |
+| `ef9ce13` | `layers.css`: removed redundant CTA `font-size: 0` / `::after` block |
+| `be0d3d0` | `layers.css`: corrected gradient keyframes to 0→1 approach / alternate handles away fade |
+| `6e5fc75` | `layers.css`: growth card gradient simplified — lime to transparent, no dark midstop |
 
 ---
 
-## 9. Current founder preferences established in this work
+## 9. Current founder preferences
 
 - Prefer **small, isolated changes**.
 - Reduce conversion friction wherever possible.
 - Keep the founding offer pay-later model.
 - Mobile should be validated through demand capture before being treated as a committed product promise.
-- Preserve the `platform` field because platform interest is strategically valuable for pre-seed fundraising.
+- Preserve the `platform` field — platform interest is strategically valuable for pre-seed fundraising.
 - Keep one waitlist / one backend.
 - Keep lowercase / Buffer-style brand voice.
 - Add a **Next steps** section after substantive recommendations.
-- Gradient should be treated as a visual detail that must follow motion geometry, not as an independent decorative animation.
+- Gradient must follow motion geometry — CSS keyframes locked to card animation, not JS polling.
+- Growth card (black bg) uses lime gradient, no dark midstop.
+- CTA copy set in HTML directly, not overridden via CSS pseudo-elements.
 
 ---
 
-## 10. Immediate next steps
+## 10. Known outstanding items
 
-1. Verify the live waitlist form visually and confirm Formspree receives `platform` correctly.
-2. Leave the founding economics unchanged unless founder explicitly revises them.
-3. Revisit the layer gradient only when ready for another visual pass. Test actual card position against gradient opacity at both endpoints; do not stack additional keyframes on top of the current logic without understanding the motion phase first.
-4. Use Chrome / Mobile / Both demand as an input into the mobile product and pre-seed narrative.
+1. `layerSlide` animation uses `margin-left` instead of `transform` — causes layout reflow. Flagged for fix; do not address unless explicitly asked.
+2. Plausible analytics config in `index.html` is empty — no events firing.
+3. `WAITLIST_SIGNUPS` is hardcoded — requires manual update to reflect real signup count.
+4. GitHub Pages CDN cache lag is permanent workflow constraint — hard refresh after every push, allow 2–5 min for propagation.
+5. Gradient timing on approach is linear across the full 4s travel — no hold at center. If founder wants gradient to appear only in the final 1s of approach, keyframes need a flat 0% zone added at 0%–75% before the rise.
