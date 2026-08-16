@@ -154,15 +154,21 @@
 }
 
 /* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
-.hero-cta-row > .btn-primary,
-.mobile-cta-bar a {
+.hero-cta-row > .btn-primary {
   font-size: 0;
 }
 
-.hero-cta-row > .btn-primary::after,
-.mobile-cta-bar a::after {
+.mobile-cta-bar a {
+  font-size: 14px;
+}
+
+.hero-cta-row > .btn-primary::after {
   content: "yeah, i need this!";
   font-size: 14px;
+}
+
+.mobile-cta-bar a::after {
+  content: none;
 }
 
 @media (max-width: 760px) {
