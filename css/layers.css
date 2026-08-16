@@ -240,10 +240,11 @@
     animation-duration: 4s;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
+    mix-blend-mode: normal;
   }
 
   .layer-index-item::before {
-    content: none;
+    display: none;
   }
 
   .layer-index-item .layer-action,
@@ -292,12 +293,6 @@
     background: linear-gradient(90deg, var(--green) 0%, rgba(168, 200, 112, 0.55) 28%, transparent 100%);
   }
 
-  .layer-index-item .layer-action,
-  .layer-index-item .layer-name {
-    position: relative;
-    z-index: 1;
-  }
-
   .layer-index-item:nth-child(3) .layer-action,
   .layer-index-item:nth-child(3) .layer-name {
     color: var(--white);
@@ -325,7 +320,6 @@
     }
     100% {
       opacity: 1;
-      background: linear-gradient(270deg, var(--green) 0%, rgba(168, 200, 112, 0.55) 28%, transparent 100%);
     }
   }
 
@@ -336,7 +330,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .layer-index-item,
-    .layer-index-item::before,
     .layer-index-item::after {
       animation: none;
     }
