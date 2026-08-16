@@ -124,6 +124,28 @@
   text-align: left;
 }
 
+@media (min-width: 761px) {
+  .waitlist-platform-field {
+    margin-top: 16px;
+    margin-bottom: 10px;
+  }
+
+  .waitlist-platform-label {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .waitlist-platform-options {
+    gap: 8px;
+    padding: 5px;
+  }
+
+  .waitlist-platform-options .radio-pill {
+    padding: 11px 14px;
+    font-size: 14px;
+  }
+}
+
 /* Center solution-detail video blocks inside their grid cells. */
 .solution-details .showcase-video-slider {
   justify-self: center;
@@ -132,13 +154,13 @@
 }
 
 @media (max-width: 760px) {
-  /* Remove the excess vertical gap beneath the hero visual. */
+  /* Reduce the remaining mobile hero-to-problem gap by 3cm. */
   .hero {
     padding-bottom: 0;
   }
 
   .hero-visual {
-    min-height: 260px;
+    min-height: 147px;
   }
 
   .solution-bridge h2::before,
