@@ -153,18 +153,6 @@
   margin-right: auto !important;
 }
 
-/* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
-.hero-cta-row > .btn-primary,
-.mobile-cta-bar a {
-  font-size: 0;
-}
-
-.hero-cta-row > .btn-primary::after,
-.mobile-cta-bar a::after {
-  content: "yeah, i need this!";
-  font-size: 14px;
-}
-
 @media (max-width: 760px) {
   /* Remove a further 2cm from the already-reduced mobile hero reserve. */
   .hero {
