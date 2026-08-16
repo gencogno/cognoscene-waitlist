@@ -275,3 +275,7 @@
 @media (max-width: 760px) {
   .step-title { font-size: 1.05rem; }
 }
+
+.form-band .form-check:last-of-type {
+  margin-top: 16px;
+}
