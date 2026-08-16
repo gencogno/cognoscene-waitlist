@@ -41,8 +41,6 @@
   text-transform: lowercase;
 }
 
-/* Solution hero heading: centered and 1.25x larger. The existing HTML text remains
-   semantic; pseudo-elements only split the visual styling so "friction" can be lime. */
 .solution-bridge h2 {
   text-align: center !important;
   font-size: 0 !important;
@@ -71,7 +69,6 @@
   font-weight: 800;
 }
 
-/* Waitlist platform intent */
 .waitlist-platform-field {
   margin: 14px 0 8px;
 }
@@ -105,6 +102,15 @@
 }
 
 @media (max-width: 760px) {
+  /* Remove the excess vertical gap beneath the hero visual. */
+  .hero {
+    padding-bottom: 0;
+  }
+
+  .hero-visual {
+    min-height: 260px;
+  }
+
   .solution-bridge h2::before,
   .solution-bridge h2::after {
     font-size: 1.625rem;
@@ -177,8 +183,8 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation travels right -> left, retaining the same literal right-edge
-     green treatment while its card moves in the opposite direction. */
+  /* Rationalisation travels right -> left. Its green treatment remains literal
+     right-edge treatment and follows the actual card position. */
   .layer-index-item:nth-child(2) {
     animation-direction: reverse;
   }
@@ -229,7 +235,6 @@
   }
 }
 
-/* Restore the original solution-detail heading scale. */
 @media (min-width: 761px) {
   .step-title {
     font-size: 1.15rem;
