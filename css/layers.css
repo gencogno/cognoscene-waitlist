@@ -164,7 +164,7 @@
   }
 
   .hero-screenshot-stack {
-    min-height: 147px;
+    min-height: 147px !important;
   }
 
   .solution-bridge h2::before,
