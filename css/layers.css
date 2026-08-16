@@ -235,7 +235,7 @@
     inset: 0;
     pointer-events: none;
     background: linear-gradient(90deg, var(--lime) 0%, var(--lime-muted) 35%, transparent 100%);
-    opacity: 0;
+    opacity: 1;
     animation-name: gradient-left;
     animation-duration: 4s;
     animation-timing-function: ease-in-out;
@@ -317,19 +317,18 @@
     100% { margin-left: 18%; }
   }
 
-  /* Edge gradients appear progressively at the travel endpoint,
-     disappear as the card leaves it, then repeat at the opposite edge. */
+  /* Edge gradients: 0->100 during the final 1s approaching an edge,
+     then 100->0 during the first 1s leaving it. */
   @keyframes gradient-left {
-    0%, 25% { opacity: 0; }
-    50% { opacity: 0; }
-    75% { opacity: 1; }
+    0%   { opacity: 1; }
+    25%  { opacity: 0; }
     100% { opacity: 0; }
   }
 
   @keyframes gradient-right {
-    0%, 75% { opacity: 0; }
-    95% { opacity: 1; }
-    100% { opacity: 0; }
+    0%   { opacity: 0; }
+    75%  { opacity: 0; }
+    100% { opacity: 1; }
   }
 
   @keyframes layer-pulse {
