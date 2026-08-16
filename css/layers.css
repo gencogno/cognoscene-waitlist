@@ -137,7 +137,7 @@
     padding: 8px 10px;
     text-align: center;
     background: var(--white);
-    animation: layer-slide 4s ease-in-out infinite alternate;
+    animation: layer-slide-round 4s ease-in-out infinite;
   }
 
   .layer-index-item::after {
@@ -146,9 +146,8 @@
     inset: 0;
     pointer-events: none;
     opacity: 0;
-    transform-origin: center;
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation: layer-edge-gradient 4s ease-in-out infinite alternate;
+    animation: layer-edge-gradient-right 4s ease-in-out infinite;
   }
 
   .layer-index-item .layer-action,
@@ -169,31 +168,51 @@
     line-height: 1.05;
   }
 
-  /* Rationalisation travels right -> left, so its gradient uses the exact same
-     right-edge treatment but reverses the animation phase with the card. */
+  /* Rationalisation travels right -> left, retaining the same literal right-edge
+     green treatment while its card moves in the opposite direction. */
   .layer-index-item:nth-child(2) {
-    animation-direction: alternate-reverse;
+    animation-direction: reverse;
   }
 
   .layer-index-item:nth-child(2)::after {
     background: linear-gradient(90deg, transparent 0%, transparent 62%, var(--lime-muted) 82%, var(--lime) 100%);
-    animation-name: layer-edge-gradient;
-    animation-direction: alternate-reverse;
+    animation-name: layer-edge-gradient-right;
+    animation-direction: reverse;
+  }
+
+  /* Observer and Growth make a complete left -> right -> left round trip.
+     Green appears only as the moving card reaches either screen edge. */
+  .layer-index-item:nth-child(1)::before,
+  .layer-index-item:nth-child(3)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(90deg, var(--lime-muted) 0%, var(--lime) 18%, transparent 38%);
+    animation: layer-edge-gradient-left 4s ease-in-out infinite;
+  }
+
+  .layer-index-item:nth-child(1)::after,
+  .layer-index-item:nth-child(3)::after {
+    animation-name: layer-edge-gradient-right-round;
   }
 
   /* Growth follows Observer exactly, with a darker green treatment. */
   .layer-index-item:nth-child(3) {
     background: var(--black);
-    animation-name: layer-slide, layer-pulse;
+    animation-name: layer-slide-round, layer-pulse;
     animation-duration: 4s, 4s;
     animation-timing-function: ease-in-out, ease-in-out;
     animation-iteration-count: infinite, infinite;
   }
 
+  .layer-index-item:nth-child(3)::before {
+    background: linear-gradient(90deg, #6f9f37 0%, #315d0f 18%, transparent 38%);
+  }
+
   .layer-index-item:nth-child(3)::after {
-    background: linear-gradient(90deg, transparent 0%, transparent 62%, #315d0f 82%, #6f9f37 100%);
-    animation-name: layer-edge-gradient-growth;
-    animation-direction: normal;
+    background: linear-gradient(90deg, transparent 62%, #315d0f 82%, #6f9f37 100%);
   }
 
   .layer-index-item:nth-child(3) .layer-action,
@@ -201,9 +220,9 @@
     color: var(--white);
   }
 
-  @keyframes layer-slide {
-    0% { margin-left: 0; }
-    100% { margin-left: 18%; }
+  @keyframes layer-slide-round {
+    0%, 100% { margin-left: 0; }
+    50% { margin-left: 18%; }
   }
 
   @keyframes layer-pulse {
@@ -211,34 +230,41 @@
     50% { opacity: 0.7; }
   }
 
-  /* The gradient is always on the right side. Opacity is the only animated
-     property, and its phase matches the card's 4s travel exactly. */
-  @keyframes layer-edge-gradient {
+  /* Right-edge green peaks exactly when the card reaches its rightmost position. */
+  @keyframes layer-edge-gradient-right-round {
+    0%, 100% { opacity: 0; }
+    43%, 57% { opacity: 0.62; }
+  }
+
+  @keyframes layer-edge-gradient-right {
     0% { opacity: 0; }
     100% { opacity: 0.62; }
   }
 
-  @keyframes layer-edge-gradient-growth {
-    0% { opacity: 0; }
-    100% { opacity: 0.78; }
+  /* Left-edge green peaks exactly when the card reaches its leftmost position. */
+  @keyframes layer-edge-gradient-left {
+    0%, 100% { opacity: 0.62; }
+    43%, 57% { opacity: 0; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .layer-index-item,
+    .layer-index-item::before,
     .layer-index-item::after {
       animation: none;
     }
   }
 }
 
+/* Restore the original solution-detail heading scale. */
 @media (min-width: 761px) {
   .step-title {
-    font-size: 1.4375rem;
+    font-size: 1.15rem;
   }
 }
 
 @media (max-width: 760px) {
   .step-title {
-    font-size: 1.3125rem;
+    font-size: 1.05rem;
   }
 }
