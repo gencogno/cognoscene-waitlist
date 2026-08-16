@@ -313,16 +313,12 @@
      Fade window = last 25% of travel (~1s). At edge contact = 0 opacity. */
   @keyframes layer-edge-right {
     0%   { --edge-right-opacity: 0; }
-    75%  { --edge-right-opacity: 0; }
-    95%  { --edge-right-opacity: 1; }
-    100% { --edge-right-opacity: 0; }
+    100% { --edge-right-opacity: 1; }
   }
 
   @keyframes layer-edge-left {
     0%   { --edge-left-opacity: 0; }
-    75%  { --edge-left-opacity: 0; }
-    95%  { --edge-left-opacity: 1; }
-    100% { --edge-left-opacity: 0; }
+    100% { --edge-left-opacity: 1; }
   }
 
   @keyframes layer-pulse {
