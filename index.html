@@ -1536,10 +1536,15 @@
       color: var(--black);
       padding: 0 3px 1px;
       border-radius: 2px;
+    }
+    .fc-swipe {
       background-size: 200% 100%;
       background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
       background-position: 100% 0;
       transition: background-position 1s ease;
+    }
+    .fc-swipe.is-revealed {
+      background-position: 0% 0;
     }
     .founding-card-note {
       margin-top: 12px;
@@ -2261,9 +2266,9 @@
     <section class="founding-band wrap" aria-labelledby="founding-heading">
       <a class="founding-card" href="#waitlist">
         <h3 id="founding-heading"><strong>founding member offer</strong></h3>
-        <p><span class="highlight">2 months free.</span> then lock in lifetime premium for <span class="highlight">us$10</span> — one-time, no subscription.</p>
-        <p>this offer closes when the first <span class="highlight">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
-        <p class="founding-card-note"><span class="highlight">no charge today.</span></p>
+        <p><span class="highlight fc-swipe">2 months free.</span> then lock in lifetime premium for <span class="highlight fc-swipe">us$10</span> — one-time, no subscription.</p>
+        <p>this offer closes when the first <span class="highlight fc-swipe">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
+        <p class="founding-card-note"><span class="highlight fc-swipe">no charge today.</span></p>
         <span class="founding-card-cta">join the waitlist →</span>
       </a>
       <p class="founding-card-terms">
@@ -3088,7 +3093,7 @@
     // tag so it can never be silently disabled by an unrelated error elsewhere
     (function() {
       function initSwipeHighlights() {
-        var targets = document.querySelectorAll('.stat-highlight, .founding-card .highlight, .highlight-swipe');
+        var targets = document.querySelectorAll('.stat-highlight, .highlight-swipe');
         var parents = new Set();
         targets.forEach(function(el) {
           parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
@@ -3112,6 +3117,40 @@
         document.addEventListener('DOMContentLoaded', initSwipeHighlights);
       } else {
         initSwipeHighlights();
+      }
+    })();
+  </script>
+
+  <script>
+    // dedicated founding-card highlight reveal — fresh, isolated implementation
+    (function() {
+      function initFoundingCardSwipe() {
+        var card = document.querySelector('.founding-card');
+        if (!card) return;
+        var swipes = card.querySelectorAll('.fc-swipe');
+        if (!swipes.length) return;
+
+        if (!('IntersectionObserver' in window)) {
+          swipes.forEach(function(el) { el.classList.add('is-revealed'); });
+          return;
+        }
+
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              swipes.forEach(function(el) { el.classList.add('is-revealed'); });
+            } else {
+              swipes.forEach(function(el) { el.classList.remove('is-revealed'); });
+            }
+          });
+        }, { threshold: 0.3 });
+
+        io.observe(card);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFoundingCardSwipe);
+      } else {
+        initFoundingCardSwipe();
       }
     })();
   </script>
