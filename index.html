@@ -1940,8 +1940,6 @@
         order: -1;
         margin: 0.5cm auto 0.25cm;
       }
-
-      }
       .solution-bridge { text-align: center; }
       .solution-bridge h2 { font-size: 1.3rem; margin: 0 auto 16px; }
       .solution-bridge-sub { font-size: 1.15rem; margin: 0 auto 22px; text-align: center; }
@@ -3084,29 +3082,39 @@
         });
     });
 
-    // scroll-triggered swipe highlight animation
-    (function() {
-      var targets = document.querySelectorAll('.stat-highlight, .founding-card .highlight, .highlight-swipe');
-      var parents = new Set();
-      targets.forEach(function(el) {
-        parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
-      });
-      if (!('IntersectionObserver' in window)) {
-        parents.forEach(function(el) { el.classList.add('swipe-in'); });
-        return;
-      }
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('swipe-in');
-          } else {
-            entry.target.classList.remove('swipe-in');
-          }
-        });
-      }, { threshold: 0.4 });
-      parents.forEach(function(el) { io.observe(el); });
-    })();
+  </script>
 
+  <script>
+    // scroll-triggered swipe highlight animation — isolated in its own script
+    // tag so it can never be silently disabled by an unrelated error elsewhere
+    (function() {
+      function initSwipeHighlights() {
+        var targets = document.querySelectorAll('.stat-highlight, .founding-card .highlight, .highlight-swipe');
+        var parents = new Set();
+        targets.forEach(function(el) {
+          parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
+        });
+        if (!('IntersectionObserver' in window)) {
+          parents.forEach(function(el) { el.classList.add('swipe-in'); });
+          return;
+        }
+        var io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('swipe-in');
+            } else {
+              entry.target.classList.remove('swipe-in');
+            }
+          });
+        }, { threshold: 0.4 });
+        parents.forEach(function(el) { io.observe(el); });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSwipeHighlights);
+      } else {
+        initSwipeHighlights();
+      }
+    })();
   </script>
 
   <div class="hero-roadmap-sheet mobile-only" id="heroRoadmapSheet" aria-hidden="true">
