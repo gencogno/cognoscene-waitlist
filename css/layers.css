@@ -124,6 +124,22 @@
   text-align: left;
 }
 
+/* Mobile anchor navigation is injected after the hero. Keep section targets clear of both sticky bars. */
+.solution-details .step-row {
+  scroll-margin-top: 96px;
+}
+
+@media (max-width: 600px) {
+  html { scroll-padding-top: 96px; }
+  .anchor-nav {
+    top: 45px;
+    box-shadow: 0 4px 14px rgba(17, 17, 17, 0.12);
+  }
+  .anchor-nav-inner {
+    overscroll-behavior-x: contain;
+  }
+}
+
 @media (min-width: 761px) {
   .waitlist-platform-field {
     margin-top: 16px;
@@ -144,24 +160,6 @@
     padding: 11px 14px;
     font-size: 14px;
   }
-}
-
-/* Center solution-detail video blocks inside their grid cells. */
-.solution-details .showcase-video-slider {
-  justify-self: center;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* Conversion CTA wording: only the top hero CTA and sticky mobile CTA. */
-.hero-cta-row > .btn-primary,
-.mobile-cta-bar a {
-  font-size: 0;
-}
-
-.hero-cta-row > .btn-primary::after {
-  content: "yeah, i need this!";
-  font-size: 14px;
 }
 
 @media (max-width: 760px) {
