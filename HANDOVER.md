@@ -1,15 +1,15 @@
 # cognoscene waitlist — handover doc
 repo: gencogno/cognoscene-waitlist · branch: main · file: index.html
-last commit this session: 63af9e6ee756cf9e6e645709699a214cfe0b0be4 — layer card hover: lime outline, 375ms
+last commit this session: 20ab095c52f9073d45a349a8c04fefdfdb93b4d9 — revert mobile tap zoom scale, keep color/border flip only
 
 ---
 
 ## PASTE THIS TO START THE NEW CHAT
 
 ```
-continuing work on gencogno/cognoscene-waitlist (index.html). full context below —
-read it, then ask me your one clarifying question for item #10 (platform field
-redesign) before starting anything.
+continuing work on gencogno/cognoscene-waitlist (index.html). desktop finishing
+touches are mostly done — moving to mobile pass next. full context below —
+read it, then ask me your one clarifying question before starting anything.
 ```
 
 then paste everything below this line.
@@ -102,7 +102,7 @@ Network egress in this sandbox allows `api.github.com` and `raw.githubuserconten
 
 ---
 
-## current state of the site (as of commit 63af9e6)
+## current state of the site (as of commit 20ab095)
 
 ### brand palette (locked — updated from original)
 - `--cream: #edeade` (cooler beige, updated from `#f5f0e8`)
@@ -128,12 +128,24 @@ Network egress in this sandbox allows `api.github.com` and `raw.githubuserconten
 - drop cap — REMOVED entirely (brand voice conflict)
 - red infinity loop graphic — true-bounding-box crop, positioned at (124px, 104.2px) in 248×268 circle-inner, sized 54px
 - solution bridge — sub-line centred desktop + mobile
+- **solution bridge eyebrow (RE-ADDED this session)** — was orphaned CSS (`.solution-bridge-eyebrow`, `.solution-bridge .section-eyebrow`) with no matching HTML element; copy `"the solution · cognoscene"` added back using the existing `.section-eyebrow` class, sits above the `"3 layers"` label
 - anchor nav — REMOVED, do not re-add unless asked
-- **three layer cards (observer / rationalisation / growth)** — `<a>` tags scrolling to `#observer` / `#rationalisation` / `#growth`. **Cogno has now confirmed these work when clicked (this session).**
-- **layer card hover state (NEW this session)** — desktop only (`@media (hover: hover) and (min-width: 761px)`), whole card flips: cream/transparent → black background, text → lime, border → lime outline, 375ms ease transition. Padding `24px 28px` + `16px` border-radius added to give the previously-bare text links an actual card shape.
+- **three layer cards (observer / rationalisation / growth)** — `<a>` tags scrolling to `#observer` / `#rationalisation` / `#growth`. Confirmed working when tapped/clicked on both desktop and mobile.
+- **layer card styling (FINAL, this session — went through several iterations, this is the settled version):**
+  - resting state: `2px solid var(--black)` border always visible (medium stroke outline), `16px` border-radius, `24px 28px` padding
+  - kicker copy for observer changed to `"intercept unnecessary impulses"` (matches the step-title copy used later in `.solution-details` for consistency)
+  - **desktop hover** (`@media (hover: hover) and (min-width: 761px)`): black bg, lime text, lime border, `transform: scale(1.25)` zoom, `0.35s ease` transition. Colors are set **explicitly on the child elements** (`.layer-action`, `.layer-name`), not via `color: inherit` on the parent — an earlier version relying on inherit rendered with invisible/wrong-colored text for reasons never fully diagnosed (possibly a real inheritance edge case, possibly a caching issue that got compounded by rapid pushes — wasn't conclusively isolated, but the explicit-color version fixed it and is more robust regardless, keep this pattern for any future hover work on this component)
+  - **mobile tap** (`@media (hover: none)`, using `:active`): same black/lime color+border flip, but **no scale/zoom** (explicitly reverted — felt bad on tap per Cogno) and **no transition** (`transition: none` — snaps instantly rather than easing, per Cogno's explicit ask to disable the animated fade for the tap version)
+  - `-webkit-tap-highlight-color: transparent` added to kill the default blue tap-flash overlay on mobile browsers
 - glow effect — ONLY on the `"hence..."` paragraph
 - chrome-band — REMOVED from HTML, CSS still present as dead code (lines ~161–176, ~1928) — flagged for cleanup, not yet done
-- **post-signup micro-survey modal (NEW this session)** — see dedicated section below
+- **post-signup micro-survey modal** — see dedicated section below
+- **solution-details section (steps/videos) — alignment fixed this session:**
+  - `.step-row` changed from `align-items: center` to `align-items: start` — previously, text and video columns were vertically centered against inconsistent total-column heights (some rows have a slider-nav + caption below the video, some don't), which made the text look misaligned relative to the video itself. `align-items: start` anchors both columns to the top consistently.
+  - `.step-copy` font-size bumped `14px` → `16px`
+  - **rationalisation row (`id="rationalisation"`) has the `reverse` class added** — flips it to video-left/text-right, creating a zigzag pattern against observer/growth (both still text-left/video-right). This is intentional, confirmed by Cogno, not a bug.
+  - confirmed by Cogno: all three demo videos share the same aspect ratio, so that's not a contributing factor to any layout variance
+  - not yet done, flagged but not actioned: `.step-copy-block` has zero desktop-specific CSS (only gets styled inside the mobile media query) — fine as-is, just noting there's no dedicated hook if independent control over the text column is wanted later
 
 ### image asset
 `assets/canva-loop.png` — red `#E03030` infinity/recycle symbol, true-bounding-box crop method. If Cogno sends a new source image, redo using that method, not a naive square crop.
@@ -179,6 +191,8 @@ Network egress in this sandbox allows `api.github.com` and `raw.githubuserconten
 ---
 
 ## OUTSTANDING WORK
+
+**session split note:** Cogno is doing desktop finishing touches first this session, mobile pass afterward. Some mobile work already landed opportunistically (layer card tap state, see above) but treat the "mobile-specific batch" below as still the primary mobile scope — ask Cogno what's left before assuming desktop-parity is the only remaining mobile task.
 
 ### item #10 — platform interest field on the MAIN signup form — still UNRESOLVED
 Current live copy: label *"i'm joining for"*, radio pills `web (all browsers)` / `mobile (android & ios)` / `both`. Cogno has said multiple times he wants to change this but scope has shifted across the conversation — he does NOT want browser-porting language, he wants **mobile app demand** framing (see the post-signup Q3 above, which now handles a version of this). Ask him directly: does he still want the *main form's* field changed too, now that the post-signup survey covers a fuller mobile-interest question? Or is the main form field fine as-is and only the post-signup survey needed the fix?
