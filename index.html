@@ -1857,6 +1857,178 @@
 
     .form-panel.is-hidden { display: none; }
 
+    /* post-signup micro-survey modal */
+    .psm {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .psm.is-open { display: flex; }
+    .psm-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .psm-card {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      background: var(--cream);
+      border: 1px solid var(--black);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+      animation: psmIn 0.2s ease;
+    }
+    @keyframes psmIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .psm-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--black);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .psm-step { display: none; }
+    .psm-step.is-active { display: block; }
+    .psm-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 16px;
+      color: var(--lime);
+    }
+    .psm-step h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .psm-step[data-step="intro"] p,
+    .psm-step[data-step="done"] p {
+      font-size: 14px;
+      color: var(--mid);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .psm-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .psm-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+    .psm-dots span.is-active { background: var(--lime); }
+    .psm-question {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .psm-select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--black);
+      border-radius: 10px;
+      background: var(--white);
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: var(--black);
+    }
+    .psm-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .psm-chip {
+      padding: 8px 14px;
+      border: 1px solid var(--black);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--black);
+      font-size: 13px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .psm-chip.is-selected {
+      background: var(--black);
+      color: var(--lime);
+      border-color: var(--black);
+    }
+    .psm-other-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--black);
+      border-radius: 10px;
+      background: var(--white);
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+    .psm-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .psm-skip {
+      border: none;
+      background: transparent;
+      color: var(--mid);
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .psm-btn-primary {
+      padding: 10px 22px;
+      border: none;
+      border-radius: 999px;
+      background: var(--black);
+      color: var(--lime);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .psm-btn-primary.is-full {
+      display: block;
+      width: 100%;
+    }
+    @media (max-width: 760px) {
+      .psm {
+        align-items: flex-end;
+        padding: 0;
+      }
+      .psm-card {
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+        border-bottom: none;
+        animation: psmSlideUp 0.22s ease;
+        padding: 28px 22px 32px;
+      }
+      @keyframes psmSlideUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    }
+
     /* sticky mobile cta */
     .mobile-cta-bar {
       display: none;
@@ -2336,6 +2508,79 @@
           <p>the first 250 spots are filled or the 30-day window has ended. we'll email the next batch when it opens.</p>
         </div>
       </div>
+
+      <div class="psm" id="psmModal" role="dialog" aria-modal="true" aria-labelledby="psmTitle">
+        <div class="psm-backdrop" id="psmBackdrop"></div>
+        <div class="psm-card">
+          <button class="psm-close" id="psmClose" type="button" aria-label="close">&times;</button>
+
+          <div class="psm-step is-active" data-step="intro">
+            <svg class="psm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M6 2h12M6 22h12M8 2c0 4 8 4 8 8s-8 4-8 8M16 2c0 4-8 4-8 8s8 4 8 8" />
+            </svg>
+            <h3 id="psmTitle">you're on the list!</h3>
+            <p>we'll reach out to you within 1&ndash;2 weeks, just three quick things first.</p>
+            <button class="psm-btn-primary is-full" type="button" data-action="start">let's go</button>
+          </div>
+
+          <div class="psm-step" data-step="1">
+            <div class="psm-dots"><span class="is-active"></span><span></span><span></span></div>
+            <p class="psm-question">where are you based?</p>
+            <select class="psm-select" id="psmCountry">
+              <option value="">select a country</option>
+              <option value="singapore">singapore</option>
+              <option value="malaysia">malaysia</option>
+              <option value="united states">united states</option>
+              <option value="other">other</option>
+            </select>
+            <div class="psm-actions">
+              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-btn-primary" type="button" data-action="next">next</button>
+            </div>
+          </div>
+
+          <div class="psm-step" data-step="2">
+            <div class="psm-dots"><span class="is-active"></span><span class="is-active"></span><span></span></div>
+            <p class="psm-question">how'd you find us?</p>
+            <div class="psm-chips" data-select="single" id="psmReferralChips">
+              <button type="button" class="psm-chip" data-value="reddit">reddit</button>
+              <button type="button" class="psm-chip" data-value="tiktok">tiktok</button>
+              <button type="button" class="psm-chip" data-value="instagram">instagram</button>
+              <button type="button" class="psm-chip" data-value="friend">friend / word of mouth</button>
+              <button type="button" class="psm-chip" data-value="search">search</button>
+              <button type="button" class="psm-chip" data-value="other">other</button>
+            </div>
+            <input type="text" class="psm-other-input" id="psmReferralOther" placeholder="tell us where" style="display:none" />
+            <div class="psm-actions">
+              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-btn-primary" type="button" data-action="next">next</button>
+            </div>
+          </div>
+
+          <div class="psm-step" data-step="3">
+            <div class="psm-dots"><span class="is-active"></span><span class="is-active"></span><span class="is-active"></span></div>
+            <p class="psm-question">besides chrome, where do you want us?</p>
+            <div class="psm-chips" data-select="multi" id="psmPlatformChips">
+              <button type="button" class="psm-chip" data-value="edge">edge</button>
+              <button type="button" class="psm-chip" data-value="firefox">firefox</button>
+              <button type="button" class="psm-chip" data-value="opera">opera</button>
+              <button type="button" class="psm-chip" data-value="brave">brave</button>
+              <button type="button" class="psm-chip" data-value="mobile_ios">mobile app (ios)</button>
+              <button type="button" class="psm-chip" data-value="mobile_android">mobile app (android)</button>
+              <button type="button" class="psm-chip" data-value="none" data-exclusive="true">none of these yet</button>
+            </div>
+            <div class="psm-actions">
+              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-btn-primary" type="button" data-action="finish">done</button>
+            </div>
+          </div>
+
+          <div class="psm-step" data-step="done">
+            <h3>thanks &mdash; see you soon.</h3>
+            <button class="psm-btn-primary is-full" type="button" data-action="close">close</button>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -2463,6 +2708,7 @@
           formPanel.classList.add('is-hidden');
           formSuccess.classList.add('is-visible');
           formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          openPostSignupModal(payload.email);
         })
         .catch(function (err) {
           showError(err.message || 'could not submit. check your connection and try again.');
@@ -3081,6 +3327,138 @@
         });
     });
 
+  </script>
+
+  <script>
+    // post-signup micro-survey modal — isolated in its own script tag so it
+    // can never be silently disabled by an unrelated error elsewhere
+    (function () {
+      var modal = document.getElementById('psmModal');
+      if (!modal) return;
+
+      var backdrop = document.getElementById('psmBackdrop');
+      var closeBtn = document.getElementById('psmClose');
+      var steps = modal.querySelectorAll('.psm-step');
+      var currentEmail = '';
+      var answers = { country: '', referral: '', referral_other: '', platforms: [] };
+      var submitted = false;
+
+      var referralChips = document.getElementById('psmReferralChips');
+      var referralOtherInput = document.getElementById('psmReferralOther');
+      var platformChips = document.getElementById('psmPlatformChips');
+      var countrySelect = document.getElementById('psmCountry');
+
+      function showStep(name) {
+        for (var i = 0; i < steps.length; i++) {
+          steps[i].classList.toggle('is-active', steps[i].getAttribute('data-step') === name);
+        }
+      }
+
+      function openPostSignupModal(email) {
+        currentEmail = email || '';
+        showStep('intro');
+        modal.classList.add('is-open');
+      }
+      window.openPostSignupModal = openPostSignupModal;
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+        submitAnswers();
+      }
+
+      function submitAnswers() {
+        if (submitted) return;
+        var hasAnswer = answers.country || answers.referral || answers.platforms.length;
+        if (!hasAnswer || !currentEmail) return;
+        submitted = true;
+
+        var formId = 'mwleweea';
+
+        fetch('https://formspree.io/f/' + formId, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            email: currentEmail,
+            country: answers.country,
+            referral: answers.referral,
+            referral_other: answers.referral_other,
+            platforms_interested: answers.platforms.join(', '),
+            _subject: 'cognoscene post-signup survey'
+          })
+        }).catch(function () { /* best-effort, no UI feedback needed here */ });
+      }
+
+      function setupSingleChips(container, onSelect) {
+        var chips = container.querySelectorAll('.psm-chip');
+        for (var i = 0; i < chips.length; i++) {
+          chips[i].addEventListener('click', function () {
+            for (var j = 0; j < chips.length; j++) chips[j].classList.remove('is-selected');
+            this.classList.add('is-selected');
+            onSelect(this.getAttribute('data-value'));
+          });
+        }
+      }
+
+      function setupMultiChips(container) {
+        var chips = container.querySelectorAll('.psm-chip');
+        for (var i = 0; i < chips.length; i++) {
+          chips[i].addEventListener('click', function () {
+            var isExclusive = this.getAttribute('data-exclusive') === 'true';
+            if (isExclusive) {
+              for (var j = 0; j < chips.length; j++) chips[j].classList.remove('is-selected');
+              this.classList.add('is-selected');
+            } else {
+              for (var k = 0; k < chips.length; k++) {
+                if (chips[k].getAttribute('data-exclusive') === 'true') chips[k].classList.remove('is-selected');
+              }
+              this.classList.toggle('is-selected');
+            }
+            var selected = [];
+            for (var m = 0; m < chips.length; m++) {
+              if (chips[m].classList.contains('is-selected')) selected.push(chips[m].getAttribute('data-value'));
+            }
+            answers.platforms = selected;
+          });
+        }
+      }
+
+      setupSingleChips(referralChips, function (value) {
+        answers.referral = value;
+        referralOtherInput.style.display = value === 'other' ? 'block' : 'none';
+      });
+      setupMultiChips(platformChips);
+
+      referralOtherInput.addEventListener('input', function () {
+        answers.referral_other = this.value.trim();
+      });
+
+      countrySelect.addEventListener('change', function () {
+        answers.country = this.value;
+      });
+
+      modal.addEventListener('click', function (event) {
+        var action = event.target.getAttribute('data-action');
+        if (!action) return;
+
+        if (action === 'start') showStep('1');
+        else if (action === 'skip') {
+          var step = event.target.closest('.psm-step').getAttribute('data-step');
+          if (step === '1') showStep('2');
+          else if (step === '2') showStep('3');
+          else if (step === '3') { submitAnswers(); showStep('done'); }
+        }
+        else if (action === 'next') {
+          var current = event.target.closest('.psm-step').getAttribute('data-step');
+          if (current === '1') showStep('2');
+          else if (current === '2') showStep('3');
+        }
+        else if (action === 'finish') { submitAnswers(); showStep('done'); }
+        else if (action === 'close') closeModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      backdrop.addEventListener('click', closeModal);
+    })();
   </script>
 
   <script>
