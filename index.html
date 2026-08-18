@@ -1342,7 +1342,7 @@
     /* solution bridge — cream page, wix copy, b/w layer cards */
     .solution-bridge {
       text-align: center;
-      padding: 44px 0 48px;
+      padding: 32px 0 28px;
       padding-left: 0;
     }
     .solution-bridge-eyebrow {
@@ -1376,9 +1376,17 @@
       letter-spacing: -0.04em;
       line-height: 1.15;
       color: var(--black);
-      margin: 0 auto 28px;
+      margin: 0 auto 18px;
       max-width: 520px;
       text-align: center;
+    }
+    .layers-index {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px 18px;
+      max-width: 920px;
+      margin: 0 auto;
+      align-items: stretch;
     }
     .layers-index-label {
       font-size: 12px;
@@ -1386,14 +1394,17 @@
       letter-spacing: 0.06em;
       text-transform: lowercase;
       color: var(--black);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     a.layer-index-item {
       text-decoration: none;
       cursor: pointer;
-      display: block;
-      padding: 24px 28px;
-      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 112px;
+      padding: 18px 20px 16px;
+      border-radius: 18px;
       background-color: transparent;
       border: 2px solid var(--black);
       position: relative;
@@ -1406,6 +1417,22 @@
     a.layer-index-item .layer-name {
       color: var(--black);
       transition: color 0.35s ease;
+    }
+    a.layer-index-item .layer-action {
+      display: block;
+      font-size: 0.82rem;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      text-align: left;
+      max-width: 15ch;
+    }
+    a.layer-index-item .layer-name {
+      display: block;
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      text-align: left;
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
