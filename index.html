@@ -1394,8 +1394,11 @@
       padding: 24px 28px;
       border-radius: 16px;
       background-color: transparent;
-      border: 1px solid transparent;
-      transition: background-color 0.35s ease, border-color 0.35s ease;
+      border: 2px solid var(--black);
+      position: relative;
+      z-index: 1;
+      transform: scale(1);
+      transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
     }
     a.layer-index-item .layer-action,
     a.layer-index-item .layer-name {
@@ -1406,6 +1409,8 @@
       a.layer-index-item:hover {
         background-color: var(--black);
         border-color: var(--lime);
+        transform: scale(1.25);
+        z-index: 2;
       }
       a.layer-index-item:hover .layer-action,
       a.layer-index-item:hover .layer-name {
@@ -2336,7 +2341,7 @@
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
         <a class="layer-index-item" href="#observer">
-          <span class="layer-action">nudges before the cart snowballs</span>
+          <span class="layer-action">intercept unnecessary impulses</span>
           <strong class="layer-name">observer</strong>
         </a>
         <a class="layer-index-item" href="#rationalisation">
