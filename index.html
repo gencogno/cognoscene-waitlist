@@ -1389,20 +1389,27 @@
     }
     a.layer-index-item {
       text-decoration: none;
-      color: inherit;
       cursor: pointer;
       display: block;
       padding: 24px 28px;
       border-radius: 16px;
-      background: transparent;
+      background-color: transparent;
       border: 1px solid transparent;
-      transition: background-color 0.375s ease, color 0.375s ease, border-color 0.375s ease;
+      transition: background-color 0.35s ease, border-color 0.35s ease;
+    }
+    a.layer-index-item .layer-action,
+    a.layer-index-item .layer-name {
+      color: var(--black);
+      transition: color 0.35s ease;
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
-        background: var(--black);
-        color: var(--lime);
+        background-color: var(--black);
         border-color: var(--lime);
+      }
+      a.layer-index-item:hover .layer-action,
+      a.layer-index-item:hover .layer-name {
+        color: var(--lime);
       }
     }
       /* how it works / 3 layers */
@@ -2324,6 +2331,7 @@
     </section>
 
     <section class="solution-bridge wrap" id="solution" aria-label="the solution — three layers">
+      <p class="section-eyebrow">the solution · cognoscene</p>
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
       <div class="layers-index" aria-label="three product layers">
