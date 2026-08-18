@@ -1,0 +1,7 @@
+<svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Infinity loop symbol in black -->
+  <path d="M 12 27 Q 12 18 19 18 Q 26 18 27 27 Q 28 36 21 36 Q 14 36 14 27" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M 42 27 Q 42 18 35 18 Q 28 18 27 27 Q 26 36 33 36 Q 40 36 40 27" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Center dot -->
+  <circle cx="27" cy="27" r="1.5" fill="#111111"/>
+</svg>
