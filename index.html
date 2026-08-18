@@ -1392,10 +1392,16 @@
       color: inherit;
       cursor: pointer;
       display: block;
-      transition: opacity 0.15s;
+      padding: 24px 28px;
+      border-radius: 16px;
+      background: transparent;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
-    a.layer-index-item:hover {
-      opacity: 0.72;
+    @media (hover: hover) and (min-width: 761px) {
+      a.layer-index-item:hover {
+        background: var(--black);
+        color: var(--lime);
+      }
     }
       /* how it works / 3 layers */
     .solution-details {
