@@ -163,6 +163,21 @@ Network egress in this sandbox allows `api.github.com` and `raw.githubuserconten
 
 ---
 
+## SEO (audited this session — researched, not yet actioned)
+
+**already in place (checked live `<head>`):** title, meta description, canonical tag, full OG set (`og:type`/`url`/`title`/`description`/`image`), `twitter:card`. Core basics are covered.
+
+**gaps — independent of the Cloudflare move, cheap, not yet done:**
+- no `robots.txt` in repo root
+- no `sitemap.xml` in repo root
+- `twitter:card` set but `twitter:title`/`twitter:description`/`twitter:image` not explicit (most crawlers fall back to `og:` tags, but not guaranteed everywhere)
+
+**tied to the Cloudflare Pages migration specifically:** 301 redirects from `gencogno.github.io` to the new domain, via Cloudflare's `_redirects` file — standard practice so search engines transfer ranking rather than treating it as a new site. Low urgency for Cogno specifically since the site is pre-launch with minimal existing search traffic to protect — there's little ranking to lose, unlike a migration guide written for an established site.
+
+**verdict:** don't bundle SEO into the Cloudflare migration as a blocking reason to wait — robots.txt/sitemap/explicit twitter tags are zero-risk, zero-dependency, can ship any time. Given the locked distribution strategy (Reddit organic / micro-creator / TikTok, not search-driven), on-site SEO is a supporting lever, not a priority one. Redirects are the one item that genuinely needs to wait for the new domain to exist.
+
+---
+
 ## OUTSTANDING WORK
 
 ### item #10 — platform interest field on the MAIN signup form — still UNRESOLVED
