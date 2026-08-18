@@ -1395,12 +1395,14 @@
       padding: 24px 28px;
       border-radius: 16px;
       background: transparent;
-      transition: background-color 0.15s ease, color 0.15s ease;
+      border: 1px solid transparent;
+      transition: background-color 0.375s ease, color 0.375s ease, border-color 0.375s ease;
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
         background: var(--black);
         color: var(--lime);
+        border-color: var(--lime);
       }
     }
       /* how it works / 3 layers */
