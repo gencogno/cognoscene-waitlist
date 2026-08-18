@@ -1505,14 +1505,19 @@
     }
 
     .step-row {
+      --solution-video-height: 228px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 32px;
-      align-items: start;
+      align-items: center;
     }
     .step-row.reverse { direction: rtl; }
     .step-row.reverse > * { direction: ltr; }
     .step-copy-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: var(--solution-video-height);
       text-align: center;
     }
 
