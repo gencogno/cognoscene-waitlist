@@ -1399,6 +1399,7 @@
       z-index: 1;
       transform: scale(1);
       transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
     }
     a.layer-index-item .layer-action,
     a.layer-index-item .layer-name {
@@ -1415,6 +1416,20 @@
       a.layer-index-item:hover .layer-action,
       a.layer-index-item:hover .layer-name {
         color: var(--lime);
+      }
+    }
+    @media (hover: none) {
+      a.layer-index-item:active {
+        background-color: var(--black);
+        border-color: var(--lime);
+        transform: scale(1.25);
+        transition: none;
+        z-index: 2;
+      }
+      a.layer-index-item:active .layer-action,
+      a.layer-index-item:active .layer-name {
+        color: var(--lime);
+        transition: none;
       }
     }
       /* how it works / 3 layers */
