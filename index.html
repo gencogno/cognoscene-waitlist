@@ -1216,7 +1216,7 @@
       margin-bottom: 0.25cm;
     }
     .lc-circle-stage {
-      --loop-scale: 1.25;
+      --loop-scale: 1.5625;
       position: relative;
       box-sizing: border-box;
       width: calc(248px * var(--loop-scale));
@@ -1256,7 +1256,16 @@
       padding: 10px 6px 8px;
       text-align: center;
       width: 100%;
-      box-shadow: 0 6px 20px rgba(17, 17, 17, 0.08);
+      box-shadow: none;
+    }
+    .lc-circle-card--see .loop-icon-card {
+      box-shadow: 0 8px 18px rgba(17, 17, 17, 0.12);
+    }
+    .lc-circle-card--buy .loop-icon-card {
+      box-shadow: 0 10px 22px rgba(17, 17, 17, 0.14);
+    }
+    .lc-circle-card--regret .loop-icon-card {
+      box-shadow: 0 7px 16px rgba(17, 17, 17, 0.1);
     }
     .problem-loop-visual .loop-icon-card svg.loop-card-icon,
     .problem-loop-visual .loop-icon-card img {
