@@ -1710,9 +1710,20 @@
 
     /* form */
     .form-band {
+      position: relative;
       background: var(--cream);
       margin: 0 -24px;
       padding: 40px 24px 56px;
+    }
+    .form-band::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(var(--max), calc(100% - 48px));
+      height: 1px;
+      background: var(--line);
+      transform: translateX(-50%);
     }
     .form-conversion {
       max-width: var(--max);
@@ -1783,14 +1794,15 @@
     @media (min-width: 761px) {
       .form-conversion {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas: "form offer";
         gap: 48px;
       }
       .form-offer {
-        grid-column: 2;
-        align-self: center;
+        grid-area: offer;
+        align-self: start;
       }
       .form-inner {
-        grid-column: 1;
+        grid-area: form;
       }
     }
     .form-inner .section-eyebrow {
