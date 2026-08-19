@@ -1196,7 +1196,7 @@
       margin: 8px 0 22px;
       padding: 16px 20px;
       background: var(--cream);
-      border-left: 4px solid var(--danger);
+      border-left: 4px solid var(--black);
       border-radius: 0 12px 12px 0;
       line-height: 1.45;
     }
@@ -1304,6 +1304,7 @@
       height: 54px;
       object-fit: contain;
       display: block;
+      filter: brightness(0) saturate(100%);
     }
     .lc-canva-loop {
       display: flex;
@@ -1402,7 +1403,10 @@
     }
     @media (min-width: 761px) {
       .solution-bridge .layers-index {
-        max-width: var(--max);
+        width: calc(100% + 18.75px);
+        max-width: none;
+        margin-left: 0;
+        margin-right: -18.75px;
         gap: 24px;
       }
       a.layer-index-item {
