@@ -571,7 +571,8 @@
     }
 
     .showcase-video-slider {
-      max-width: 360px;
+      width: 360px;
+      max-width: 100%;
       margin: 0 auto;
     }
     .showcase-video-slider .showcase-video-frame {
@@ -1404,7 +1405,7 @@
       display: block;
       padding: 24px 28px;
       border-radius: 16px;
-      background-color: transparent;
+      background-color: var(--black);
       border: 2px solid var(--black);
       box-shadow: 0 12px 30px rgba(17, 17, 17, 0.04);
       position: relative;
@@ -1418,10 +1419,11 @@
     a.layer-index-item .layer-action,
     a.layer-index-item .layer-name {
       display: block;
-      color: var(--black);
       transform: scale(1);
       transition: color 0.35s ease, transform 0.35s ease;
     }
+    a.layer-index-item .layer-action { color: var(--cream); }
+    a.layer-index-item .layer-name { color: var(--lime); }
     @media (min-width: 761px) {
       .solution-bridge {
         padding-left: 24px;
@@ -1454,7 +1456,10 @@
         transition: none;
         z-index: 2;
       }
-      a.layer-index-item:active .layer-action,
+      a.layer-index-item:active .layer-action {
+        color: var(--cream);
+        transition: none;
+      }
       a.layer-index-item:active .layer-name {
         color: var(--lime);
         transition: none;
@@ -1707,7 +1712,11 @@
         gap: 48px;
       }
       .form-offer {
+        grid-column: 2;
         align-self: center;
+      }
+      .form-inner {
+        grid-column: 1;
       }
     }
     .form-inner .section-eyebrow {
@@ -2239,20 +2248,20 @@
 <body class="has-mobile-cta">
 
   <header class="top-bar">
-    <p class="visually-hidden">first 250 users · 2 months free · convert to lifetime for usd$10</p>
+    <p class="visually-hidden">first 250 users · 2 months free · convert to lifetime for sgd$10</p>
     <div class="top-bar-marquee" aria-hidden="true">
       <div class="top-bar-marquee-track">
         <div class="top-bar-marquee-set">
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
         </div>
         <div class="top-bar-marquee-set">
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
-          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for sgd$10</span>
         </div>
       </div>
     </div>
@@ -2260,11 +2269,6 @@
 
   <main>
     <section class="hero" aria-labelledby="hero-heading">
-      <div class="wrap hero-brand">
-        <a class="hero-brand-link" href="#" aria-label="cognoscene home">
-          <img class="hero-brand-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="cognoscene" />
-        </a>
-      </div>
       <div class="wrap hero-main">
       <div class="hero-copy">
         <h1 id="hero-heading"><span class="stat-highlight">98%</span> of your regretful decisions happen pre-purchase.</h1>
@@ -2407,7 +2411,7 @@
     <section class="solution-bridge wrap" id="solution" aria-label="the solution — three layers">
       <p class="section-eyebrow">the solution · cognoscene</p>
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
-      <p class="solution-bridge-sub">working indefinitely to design prudence.</p>
+      <p class="solution-bridge-sub">re-enabling prudent shopping buys.</p>
       <div class="layers-index" aria-label="three product layers">
         <a class="layer-index-item" href="#observer">
           <span class="layer-action">intercept unnecessary impulses</span>
@@ -2518,15 +2522,15 @@
       <div class="form-conversion">
         <aside class="form-offer" aria-labelledby="founding-heading">
           <p class="section-eyebrow form-offer-eyebrow">founding beta</p>
-          <h2 id="founding-heading">help shape a more prudent internet.</h2>
+          <h2 id="founding-heading">disrupt buying triggers before they become regret.</h2>
           <p class="form-offer-build">we're still building the extension while you read this. when we finish, you'll be the first to try it.</p>
-          <p class="form-offer-benefit">2 months free. then lock in lifetime premium for usd$10 — one-time, no subscription.</p>
+          <p class="form-offer-benefit">2 months free. then lock in lifetime premium for sgd$10 — one-time, no subscription.</p>
           <p class="form-offer-status">founding offer available to the first 250 spots.</p>
         </aside>
 
         <div class="form-inner">
         <p class="section-eyebrow">the waitlist</p>
-        <p class="form-sub">first step: get on the list.</p>
+        <h2 id="form-heading">first step: get on the list.</h2>
 
         <div class="waitlist-gate-status" id="waitlistGateStatus" aria-live="polite">
           waitlist closes in <strong id="deadlineTimer">--</strong>
@@ -2548,13 +2552,13 @@
             <button class="btn-submit" id="submitBtn" type="submit">join the waitlist</button>
           </form>
 
-          <p class="form-pricing-guardrail">no charge today. if invited, test cognoscene in our private community.<br>2 months premium, then usd$10 lifetime.</p>
+          <p class="form-pricing-guardrail">no charge today. if invited, test cognoscene in our private community.<br>2 months premium, then sgd$10 lifetime.</p>
           <p class="form-pricing-terms"><a href="founding-terms.html">founding offer terms</a></p>
         </div>
 
         <div class="form-success" id="formSuccess" role="status" aria-live="polite">
           <h3>you're on the list.</h3>
-          <p>we'll contact you when your batch opens. 2 months free, then usd$10 once for lifetime premium — no charge today.</p>
+          <p>we'll contact you when your batch opens. 2 months free, then sgd$10 once for lifetime premium — no charge today.</p>
         </div>
 
         <div class="waitlist-closed" id="waitlistClosed" role="status" aria-live="polite">
