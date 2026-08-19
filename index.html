@@ -119,6 +119,8 @@
     .top-bar-marquee-item strong {
       color: var(--lime);
       font-weight: 800;
+      font-size: 14px;
+      margin: 0 -3px;
     }
     .top-bar-marquee-dot {
       color: var(--lime);
@@ -245,14 +247,7 @@
     .hero-brand-mark {
       display: block;
       flex-shrink: 0;
-      height: 28px;
-      width: auto;
-      object-fit: contain;
-    }
-    .hero-brand-wordmark {
-      display: block;
-      flex-shrink: 0;
-      height: 14px;
+      height: 40px;
       width: auto;
       object-fit: contain;
     }
@@ -1211,7 +1206,7 @@
       margin: 8px 0 22px;
       padding: 16px 20px;
       background: var(--cream);
-      border-left: 4px solid var(--black);
+      border-left: 4px solid var(--danger);
       border-radius: 0 12px 12px 0;
       line-height: 1.45;
     }
@@ -1227,11 +1222,11 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      margin-top: 0.25cm;
-      margin-bottom: 0.15cm;
+      margin-top: 0.5cm;
+      margin-bottom: 0.25cm;
     }
     .lc-circle-stage {
-      --loop-scale: 1.3;
+      --loop-scale: 1.25;
       position: relative;
       box-sizing: border-box;
       width: calc(248px * var(--loop-scale));
@@ -1311,7 +1306,6 @@
       height: 54px;
       object-fit: contain;
       display: block;
-      filter: brightness(0) saturate(100%);
     }
     .lc-canva-loop {
       display: flex;
@@ -1333,7 +1327,7 @@
       font-size: 5.625px;
       font-weight: 800;
       letter-spacing: 0.04em;
-      color: var(--black);
+      color: #ff2a2a;
       white-space: nowrap;
       z-index: 4;
       pointer-events: none;
@@ -1342,7 +1336,7 @@
     /* solution bridge — cream page, wix copy, b/w layer cards */
     .solution-bridge {
       text-align: center;
-      padding: 32px 0 28px;
+      padding: 44px 0 48px;
       padding-left: 0;
     }
     .solution-bridge-eyebrow {
@@ -1376,17 +1370,9 @@
       letter-spacing: -0.04em;
       line-height: 1.15;
       color: var(--black);
-      margin: 0 auto 18px;
+      margin: 0 auto 28px;
       max-width: 520px;
       text-align: center;
-    }
-    .layers-index {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px 18px;
-      max-width: 920px;
-      margin: 0 auto;
-      align-items: stretch;
     }
     .layers-index-label {
       font-size: 12px;
@@ -1394,30 +1380,14 @@
       letter-spacing: 0.06em;
       text-transform: lowercase;
       color: var(--black);
-      margin-bottom: 12px;
-    }
-    @media (max-width: 760px) {
-      .layers-index {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        max-width: 88%;
-      }
-      .layer-index-item:nth-child(odd) {
-        margin-right: 18px;
-      }
-      .layer-index-item:nth-child(even) {
-        margin-left: 18px;
-      }
+      margin-bottom: 16px;
     }
     a.layer-index-item {
       text-decoration: none;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 112px;
-      padding: 18px 20px 16px;
-      border-radius: 18px;
+      display: block;
+      padding: 24px 28px;
+      border-radius: 16px;
       background-color: transparent;
       border: 2px solid var(--black);
       position: relative;
@@ -1430,22 +1400,6 @@
     a.layer-index-item .layer-name {
       color: var(--black);
       transition: color 0.35s ease;
-    }
-    a.layer-index-item .layer-action {
-      display: block;
-      font-size: 0.82rem;
-      line-height: 1.35;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      text-align: left;
-      max-width: 15ch;
-    }
-    a.layer-index-item .layer-name {
-      display: block;
-      font-size: clamp(1.15rem, 2vw, 1.35rem);
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-      text-align: left;
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
@@ -1512,37 +1466,19 @@
     .steps {
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 64px;
       max-width: 820px;
       margin: 0 auto;
     }
 
     .step-row {
       display: grid;
-      grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
-      gap: 26px;
-      align-items: stretch;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
     }
     .step-row.reverse { direction: rtl; }
     .step-row.reverse > * { direction: ltr; }
-    .step-copy-block {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 228px;
-      width: 112%;
-      max-width: 112%;
-      text-align: left;
-    }
-    .step-row.reverse .step-copy-block {
-      width: 100%;
-      max-width: 100%;
-      justify-content: center;
-      margin-left: auto;
-    }
-    .step-row[id="rationalisation"] {
-      margin-top: 2px;
-    }
 
     .step-label {
       font-size: 12px;
@@ -1550,15 +1486,15 @@
       margin-bottom: 8px;
     }
     .step-title {
-      font-size: clamp(1.22rem, 1.9vw, 1.58rem);
+      font-size: 1.15rem;
       font-weight: 800;
       margin-bottom: 10px;
-      line-height: 1.2;
+      line-height: 1.25;
     }
     .step-copy {
-      font-size: clamp(1.02rem, 1.25vw, 1.12rem);
+      font-size: 16px;
       color: var(--mid);
-      line-height: 1.58;
+      line-height: 1.6;
     }
     .step-tier-note {
       margin-top: 10px;
@@ -2170,7 +2106,6 @@
       }
       .hero-brand-link { margin-inline: 0; }
       .hero-brand-mark { height: 27px; }
-      .hero-brand-wordmark { display: none; }
       .hero-info-btn { display: inline-flex; align-items: center; justify-content: center; }
       .mobile-h1 { display: block; }
       .mobile-sub { display: block; }
@@ -2211,7 +2146,7 @@
       .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
       .showcase-video-frame { max-width: 100%; }
       .showcase-video-slider { max-width: 84.375%; margin: 0; }
-      .step-copy-block { width: auto; max-width: 100%; text-align: left; }
+      .step-copy-block { text-align: left; }
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
@@ -2265,8 +2200,7 @@
     <section class="hero" aria-labelledby="hero-heading">
       <div class="wrap hero-brand">
         <a class="hero-brand-link" href="#" aria-label="cognoscene home">
-          <img class="hero-brand-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="" />
-          <img class="hero-brand-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
+          <img class="hero-brand-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="cognoscene" />
         </a>
       </div>
       <div class="wrap hero-main">
@@ -2280,7 +2214,7 @@
         <a class="btn-primary" href="#waitlist">i need this!</a>
           <button type="button" class="hero-info-btn mobile-only" id="heroInfoBtn" aria-label="mobile apps roadmap" aria-expanded="false" aria-controls="heroRoadmapSheet">i</button>
         </div>
-        <p class="hero-meta">250 early-access spots · 2 months free · us$10 lifetime after</p>
+        <p class="hero-meta">250 early-access spots · 2 months free · sgd$10 lifetime after</p>
       </div>
 
         <div class="hero-visual" aria-label="product ui mockups">
@@ -2521,7 +2455,7 @@
     <section class="founding-band wrap" aria-labelledby="founding-heading">
       <a class="founding-card" href="#waitlist">
         <h3 id="founding-heading"><strong>founding member offer</strong></h3>
-        <p><span class="highlight fc-swipe">2 months free.</span> then lock in lifetime premium for <span class="highlight fc-swipe">us$10</span> — one-time, no subscription.</p>
+        <p><span class="highlight fc-swipe">2 months free.</span> then lock in lifetime premium for <span class="highlight fc-swipe">sgd$10</span> — one-time, no subscription.</p>
         <p>this offer closes when the first <span class="highlight fc-swipe">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
         <p class="founding-card-note"><span class="highlight fc-swipe">no charge today.</span></p>
         <span class="founding-card-cta">join the waitlist →</span>
@@ -2530,7 +2464,7 @@
         <a href="founding-terms.html">founding offer terms</a>
       </p>
       <p class="founding-card-fine">
-        waitlist open 30 days or until 250 spots fill · us$10 one-time usd after free trial · features may change during beta · use the same email for chrome and payment.
+        waitlist open 30 days or until 250 spots fill · sgd$10 one-time sgd after free trial · features may change during beta · use the same email for chrome and payment.
       </p>
     </section>
 
@@ -2588,7 +2522,7 @@
 
         <div class="form-success" id="formSuccess" role="status" aria-live="polite">
           <h3>you're on the list.</h3>
-          <p>we'll contact you when your batch opens. 2 months free, then us$10 once for lifetime premium — no charge today.</p>
+          <p>we'll contact you when your batch opens. 2 months free, then sgd$10 once for lifetime premium — no charge today.</p>
         </div>
 
         <div class="waitlist-closed" id="waitlistClosed" role="status" aria-live="polite">
