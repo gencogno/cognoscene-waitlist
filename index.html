@@ -750,7 +750,7 @@
       max-width: 480px;
       margin: 0 auto;
       min-height: 420px;
-      overflow: hidden;
+      overflow: visible;
     }
     .hero-shot {
       position: absolute;
@@ -779,6 +779,7 @@
       width: 100%;
       z-index: 1;
       transform: rotate(-2.5deg);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
     }
     .hero-shot--soft {
       left: 4%;
@@ -786,6 +787,7 @@
       width: 82%;
       z-index: 2;
       transform: rotate(1.5deg);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(200, 232, 138, 0.55);
     }
     .hero-shot--hold {
       left: 34%;
@@ -793,6 +795,7 @@
       width: 68%;
       z-index: 3;
       transform: rotate(2.5deg);
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16), 4px 4px 0 var(--lime);
     }
     .hero-mock-head {
       background: var(--cream);
@@ -2111,7 +2114,7 @@
       .hero-screenshot-stack { position: relative; min-height: 260px; max-width: 100%; margin: 0; }
       .hero-shot--growth { display: none; }
       .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
-      .hero-shot--hold { position: absolute; left: 32%; right: auto; top: 28%; width: 68%; transform: none; box-shadow: none; }
+      .hero-shot--hold { position: absolute; left: 32%; right: auto; top: 28%; width: 68%; transform: none; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16), 4px 4px 0 var(--lime); }
       .hero-shot-tag { bottom: -20px; }
       .problem-band { padding: 12px 0 28px; }
       .problem-band-header h2 { font-size: 1.3rem; }
