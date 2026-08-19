@@ -122,11 +122,6 @@
       font-size: 14px;
       margin: 0 -3px;
     }
-    .top-bar-marquee-dot {
-      color: var(--lime);
-      opacity: 0.55;
-      font-size: 10px;
-    }
     @keyframes top-bar-marquee {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -776,6 +771,7 @@
       bottom: auto;
       transform: translate(-50%, -50%);
       z-index: 10;
+      box-shadow: none;
     }
     /* scale hierarchy: growth dashboard (largest) → soft (medium) → hold (smallest) */
     .hero-shot--growth {
@@ -2171,20 +2167,20 @@
 <body class="has-mobile-cta">
 
   <header class="top-bar">
-    <p class="visually-hidden">only the first 250 users get early access to cognoscene</p>
+    <p class="visually-hidden">first 250 users · 2 months free · convert to lifetime for usd$10</p>
     <div class="top-bar-marquee" aria-hidden="true">
       <div class="top-bar-marquee-track">
         <div class="top-bar-marquee-set">
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
         </div>
         <div class="top-bar-marquee-set">
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
-          <span class="top-bar-marquee-item">only the first <strong>250</strong> users get early access to cognoscene <span class="top-bar-marquee-dot">◆</span></span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
+          <span class="top-bar-marquee-item">first <strong>250</strong> users · 2 months free · convert to lifetime for usd$10</span>
         </div>
       </div>
     </div>
@@ -3556,14 +3552,18 @@
       if (!stack) return;
       var shots = stack.querySelectorAll('.hero-shot');
 
+      function reset() {
+        shots.forEach(function (s) {
+          s.classList.remove('is-active');
+          s.setAttribute('aria-pressed', 'false');
+        });
+      }
+
       function activate(shot) {
         var alreadyActive = shot.classList.contains('is-active');
 
         if (alreadyActive) {
-          shots.forEach(function (s) {
-            s.classList.remove('is-active');
-            s.setAttribute('aria-pressed', 'false');
-          });
+          reset();
           return;
         }
 
@@ -3582,6 +3582,10 @@
             activate(shot);
           }
         });
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!stack.contains(event.target)) reset();
       });
     })();
   </script>
