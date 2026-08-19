@@ -210,14 +210,39 @@
       text-align: center;
     }
     .hero-brand-link {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
       margin-inline: auto;
       width: fit-content;
-      text-decoration: none;
+      padding: 6px;
+      border: 0;
+      background: transparent;
       color: var(--black);
+      cursor: pointer;
+    }
+    .hero-brand-link::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid var(--lime);
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-brand-link.is-pulsing::after {
+      animation: hero-mark-pulse 0.72s ease-out;
+    }
+    @media (hover: hover) {
+      .hero-brand-link:hover::after {
+        animation: hero-mark-pulse 0.72s ease-out;
+      }
+    }
+    .hero-brand-link:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 3px;
+      border-radius: 999px;
     }
     .hero-brand-mark {
       display: block;
@@ -225,6 +250,11 @@
       height: 40px;
       width: auto;
       object-fit: contain;
+    }
+    @keyframes hero-mark-pulse {
+      0% { transform: scale(0.65); opacity: 0; }
+      35% { opacity: 0.95; }
+      100% { transform: scale(1.65); opacity: 0; }
     }
     .hero-main {
       padding-top: 1cm;
@@ -2269,6 +2299,11 @@
 
   <main>
     <section class="hero" aria-labelledby="hero-heading">
+      <div class="wrap hero-brand">
+        <button type="button" class="hero-brand-link" aria-label="replay cognoscene pulse">
+          <img class="hero-brand-mark" src="assets/cognoscene-mark.png" width="28" height="28" alt="" />
+        </button>
+      </div>
       <div class="wrap hero-main">
       <div class="hero-copy">
         <h1 id="hero-heading"><span class="stat-highlight">98%</span> of your regretful decisions happen pre-purchase.</h1>
@@ -3629,6 +3664,21 @@
 
       document.addEventListener('click', function (event) {
         if (!stack.contains(event.target)) reset();
+      });
+    })();
+  </script>
+
+  <script>
+    (function initHeroMarkPulse() {
+      var mark = document.querySelector('.hero-brand-link');
+      if (!mark) return;
+
+      mark.addEventListener('click', function () {
+        mark.classList.remove('is-pulsing');
+        window.requestAnimationFrame(function () {
+          mark.classList.add('is-pulsing');
+          window.setTimeout(function () { mark.classList.remove('is-pulsing'); }, 760);
+        });
       });
     })();
   </script>
