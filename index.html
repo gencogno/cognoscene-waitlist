@@ -2311,10 +2311,31 @@
       .solution-bridge-sub { font-size: 1.15rem; margin: 0 auto 22px; text-align: center; }
       .solution-details { margin: 0; padding: 36px 0; }
       .steps { gap: 28px; }
-      .step-row, .step-row.reverse { grid-template-columns: 1fr; direction: ltr; gap: 20px; }
+      .step-row,
+      .step-row.reverse {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "copy"
+          "video";
+        direction: ltr;
+        gap: 20px;
+      }
+      .step-copy-block,
+      .step-row.reverse .step-copy-block {
+        grid-area: copy;
+        width: 100%;
+        margin: 0 auto;
+        text-align: left;
+      }
       .showcase-video-frame { max-width: 100%; }
-      .showcase-video-slider { max-width: 84.375%; margin: 0; }
-      .step-copy-block { text-align: left; }
+      .showcase-video-slider,
+      .step-row.reverse .showcase-video-slider {
+        grid-area: video;
+        width: 84.375%;
+        max-width: 360px;
+        margin: 0 auto;
+        justify-self: center;
+      }
       .step-title { font-size: 1.05rem; }
       .founding-band { padding: 28px 0 12px; }
       .founding-card { padding: 20px 18px; }
