@@ -274,7 +274,7 @@
     .swipe-in .highlight.is-glow,
     .highlight.is-glow.swipe-in,
     .highlight-swipe.is-glow.swipe-in {
-      box-shadow: 0 0 22px 4px rgba(200, 232, 138, 0.55);
+      box-shadow: 0 0 14px 2px rgba(200, 232, 138, 0.32);
       filter: brightness(1.05);
     }
     .swipe-in .stat-highlight,
@@ -316,7 +316,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.10);
     }
 
     .hero-meta {
@@ -415,14 +415,14 @@
       margin: 0 auto;
       border: 3px solid var(--black);
       border-radius: 32px;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       overflow: hidden;
     }
     .showcase-video-frame:focus-within,
     .showcase-video-frame:hover {
       transform: translateY(-2px);
-      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
     }
     .showcase-video-hit {
       display: block;
@@ -563,7 +563,7 @@
     .showcase-video-slider:hover .showcase-video-frame,
     .showcase-video-slider:focus-within .showcase-video-frame {
       transform: translateY(-2px);
-      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
     }
     .showcase-video-slider-nav {
       display: flex;
@@ -687,7 +687,7 @@
       background: var(--cream);
       border: 6px solid var(--black);
       border-radius: 36px;
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
       overflow: hidden;
     }
     .video-lightbox-frame video {
@@ -779,7 +779,7 @@
       width: 100%;
       z-index: 1;
       transform: rotate(-2.5deg);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
     }
     .hero-shot--soft {
       left: 4%;
@@ -787,7 +787,7 @@
       width: 82%;
       z-index: 2;
       transform: rotate(1.5deg);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(200, 232, 138, 0.55);
+      box-shadow: 0 9px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(200, 232, 138, 0.35);
     }
     .hero-shot--hold {
       left: 34%;
@@ -795,7 +795,7 @@
       width: 68%;
       z-index: 3;
       transform: rotate(2.5deg);
-      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.16), 4px 4px 0 var(--lime);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10), 2px 2px 0 var(--lime);
     }
     .hero-mock-head {
       background: var(--cream);
@@ -1063,7 +1063,7 @@
       border: 1px solid var(--line);
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28), 4px 4px 0 var(--lime);
+      box-shadow: 0 9px 22px rgba(0, 0, 0, 0.16), 2px 2px 0 var(--lime);
     }
     .mock-hold-head {
       background: var(--cream);
@@ -1127,7 +1127,7 @@
       width: 100%;
       max-width: 280px;
       margin: 0 auto;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 4px 4px 0 var(--lime);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), 2px 2px 0 var(--lime);
     }
 
     /* problem */
@@ -1207,13 +1207,12 @@
       margin-top: 18px;
     }
     .problem-loop-visual {
-      position: sticky;
-      top: 88px;
+      position: static;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      margin-top: 0.5cm;
-      margin-bottom: 0.25cm;
+      align-self: center;
+      margin: 0;
     }
     .lc-circle-stage {
       --loop-scale: 1.5625;
@@ -1259,13 +1258,13 @@
       box-shadow: none;
     }
     .lc-circle-card--see .loop-icon-card {
-      box-shadow: 0 8px 18px rgba(17, 17, 17, 0.12);
+      box-shadow: 0 5px 12px rgba(17, 17, 17, 0.08);
     }
     .lc-circle-card--buy .loop-icon-card {
-      box-shadow: 0 10px 22px rgba(17, 17, 17, 0.14);
+      box-shadow: 0 6px 14px rgba(17, 17, 17, 0.10);
     }
     .lc-circle-card--regret .loop-icon-card {
-      box-shadow: 0 7px 16px rgba(17, 17, 17, 0.1);
+      box-shadow: 0 4px 10px rgba(17, 17, 17, 0.07);
     }
     .problem-loop-visual .loop-icon-card svg.loop-card-icon,
     .problem-loop-visual .loop-icon-card img {
@@ -1534,7 +1533,7 @@
       border-left: 4px solid var(--lime);
       border-radius: 16px;
       padding: 24px 28px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
       text-decoration: none;
       color: inherit;
       cursor: pointer;
@@ -1542,7 +1541,7 @@
     }
     .founding-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.09);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
       border-color: var(--black);
     }
     .founding-card:focus-visible {
@@ -1876,7 +1875,7 @@
       border: 1px solid var(--line);
       border-left: 4px solid var(--lime);
       border-radius: 16px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.04);
       text-align: center;
     }
     .form-success.is-visible { display: block; }
@@ -1913,7 +1912,7 @@
       border: 1px solid var(--black);
       border-radius: 16px;
       padding: 32px 28px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
       animation: psmIn 0.2s ease;
     }
     @keyframes psmIn {
@@ -2132,7 +2131,7 @@
       .hero-screenshot-stack { position: relative; min-height: 260px; max-width: 100%; margin: 0; }
       .hero-shot--growth { display: none; }
       .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
-      .hero-shot--hold { position: absolute; left: 32%; right: auto; top: 28%; width: 68%; transform: none; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16), 4px 4px 0 var(--lime); }
+      .hero-shot--hold { position: absolute; left: 32%; right: auto; top: 28%; width: 68%; transform: none; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10), 2px 2px 0 var(--lime); }
       .hero-shot-tag { bottom: -20px; }
       .problem-band { padding: 12px 0 28px; }
       .problem-band-header h2 { font-size: 1.3rem; }
