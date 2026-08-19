@@ -37,7 +37,7 @@ The waitlist is hosted on **GitHub Pages** from public repo `gencogno/cognoscene
 | Cream token | `#edeade` | `#f5f0e8` |
 | Lime token | `#b8d878` | `#c8e88a` |
 | Hero CTA | `i need this!` | `join the waitlist` |
-| Form extras | `i'm joining for` radios (web / mobile / both) | email + two checkboxes only |
+| Form extras | email + two checkboxes only | email + two checkboxes only |
 | Post-submit | 3-step micro-survey modal (`#psmModal`) | none |
 | Problem close | financially-vulnerability wording | `there's nothing to interrupt the urge when it hitsâ€¦` |
 | Solution eyebrow | `the solution Â· cognoscene` | `cognoscene Â· the key to the problem` |
@@ -134,7 +134,7 @@ Breakpoint: **`@media (max-width: 760px)`** for almost all mobile layout. Extra 
 At widths **≥761px**, the problem section establishes the visual bounds used by the Solution Bridge:
 
 - **Left boundary:** the farthest-left edge of the problem-copy column.
-- **Right boundary:** the farthest-right edge of the scaled three-card loop diagram, including its current **18.75px** overhang beyond the grid column.
+- **Right boundary:** the farthest-right edge of the scaled three-card loop diagram, including its current **1.18px** overhang beyond the grid column.
 - The three Solution Bridge cards must span exactly between these two edges: observer begins at the left boundary; growth ends at the right boundary. Do not constrain this card row to the nominal `--max` edge when it differs from the loop’s visual edge.
 
 ---
@@ -143,7 +143,7 @@ At widths **≥761px**, the problem section establishes the visual bounds used b
 
 Narrative spine on one long page:
 
-**regret claim â†’ see / buy / regret loop â†’ 3 layers of friction â†’ founding scarcity â†’ email capture â†’ optional profiling**
+**regret claim → see / buy / regret loop → 3 layers of friction → founding offer + email capture → optional profiling**
 
 ```mermaid
 flowchart TD
@@ -152,11 +152,10 @@ flowchart TD
   problem[Problem band plus loop diagram]
   bridge[Solution bridge: 3-layer index]
   details[Layer demos: observer, rationalisation, growth]
-  founding[Founding offer card]
-  form[Waitlist form plus gate]
+  form[Founding offer plus waitlist form]
   wizard[Post-submit 3-step modal]
   footer[Footer plus legal]
-  marquee --> hero --> problem --> bridge --> details --> founding --> form --> wizard
+  marquee --> hero --> problem --> bridge --> details --> form --> wizard
   form --> footer
 ```
 
@@ -249,33 +248,22 @@ Tier notes under each title:
 
 Footnote: `desktop chrome Â· you pick the sites Â· free to start on one site`
 
-Video map: [`../assets/videos/VIDEO-MAP.md`](../assets/videos/VIDEO-MAP.md). Mobile sliders max-width ~84%; copy left-aligned.
+Video map: [`../assets/videos/VIDEO-MAP.md`](../assets/videos/VIDEO-MAP.md). On desktop, Rationalisation copy is right-aligned; on mobile, all copy is left-aligned.
 
-### 5.6 Founding offer â€” `section.founding-band`
+### 5.6 Founding offer + waitlist form — `section.form-band#waitlist`
 
-Card is an `<a href="#waitlist">`.
+Desktop uses one two-column conversion module: founding offer/terms on the left, waitlist form on the right. Mobile stacks the offer above the form. There is one submit CTA only.
 
 | | |
 |--|--|
-| **H3** | `founding member offer` |
-| **Offer** | `2 months free.` then lifetime premium for `us$10` â€” one-time, no subscription |
-| **Scarcity (live)** | `this offer closes when the first 250 spots fill or in 30 days â€” whichever comes first. after that, it's gone.` |
-| **Note** | `no charge today.` |
-| **CTA** | `join the waitlist â†’` |
+| **Offer** | `2 months free.` then lifetime premium for `sgd$10` — one-time, no subscription |
+| **Scarcity** | first 250 spots or 30 days, whichever comes first |
+| **Reassurance** | `no charge today.` |
 | **Terms** | link to `founding-terms.html` |
-| **Fine print** | 30 days or 250 Â· us$10 after free trial Â· features may change Â· same email for chrome and payment |
-| **Motion** | `.fc-swipe` lime highlight reveal when the card enters view |
-
-### 5.7 Waitlist form â€” `section.form-band#waitlist`
-
-| | |
-|--|--|
-| **Eyebrow** | `the waitlist` |
-| **H2** | `stop the cycle. take back control.` |
-| **Sub** | `first step: get on the list.` |
-| **Gate** | `#waitlistGateStatus` â€” `waitlist closes in {timer} Â· {n} spots left` |
-| **Closed** | `#waitlistClosed` â€” first 250 filled or 30-day window ended |
-| **Success (inline)** | `you're on the list.` + founding reminder, no charge today |
+| **Form fields** | email + ready checkbox + legal checkbox |
+| **Platform interest** | collected only in post-submit modal |
+| **Gate** | `#waitlistGateStatus` — `waitlist closes in {timer} · {n} spots left` |
+| **Success** | `you're on the list.` + founding reminder, no charge today |
 
 Gate config in script:
 
@@ -285,7 +273,7 @@ Gate config in script:
 | `WAITLIST_CAP` | `250` |
 | `WAITLIST_SIGNUPS` | `0` (manual; update from Formspree) |
 
-When deadline passed or signups â‰¥ cap: hide `#formPanel`, show closed state.
+When deadline passed or signups ≥ cap: hide `#formPanel`, show closed state.
 
 ### 5.8 Footer â€” `.site-footer`
 
@@ -306,7 +294,7 @@ Visible fields:
 | Field | Required in UI | Sent in payload? |
 |-------|----------------|------------------|
 | `email` | yes | yes |
-| `i'm joining for` â€” web (all browsers) / mobile (android & ios) / both | present as radios | **no â€” not in submit payload** |
+| platform interest | collected after signup in `#psmModal` | yes (`platforms_interested`) |
 | `ready` checkbox â€” `i'm ready to try a pause before checkout.` | yes | yes (`yes` / `no`) |
 | `legal` checkbox â€” privacy + terms | yes | yes as `legal_agreed` |
 | `_subject` | â€” | `cognoscene waitlist signup` |
