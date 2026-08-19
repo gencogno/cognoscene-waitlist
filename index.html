@@ -755,6 +755,8 @@
       max-width: 480px;
       margin: 0 auto;
       min-height: 380px;
+      overflow: hidden;
+      transition: height 0.35s ease;
     }
     .hero-shot {
       position: absolute;
@@ -764,34 +766,44 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
       background: var(--cream);
       transform-origin: center center;
+      cursor: pointer;
+      transition: left 0.35s ease, right 0.35s ease, top 0.35s ease, bottom 0.35s ease,
+        width 0.35s ease, height 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
     }
-    /* scale hierarchy: growth dashboard (landscape, back layer) → hold (portrait, front-right) */
+    .hero-shot.is-active {
+      left: 0;
+      right: auto;
+      top: 0;
+      bottom: auto;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      z-index: 10;
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.2);
+    }
+    /* scale hierarchy: growth dashboard (largest) → soft (medium) → hold (smallest) */
     .hero-shot--growth {
       left: 0;
       bottom: 4%;
       width: 100%;
-      aspect-ratio: 16 / 10;
       z-index: 1;
-      transform: rotate(-2deg);
+      transform: rotate(-2.5deg);
+    }
+    .hero-shot--soft {
+      left: 4%;
+      top: 0;
+      width: 82%;
+      z-index: 2;
+      transform: rotate(1.5deg);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12), 0 0 0 2px rgba(200, 232, 138, 0.55);
     }
     .hero-shot--hold {
       right: -2%;
-      top: 20%;
-      width: 46%;
-      aspect-ratio: 2 / 3;
+      top: 34%;
+      width: 68%;
       z-index: 3;
-      transform: rotate(2deg);
+      transform: rotate(2.5deg);
       box-shadow: 0 24px 56px rgba(0, 0, 0, 0.18), 4px 4px 0 var(--lime);
-      display: flex;
-      flex-direction: column;
-    }
-    .hero-shot--hold .hero-mock-body {
-      flex: 1;
-      display: flex;
-      align-items: center;
-    }
-    .hero-shot--hold .mock-hold-body {
-      width: 100%;
     }
     .hero-mock-head {
       background: var(--cream);
@@ -914,7 +926,8 @@
     }
     .hero-shot .mock-browser-bar { padding: 8px 12px; }
     .hero-shot .mock-page { min-height: 120px; padding: 16px; }
-    .hero-shot--hold .mock-hold {
+    .hero-shot--hold .mock-hold,
+    .hero-shot--soft .mock-soft {
       position: relative;
       top: auto;
       right: auto;
@@ -925,6 +938,46 @@
       border: none;
       border-radius: 0;
       background: transparent;
+    }
+    .mock-soft-mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .mock-soft-copy {
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--black);
+    }
+    .mock-soft-actions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .mock-soft-btn {
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 8px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid var(--line);
+      background: var(--cream);
+      color: var(--black);
+      flex: 0 1 auto;
+    }
+    .mock-soft-btn--primary {
+      background: var(--black);
+      color: var(--lime);
+      border-color: var(--black);
     }
     .hero-shot-tag {
       position: absolute;
@@ -2067,7 +2120,8 @@
       .hero-meta { font-size: 15px; }
       .hero-visual { order: 1; margin-top: 28px; margin-bottom: 8px; }
       .hero-screenshot-stack { position: relative; min-height: 260px; max-width: 100%; margin: 0; }
-      .hero-shot--growth { display: block; position: absolute; left: 0; top: 0; width: 84%; transform: none; }
+      .hero-shot--growth { display: none; }
+      .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
       .hero-shot--hold { position: absolute; right: 0; top: 28%; width: 68%; transform: none; box-shadow: 4px 4px 0 var(--lime); }
       .hero-shot-tag { bottom: -20px; }
       .problem-band { padding: 12px 0 28px; }
@@ -2163,7 +2217,7 @@
 
         <div class="hero-visual" aria-label="product ui mockups">
         <div class="hero-screenshot-stack">
-          <div class="hero-shot hero-shot--growth">
+          <div class="hero-shot hero-shot--growth" role="button" tabindex="0" aria-pressed="false" aria-label="growth dashboard view — click to bring to front">
             <div class="hero-mock-head hero-mock-head--brand">
               <div class="hero-mock-brand" aria-label="cognoscene">
                 <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
@@ -2189,7 +2243,24 @@
             </div>
         </div>
 
-          <div class="hero-shot hero-shot--hold">
+          <div class="hero-shot hero-shot--soft" role="button" tabindex="0" aria-pressed="false" aria-label="soft nudge view — click to bring to front">
+            <div class="hero-mock-head hero-mock-head--brand">
+              <div class="hero-mock-brand" aria-label="cognoscene">
+                <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
+                <img class="hero-mock-wordmark" src="assets/cognoscene-wordmark.png" alt="cognoscene" />
+              </div>
+            </div>
+            <div class="hero-mock-body hero-mock-body--soft">
+              <img class="hero-mock-logo" src="assets/cognoscene-mark.png" alt="" />
+              <p class="mock-soft-copy">let's take it easy — leave the site if you don't need anything.</p>
+              <div class="mock-soft-actions">
+                <div class="mock-soft-btn mock-soft-btn--primary">leave site</div>
+                <div class="mock-soft-btn">continue</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-shot hero-shot--hold" role="button" tabindex="0" aria-pressed="false" aria-label="checkout hold view — click to bring to front">
             <div class="hero-mock-head hero-mock-head--brand">
               <div class="hero-mock-brand" aria-label="cognoscene">
                 <img class="hero-mock-mark" src="assets/cognoscene-mark.png" alt="" />
@@ -3477,6 +3548,56 @@
       } else {
         initFoundingCardSwipe();
       }
+    })();
+  </script>
+
+  <script>
+    // hero mockup stack: click a card to bring it to front, hiding the other
+    // two purely via layering (z-index + fixed container height) — no blur,
+    // no opacity fade. isolated in its own script tag per project convention.
+    (function () {
+      var stack = document.querySelector('.hero-screenshot-stack');
+      if (!stack) return;
+      var shots = stack.querySelectorAll('.hero-shot');
+      var lockedHeight = null;
+
+      function activate(shot) {
+        var alreadyActive = shot.classList.contains('is-active');
+
+        if (alreadyActive) {
+          // clicking the active card again reverts to the default stacked view
+          shots.forEach(function (s) {
+            s.classList.remove('is-active');
+            s.setAttribute('aria-pressed', 'false');
+          });
+          stack.style.height = '';
+          lockedHeight = null;
+          return;
+        }
+
+        if (lockedHeight === null) {
+          lockedHeight = stack.getBoundingClientRect().height;
+          stack.style.height = lockedHeight + 'px';
+        }
+
+        shots.forEach(function (s) {
+          var isTarget = s === shot;
+          s.classList.toggle('is-active', isTarget);
+          s.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
+        });
+      }
+
+      shots.forEach(function (shot) {
+        shot.addEventListener('click', function () {
+          activate(shot);
+        });
+        shot.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            activate(shot);
+          }
+        });
+      });
     })();
   </script>
 
