@@ -756,7 +756,6 @@
       margin: 0 auto;
       min-height: 380px;
       overflow: hidden;
-      transition: height 0.35s ease;
     }
     .hero-shot {
       position: absolute;
@@ -768,18 +767,15 @@
       transform-origin: center center;
       cursor: pointer;
       transition: left 0.35s ease, right 0.35s ease, top 0.35s ease, bottom 0.35s ease,
-        width 0.35s ease, height 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+        transform 0.35s ease;
     }
     .hero-shot.is-active {
-      left: 0;
+      left: 50%;
+      top: 50%;
       right: auto;
-      top: 0;
       bottom: auto;
-      width: 100%;
-      height: 100%;
-      transform: none;
+      transform: translate(-50%, -50%);
       z-index: 10;
-      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.2);
     }
     /* scale hierarchy: growth dashboard (largest) → soft (medium) → hold (smallest) */
     .hero-shot--growth {
@@ -3552,32 +3548,23 @@
   </script>
 
   <script>
-    // hero mockup stack: click a card to bring it to front, hiding the other
-    // two purely via layering (z-index + fixed container height) — no blur,
-    // no opacity fade. isolated in its own script tag per project convention.
+    // hero mockup stack: click a card to centre it over the stack (z-index only,
+    // natural size retained, no expand). click again to revert to stacked view.
+    // isolated in its own script tag per project convention.
     (function () {
       var stack = document.querySelector('.hero-screenshot-stack');
       if (!stack) return;
       var shots = stack.querySelectorAll('.hero-shot');
-      var lockedHeight = null;
 
       function activate(shot) {
         var alreadyActive = shot.classList.contains('is-active');
 
         if (alreadyActive) {
-          // clicking the active card again reverts to the default stacked view
           shots.forEach(function (s) {
             s.classList.remove('is-active');
             s.setAttribute('aria-pressed', 'false');
           });
-          stack.style.height = '';
-          lockedHeight = null;
           return;
-        }
-
-        if (lockedHeight === null) {
-          lockedHeight = stack.getBoundingClientRect().height;
-          stack.style.height = lockedHeight + 'px';
         }
 
         shots.forEach(function (s) {
@@ -3588,9 +3575,7 @@
       }
 
       shots.forEach(function (shot) {
-        shot.addEventListener('click', function () {
-          activate(shot);
-        });
+        shot.addEventListener('click', function () { activate(shot); });
         shot.addEventListener('keydown', function (event) {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
