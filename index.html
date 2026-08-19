@@ -106,9 +106,7 @@
       flex-shrink: 0;
     }
     .top-bar-marquee-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 28px;
+      display: inline;
       padding: 0 28px;
       font-size: 12px;
       font-weight: 500;
@@ -1420,9 +1418,6 @@
       a.layer-index-item {
         padding: 18px 20px;
       }
-      .step-row.reverse .step-copy-block {
-        text-align: right;
-      }
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
@@ -1550,11 +1545,6 @@
       color: inherit;
       cursor: pointer;
       transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    }
-    .founding-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.04);
-      border-color: var(--black);
     }
     .founding-card:focus-visible {
       outline: 2px solid var(--black);
@@ -2412,7 +2402,7 @@
             <div class="step-copy-block">
               <p class="step-label">second layer · rationalisation</p>
               <h3 class="step-title">48 hours to decide if you need this</h3>
-              <p class="step-copy">you hit pay on a site you track — cognoscene pauses checkout and gives you 48 hours. decide if valuable or a waste of money.</p>
+              <p class="step-copy">when you hit checkout, we give you 48 hours to decide whether it’s a waste of money.</p>
               <p class="step-tier-note">48 hours reveals whether you <strong>wanted it</strong>, or just <strong>felt it</strong>.</p>
             </div>
             <div class="showcase-video-slider">
@@ -2496,11 +2486,6 @@
           <form id="waitlistForm" novalidate>
             <label class="visually-hidden" for="email">email address</label>
             <input class="field" id="email" name="email" type="email" placeholder="email address *" required autocomplete="email" />
-
-            <label class="form-check">
-              <input type="checkbox" name="ready" value="yes" required />
-              <span>i'm ready to try a pause before checkout.</span>
-            </label>
 
             <label class="form-check">
               <input type="checkbox" name="legal" value="yes" required />
