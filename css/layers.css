@@ -133,7 +133,7 @@
   html { scroll-padding-top: 96px; }
   .anchor-nav {
     top: 45px;
-    box-shadow: 0 4px 14px rgba(17, 17, 17, 0.12);
+    box-shadow: 0 3px 10px rgba(17, 17, 17, 0.08);
   }
   .anchor-nav-inner {
     overscroll-behavior-x: contain;
