@@ -1401,6 +1401,15 @@
       transform: scale(1);
       transition: color 0.35s ease, transform 0.35s ease;
     }
+    @media (min-width: 761px) {
+      .solution-bridge .layers-index {
+        max-width: var(--max);
+        gap: 24px;
+      }
+      a.layer-index-item {
+        padding: 18px 20px;
+      }
+    }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
         background-color: var(--black);
