@@ -1,15 +1,15 @@
 # cognoscene waitlist — handover doc
 repo: gencogno/cognoscene-waitlist · branch: main · file: index.html
-last commit this session: 20ab095c52f9073d45a349a8c04fefdfdb93b4d9 — revert mobile tap zoom scale, keep color/border flip only
+last commit this session: aac561e82aab36f454c6f3e0f4c281107d0b58db — revert hero mockup restructure to original 3-card layout; add click-to-front interaction
 
 ---
 
 ## PASTE THIS TO START THE NEW CHAT
 
 ```
-continuing work on gencogno/cognoscene-waitlist (index.html). desktop finishing
-touches are mostly done — moving to mobile pass next. full context below —
-read it, then ask me your one clarifying question before starting anything.
+continuing work on gencogno/cognoscene-waitlist (index.html). read the repo's
+HANDOVER.md for full context, then ask me your one clarifying question before
+starting anything.
 ```
 
 then paste everything below this line.
@@ -21,12 +21,14 @@ then paste everything below this line.
 - casual shorthand, all-lowercase, direct, no padding — match his tone, skip preamble
 - confirm scope before touching code if ANYTHING is ambiguous — he corrects fast and firmly when a read is wrong, so lock interpretation first. when he gives a one-word confirmation like "sure" to a multi-part question, pick the sensible default, state the assumption briefly, and proceed rather than re-asking
 - he tests live on desktop AND mobile — always ask which, if a fix could behave differently per viewport
-- push changes yourself via GitHub API (see workflow below) — don't hand him diffs to paste into ChatGPT, that workflow failed (ChatGPT's connector only does full-file PUT, couldn't do partial patches cleanly, wasted several rounds)
-- verify structurally before pushing: brace balance, script tag balance, no duplicate CSS rule definitions — this file has had real bugs from silent duplicate rules and orphaned braces (see "known landmines" below). don't trust a single grep match — grep exhaustively for ALL instances of a class/rule before editing
-- Cogno will send screenshots when something looks broken — use them, don't just re-read code and declare it correct. if code review says "looks fine" but he says it's still broken, the bug is real; keep digging (CDN cache, JS execution order, closest() ancestor mismatches all turned out to be real culprits in past sessions)
-- GitHub Pages CDN can lag several minutes behind pushes, especially with rapid consecutive commits. `raw.githubusercontent.com` reflects pushes near-instantly (use this to verify your own push landed) but the live Pages site (`gencogno.github.io/cognoscene-waitlist/`) can be stale — and even `raw.githubusercontent.com` occasionally shows a brief lag. **if raw looks stale right after a push, verify via the Contents API (`GET /repos/.../contents/index.html?ref=main`) instead — it reads the same data source as the PUT and won't be cache-stale.** suggest `?nocache=1` query param or hard refresh / incognito to Cogno if he reports "not there" right after a push
-- **PAT hygiene: if Cogno pastes a token in chat that was already pasted earlier in the same session, do not use it — it's the same exposed credential, re-pasting doesn't create a new one.** ask him to actually revoke and generate a fresh one. only proceed once the token value is visibly different from any previous paste this session. Cogno may push back hard on this ("just use it") — hold the line anyway, it costs him ~30 seconds to fix properly and the risk is real regardless of when it's revoked.
-- **update THIS FILE (HANDOVER.md) at the end of any session with real changes** — it drifted out of sync with actual repo state before (was last updated at an older commit while a newer handover doc was only ever pasted into chat, never committed back). push HANDOVER.md alongside index.html so the repo stays the single source of truth.
+- push changes yourself via GitHub API (see workflow below) — don't hand him diffs to paste into ChatGPT, that workflow failed previously
+- verify structurally before pushing: brace balance, script tag balance, no duplicate CSS rule definitions. don't trust a single grep match — grep exhaustively for ALL instances of a class/rule before editing
+- Cogno will send screenshots when something looks broken — use them. If code review says "looks fine" but he says it's broken, the bug is real; keep digging (CDN cache, JS execution order, `closest()` ancestor mismatches, and — new this session — a second stylesheet you didn't know about have all been real culprits)
+- **Claude cannot visually render the live site.** `web_fetch` on the Pages URL returns text-extracted content only (useful for confirming deployed content/copy matches what was pushed) — it strips all CSS, so it cannot judge spacing, layout, colors, or animations. Only Cogno's own eyes or a screenshot he sends can confirm visual quality. Say this plainly when relevant instead of implying more confidence than the setup supports.
+- GitHub Pages CDN can lag several minutes behind pushes, especially with rapid consecutive commits. `raw.githubusercontent.com` reflects pushes near-instantly but can occasionally still lag — if it looks stale, verify via the Contents API (`GET /repos/.../contents/index.html?ref=main`) instead, which reads the same data source as the PUT and won't be cache-stale. `web_fetch` on the actual Pages URL (`https://gencogno.github.io/cognoscene-waitlist/`) also works for confirming deploys, once that URL has appeared anywhere in the conversation (the web_fetch tool requires a URL to have been seen via search or user-provided first).
+- **PAT hygiene:** if Cogno pastes a token that's already appeared earlier in the same conversation, it's the same exposed credential — don't use it, ask for a genuinely fresh one. Cogno may push back hard on this; hold the line anyway, it costs him ~30 seconds to generate a new one and the risk is real regardless of project stakes. Don't add memory instructions telling future Claude to skip this check "because it's just a waitlist" — this was explicitly requested and explicitly declined once already this session.
+- **Multiple Claude sessions may work this repo concurrently without Cogno realizing it** — happened this session, he pasted a different session's handover mid-conversation by mistake. If a "session handover" message appears that describes different commits/changes than you have context for, flag it and confirm before proceeding — don't silently execute another session's unfinished work as if pre-agreed. See "hero mockup — two competing attempts" below.
+- **update THIS FILE at the end of any session with real changes.** Prefer a full rewrite over incremental patches once the doc gets messy across sub-sessions.
 
 ## GitHub push workflow (proven, use this exactly)
 
@@ -42,7 +44,7 @@ req.add_header("Authorization", f"token {PAT}")
 with urllib.request.urlopen(req) as resp:
     sha = json.loads(resp.read())["sha"]
 
-# 2. read/edit file locally first (bash_tool + python str replace), verify brace balance:
+# 2. read/edit file locally first (bash_tool + str_replace), verify brace balance:
 #    python3 -c "c=open('index.html').read(); print(c.count('{'), c.count('}'))"
 #    python3 -c "c=open('index.html').read(); print(c.count('<script'), c.count('</script>'))"
 
@@ -72,145 +74,112 @@ with urllib.request.urlopen(req3) as resp:
     # search verify_content for the change you just made
 ```
 
-Network egress in this sandbox allows `api.github.com` and `raw.githubusercontent.com` but NOT `gencogno.github.io` — you cannot fetch the live rendered site directly.
+Network egress allows `api.github.com` and `raw.githubusercontent.com` but NOT `gencogno.github.io` directly via bash — use the `web_fetch` tool (not bash) to check the live rendered page, and even then it's text-only, no visual rendering.
+
+**Re-sync local `index.html` from the Contents API at the start of any edit sequence** — don't assume your local sandbox copy is current. This session had real cases of unfinished local edits getting silently lost by an unnecessary re-sync overwrite mid-conversation — sync once at the start of a work block, then keep working from that local copy without re-syncing again until you're ready to push.
 
 ---
 
 ## known landmines (cumulative, all sessions)
 
-1. **duplicate CSS rules silently override each other.** `.founding-card .highlight` existed twice — the later one used the `background` shorthand, which resets `background-image`/`background-position`/`background-size` to defaults, silently killing a gradient defined earlier. **Always grep for ALL instances of a selector before assuming a single edit covers it.**
-
-2. **a pre-existing stray `}` bug** closed `@media (max-width: 760px)` one level early, leaking mobile-only rules out as global unscoped CSS on desktop too. **If something looks stuck in "mobile layout" on desktop, check for scope leaks like this.**
-
-3. **CSS gradient-reveal technique for swipe animations**: a solid `background: var(--lime)` shorthand left underneath a later `background-image` gradient defeats the transparent-reveal effect. **Check for earlier/later shorthand `background:` declarations any time you build a "hidden until revealed" effect.**
-
-4. **JS in a shared `<script>` block can be silently killed by an unrelated error earlier in that block** — execution stops at the first uncaught error, everything after just never runs, no visible symptom. **Isolate independent features into their own `<script>` tags.** (this pattern is now used consistently: swipe-highlight animation, founding-card highlights, and the new post-signup modal all live in their own dedicated script tags.)
-
-5. **`el.closest()` ancestor-matching for toggling animation classes is fragile** across different DOM structures. When debugging stalls, consider ripping out shared/clever logic for a fresh, dedicated, minimal observer instead.
-
-6. **screenshots of animations can look "broken" when they're actually in the pre-trigger resting state.** Ask for a live test before assuming a bug, but don't over-rely on this either — sometimes it's real.
-
-7. **the custom workflow `.github/workflows/relocate-problem-copy.yml` fires on every push to main and always fails** — expected/known, not a code issue. `pages build and deployment` is the workflow that matters. Re-run manually if Pages build fails with 429/internal server error (GitHub infra, not your code).
-
-8. **always do an exhaustive search before declaring a sweep complete** — e.g. the white-color audit needed regex covering `#ffffff`, `#fff`, `white` keyword, `rgb(255,255,255)`, `rgba(255,255,255,...)`, `var(--white)`, and exclusion of `white-space: nowrap` noise. First pass missed 10+ instances.
-
-9. **hover effects should be scoped with `@media (hover: hover) and (min-width: ...)`, not just a viewport-width media query alone** — plain `:hover` on touch devices can get "stuck" after a tap since there's no mouse-leave event. This combo correctly excludes touch/mobile entirely regardless of screen width.
-
-10. **when a client wants a demand-signal survey with more than ~2 questions, don't cram it into the primary conversion form or a single static block — build a stepper.** One question per screen, skippable per-question (not skip-the-whole-thing), with per-question sample sizes reported honestly rather than assuming full-form completion. Reduces both friction and reporting bias.
-
-11. **Formspree: use a separate form ID for secondary/optional data collection (e.g. post-signup surveys) rather than reusing the primary signup form ID.** Keeps the two data streams cleanly separable for export later, at zero extra cost now.
+1. **duplicate CSS rules silently override each other.** Always grep for ALL instances of a selector before assuming a single edit covers it.
+2. **stray `}` bugs can leak media-query-scoped rules out as global unscoped CSS.** If something looks stuck in "mobile layout" on desktop (or vice versa), check for scope leaks.
+3. **shorthand `background:` declarations reset `background-image` etc.** Check for earlier/later shorthand `background:` when building "hidden until revealed" gradient effects.
+4. **JS in a shared `<script>` block can be silently killed by an unrelated error earlier in that block.** Isolate independent features into their own `<script>` tags — this project does this consistently now (swipe-highlight animation, founding-card highlights, post-signup modal, hero mockup click-to-front all have dedicated tags).
+5. **`el.closest()` ancestor-matching is fragile across different DOM structures.** When debugging stalls, rip out shared/clever logic for a fresh, minimal, dedicated observer instead.
+6. **screenshots of animations can look "broken" when they're actually in the pre-trigger resting state.** Ask for a live test before assuming a bug — but don't over-rely on this either, sometimes it's real.
+7. **`.github/workflows/relocate-problem-copy.yml` fires on every push to main and always fails** — expected/known, not a code issue. `pages build and deployment` is the workflow that matters.
+8. **always do an exhaustive search before declaring a sweep complete** (e.g. currency/color audits) — regex needs to cover all formats (hex, rgb, keyword, css var) and exclude false-positive noise.
+9. **hover effects should be scoped with `@media (hover: hover) and (min-width: ...)`, not just viewport-width alone** — prevents "stuck hover" on touch devices regardless of screen width. For the mobile equivalent, use `@media (hover: none)` with `:active` and `transition: none` for an instant (non-eased) response, and add `-webkit-tap-highlight-color: transparent` to kill the default blue tap-flash overlay.
+10. **demand-signal surveys with 3+ questions should be a stepper, not one long form** — one question per screen, skippable per-question, honest per-question sample-size reporting rather than assuming full completion.
+11. **use a separate Formspree form ID for secondary/optional data collection** (e.g. post-signup surveys) rather than reusing the primary signup form ID — keeps data streams cleanly separable for export.
+12. **check for a second, forgotten stylesheet before assuming a component's styling is fully understood.** This project links `css/layers.css` in addition to the large inline `<style>` block in `index.html` — easy to miss, and it has real, active, competing rules for the same selectors as the inline styles. See "layers.css — unresolved" below; cost real time this session.
+13. **`transform: scale()` doesn't reflow text wrapping** — if scaling text on hover/tap, longer lines can visually extend past their container edge since wrap points are calculated pre-scale. Font-size transitions reflow properly but animate slightly less crisply.
+14. **for a "bring to front, hide the rest via pure layering" interaction on an absolutely-positioned overlapping stack:** lock the container's height in px via JS (`getBoundingClientRect().height`) *before* activating, because the cards' own heights are content-driven, not fixed, so `height: 100%` on the activated card won't resolve correctly against an `auto`/`min-height`-only container. Add `overflow: hidden` on the container too, to clip any edge-bleed from slightly-offset inactive cards (e.g. one anchored at `right: -2%`) that would otherwise poke out past the active card's edges.
 
 ---
 
-## current state of the site (as of commit 20ab095)
+## current state of the site (as of commit aac561e)
 
-### brand palette (locked — updated from original)
-- `--cream: #edeade` (cooler beige, updated from `#f5f0e8`)
-- `--lime: #b8d878` (softer green, updated from `#c8e88a`)
-- `--black: #111111`
-- fonts: Instrument Serif (headings), DM Sans (body) — Be Vietnam Pro in some older rules
+### brand palette (locked)
+- `--cream: #edeade`, `--lime: #b8d878`, `--black: #111111`, `--white: #ffffff` (retained for explicit use only)
+- red `#E03030` — loop/cycle graphic only, not part of the general accent system
+- fonts: Instrument Serif (headings), DM Sans (body), Be Vietnam Pro in some older rules
 - voice: all-lowercase, casual, direct
-- red `#E03030` for loop/cycle graphic only (Cogno's explicit choice, not part of the lime accent system)
+- currency: **SGD**, not USD — `sgd$10` is the founding lifetime price (hero-meta, founding-card highlight, fine print, form-success). The regret-quote testimonial (`"I wasted $78.49 for no reason."`) was deliberately left as a bare `$` — Cogno's explicit call, not an oversight.
+- card convention: `16px` border-radius, `24px 28px` padding, `1px solid black` border — used by `.founding-card` and `.layer-index-item`
 
-### white handling (resolved, batch B2)
-- `--white: #ffffff` CSS variable retained in `:root` for explicit white needs
-- cream bg + black border (intentional lift/interactivity): `.founding-card`, `.loop-icon-card`, `.field`, `.radio-pill`
-- cream bg, existing border unchanged (blend in): `.hero-sheet-dialog`, `.hero-info-btn`, `.slider-pill`, `.mock-url`, `.mock-soft-btn`, `.problem-quote`, `.waitlist-closed`, `.form-success`, lightbox close btn
-- retained as-is: `rgba(255,255,255,0.08)` navbar border on black bg, `rgba(255,255,255,0.7)` image caption overlay
+### header / brand
+- wordmark removed from the site header — only the mark (icon) shows, scaled up from `28px` to `40px` desktop (`27px` unchanged on mobile)
+- the wordmark **still appears** inside the hero product mockups (`.hero-mock-wordmark`, 3 instances) — intentional, those are product-UI screenshots, not site branding
 
-### confirmed working, tested by Cogno:
-- hero `98%` — bold, lime, glow, scroll-triggered swipe-in animation
-- founding card 4 highlights — bold, lime swipe, dedicated isolated observer (`.fc-swipe`, own script tag)
-- `"unexpected impulses — mostly from social feeds."` — swipe highlight
-- `"hence, we built an extension..."` — folded into problem section as plain last paragraph, highlighted + glow
-- CTA buttons — "i need this!"
-- problem section eyebrow — left-aligned, top of problem copy
-- drop cap — REMOVED entirely (brand voice conflict)
-- red infinity loop graphic — true-bounding-box crop, positioned at (124px, 104.2px) in 248×268 circle-inner, sized 54px
-- solution bridge — sub-line centred desktop + mobile
-- **solution bridge eyebrow (RE-ADDED this session)** — was orphaned CSS (`.solution-bridge-eyebrow`, `.solution-bridge .section-eyebrow`) with no matching HTML element; copy `"the solution · cognoscene"` added back using the existing `.section-eyebrow` class, sits above the `"3 layers"` label
-- anchor nav — REMOVED, do not re-add unless asked
-- **three layer cards (observer / rationalisation / growth)** — `<a>` tags scrolling to `#observer` / `#rationalisation` / `#growth`. Confirmed working when tapped/clicked on both desktop and mobile.
-- **layer card styling (FINAL, this session — went through several iterations, this is the settled version):**
-  - resting state: `2px solid var(--black)` border always visible (medium stroke outline), `16px` border-radius, `24px 28px` padding
-  - kicker copy for observer changed to `"intercept unnecessary impulses"` (matches the step-title copy used later in `.solution-details` for consistency)
-  - **desktop hover** (`@media (hover: hover) and (min-width: 761px)`): black bg, lime text, lime border, `transform: scale(1.25)` zoom, `0.35s ease` transition. Colors are set **explicitly on the child elements** (`.layer-action`, `.layer-name`), not via `color: inherit` on the parent — an earlier version relying on inherit rendered with invisible/wrong-colored text for reasons never fully diagnosed (possibly a real inheritance edge case, possibly a caching issue that got compounded by rapid pushes — wasn't conclusively isolated, but the explicit-color version fixed it and is more robust regardless, keep this pattern for any future hover work on this component)
-  - **mobile tap** (`@media (hover: none)`, using `:active`): same black/lime color+border flip, but **no scale/zoom** (explicitly reverted — felt bad on tap per Cogno) and **no transition** (`transition: none` — snaps instantly rather than easing, per Cogno's explicit ask to disable the animated fade for the tap version)
-  - `-webkit-tap-highlight-color: transparent` added to kill the default blue tap-flash overlay on mobile browsers
-- glow effect — ONLY on the `"hence..."` paragraph
-- chrome-band — REMOVED from HTML, CSS still present as dead code (lines ~161–176, ~1928) — flagged for cleanup, not yet done
-- **post-signup micro-survey modal** — see dedicated section below
-- **solution-details section (steps/videos) — alignment fixed this session:**
-  - `.step-row` changed from `align-items: center` to `align-items: start` — previously, text and video columns were vertically centered against inconsistent total-column heights (some rows have a slider-nav + caption below the video, some don't), which made the text look misaligned relative to the video itself. `align-items: start` anchors both columns to the top consistently.
-  - `.step-copy` font-size bumped `14px` → `16px`
-  - **rationalisation row (`id="rationalisation"`) has the `reverse` class added** — flips it to video-left/text-right, creating a zigzag pattern against observer/growth (both still text-left/video-right). This is intentional, confirmed by Cogno, not a bug.
-  - confirmed by Cogno: all three demo videos share the same aspect ratio, so that's not a contributing factor to any layout variance
-  - not yet done, flagged but not actioned: `.step-copy-block` has zero desktop-specific CSS (only gets styled inside the mobile media query) — fine as-is, just noting there's no dedicated hook if independent control over the text column is wanted later
+### marquee (top ticker)
+- `250` in the repeating message is bold (pre-existing `font-weight: 800`) and now `14px` (bumped from `12px`), with `margin: 0 -3px` on the `<strong>` to tighten the space between it and the surrounding words
+- the gap between repeated loop iterations was **not** changed — an earlier misread attempted that instead and was reverted
 
-### image asset
-`assets/canva-loop.png` — red `#E03030` infinity/recycle symbol, true-bounding-box crop method. If Cogno sends a new source image, redo using that method, not a naive square crop.
+### layer cards (observer / rationalisation / growth — the 3-layer index above "how it works")
+- resting: `2px solid var(--black)` border always visible, `16px` radius, `24px 28px` padding
+- observer kicker copy: `"intercept unnecessary impulses"` (matches the step-title later in `.solution-details`)
+- **desktop hover** (`@media (hover: hover) and (min-width: 761px)`): card background flips to black, border to lime — the card itself does NOT scale. Only the text (`.layer-action`, `.layer-name`) scales `1.25x` via `transform` on those child elements, colors set explicitly on the children (not `color: inherit` — an earlier version relying on inherit had a text-rendering bug never fully root-caused)
+- **mobile tap** (`@media (hover: none)`, `:active`): same black/lime color+border flip, no scale/zoom (tried once, reverted — felt bad on tap), no transition (instant snap)
+- `-webkit-tap-highlight-color: transparent` kills the default blue tap-flash
 
----
+### ⚠️ layers.css — unresolved, real, needs a decision before touching
+`css/layers.css` (linked separately in `<head>`, NOT part of the inline `<style>` block) has its own competing rules for `.layer-index-item`/`.layer-action`/`.layer-name`, discovered mid-session:
+- `.layer-action { opacity: 0.62; }` base level, no media query — likely still making kicker text look faded regardless of the inline styles
+- a full **mobile-only sliding carousel animation system**: alternating slide direction per card (`layer-slide`), a sliding lime gradient overlay (`gradient-left`), and the `growth` card (3rd child) hardcoded via `:nth-child(3)` to force a **permanent black background + pulsing animation (`layer-pulse`)**, independent of tap state
+- predates this session, likely from earlier "smooth edge gradient fade on layer cards" mobile UX work — Cogno confirmed the alternating slide motion is intentional/known/wanted, NOT abandoned
+- **unresolved:** whether the new tap-to-flip behavior (this session, lives in inline styles) should coexist with this, and specifically whether `growth` should still be permanently black+pulsing now that tap-to-flip also targets it. Ask before touching `layers.css` — it is confirmed NOT dead code
 
-## post-signup micro-survey modal (built + shipped this session)
+### hero mockup stack — two competing redesigns, reverted to original + new interaction added
+Earlier this session, a different Claude session (see the "multiple sessions" landmine above) had proposed and shipped a hero mockup restructure: `growth` → landscape/back, `hold` → portrait/front, `soft` card removed, `--green` → `--black`, new tag copy. **Cogno reverted it** — "doesn't match up because it's not based on my features," it was another session's unverified interpretation, not his actual intent.
 
-**trigger:** fires automatically right after successful waitlist form submission, via `openPostSignupModal(payload.email)` called inside the existing Formspree `.then()` success handler.
+**Current confirmed-correct state:** all 3 original cards restored (`growth` dashboard, `soft` nudge, `hold` checkout-timer), original positions/sizes/rotations, original mobile behavior (`growth` hidden on mobile, only `soft`+`hold` show there).
 
-**structure:** 4-step modal — intro → Q1 (country) → Q2 (referral source) → Q3 (platform interest, merged from original separate chromium-browser + mobile-app-demand questions) → closing/thanks screen.
+**Kept from the reverted attempt, per Cogno's explicit "you can keep those":** `--green` → `--black` on `.hero-dashboard-stat .num`, `.mock-timer-label`, `.mock-timer` (hero-scoped only — `--green` untouched everywhere else, confirmed via grep), and tag copy `"how it works — on any digital store"`.
 
-**copy (locked):**
-- intro: *"you're on the list! we'll reach out to you within 1–2 weeks, just three quick things first."*
-- Q1: *"where are you based?"* — dropdown, singapore/malaysia/united states pinned to top (SAM/SOM markets), rest alphabetical, "other" at bottom
-- Q2: *"how'd you find us?"* — single-select chips: reddit / tiktok / instagram / friend/word of mouth / search / other (other reveals a freetext input)
-- Q3: *"besides chrome, where do you want us?"* — multi-select chips: edge / firefox / opera / brave / mobile app (ios) / mobile app (android) / none of these yet ("none" is exclusive — selecting it clears other selections and vice versa)
-- closing: *"thanks — see you soon."*
+**New this session, Cogno's own idea, built clean:** clicking any of the 3 mockup cards brings it to front and hides the other two via pure layering (no blur, no opacity fade) — see landmine #14 for the technique. Keyboard-accessible (`role="button"`, `tabindex="0"`, Enter/Space, `aria-pressed`). Clicking the already-active card again reverts to the normal stacked view. **Cogno has not yet tested this live** — session ended right after shipping it. Ask for live feedback before assuming it's done.
 
-**mechanics:** progress dots per step, `×` dismiss anytime, each question individually skippable (not all-or-nothing), confirmation message shown upfront on intro regardless of downstream answers, mobile renders as a bottom-sheet (slides up) vs. centered modal on desktop.
+### solution bridge / solution-details (the "3 layers" walkthrough section)
+- eyebrow re-added: `"the solution · cognoscene"` (was orphaned CSS with no matching HTML element)
+- `.step-row` uses `align-items: start` (not `center`) — fixes text/video vertical misalignment from inconsistent right-column heights
+- `.step-copy` is `16px` (bumped from `14px`)
+- `rationalisation` row has the `reverse` class — intentional zigzag layout, confirmed by Cogno
+- `.solution-bridge h2::before/::after` in `index.html` is a plain unused typography rule (no matching `<h2>` exists) — separate from the real, active hack in `layers.css`. Low priority, not yet removed.
 
-**data handling:** answers POST to a **separate Formspree endpoint** (`formspree.io/f/mwleweea`) from the main signup form (`mbgropvn`), correlated by email. Fires on reaching the "done" step (via finish or skip-through) OR on early dismiss if any answer was given. Best-effort — no retry logic, no UI error state (acceptable for optional secondary data).
+### post-signup micro-survey modal
+Fires automatically after successful waitlist submission (`openPostSignupModal(payload.email)` inside the Formspree success handler). 4-step: intro → country → referral source → platform interest (merged chromium-browser + mobile-app-demand). Progress dots, `×` dismiss anytime, per-question skip, mobile bottom-sheet vs. desktop centered modal. Answers POST to a separate Formspree endpoint (`mwleweea`) from the main signup form (`mbgropvn`), correlated by email.
 
-**important scope note — mobile app demand ≠ browser porting:** Cogno's intent for the platform-interest question is gauging demand for a native mobile app, NOT porting the Chrome extension itself. These are different products — Decision Mode's checkout-intercept mechanic relies on browser extension APIs that don't exist the same way on iOS/Android at the OS level. A mobile app would need a different technical approach entirely (e.g. Safari content blocker, Android accessibility service, or shopping-app-specific integrations) if ever built. Currently this is demand-signal only — no build commitment implied by the copy, and none should be added without Cogno explicitly scoping it.
+Test without a real submission: `window.openPostSignupModal` is exposed globally — run `openPostSignupModal('test@example.com')` in the browser console on the live site.
 
-**pre-existing gap noticed while building this (not yet fixed, flag to Cogno):** the *original* waitlist form's Formspree payload (`mbgropvn`, in the main submit handler) does not currently include the `platform` radio value (`web`/`mobile`/`both`) in the fields it sends — only `email`, `ready`, `legal_agreed`. That field has existed in the HTML but may not actually be captured in submissions. Worth confirming with Cogno whether this is intentional or a bug to fix.
+### Formspree payload — fixed this session
+The main signup form wasn't including the `platform` radio value (web/mobile/both) in its payload — only `email`/`ready`/`legal_agreed` were sent despite the field existing in HTML. Fixed via `form.querySelector('input[name="platform"]:checked')`.
 
----
-
-## SEO (audited this session — researched, not yet actioned)
-
-**already in place (checked live `<head>`):** title, meta description, canonical tag, full OG set (`og:type`/`url`/`title`/`description`/`image`), `twitter:card`. Core basics are covered.
-
-**gaps — independent of the Cloudflare move, cheap, not yet done:**
-- no `robots.txt` in repo root
-- no `sitemap.xml` in repo root
-- `twitter:card` set but `twitter:title`/`twitter:description`/`twitter:image` not explicit (most crawlers fall back to `og:` tags, but not guaranteed everywhere)
-
-**tied to the Cloudflare Pages migration specifically:** 301 redirects from `gencogno.github.io` to the new domain, via Cloudflare's `_redirects` file — standard practice so search engines transfer ranking rather than treating it as a new site. Low urgency for Cogno specifically since the site is pre-launch with minimal existing search traffic to protect — there's little ranking to lose, unlike a migration guide written for an established site.
-
-**verdict:** don't bundle SEO into the Cloudflare migration as a blocking reason to wait — robots.txt/sitemap/explicit twitter tags are zero-risk, zero-dependency, can ship any time. Given the locked distribution strategy (Reddit organic / micro-creator / TikTok, not search-driven), on-site SEO is a supporting lever, not a priority one. Redirects are the one item that genuinely needs to wait for the new domain to exist.
+### dead CSS removed this session
+- `.chrome-band` and children — confirmed genuinely dead (HTML removed in an earlier session, only orphaned CSS remained)
+- (NOT removed — `layers.css`, see above, that one is real/active)
 
 ---
 
 ## OUTSTANDING WORK
 
-**session split note:** Cogno is doing desktop finishing touches first this session, mobile pass afterward. Some mobile work already landed opportunistically (layer card tap state, see above) but treat the "mobile-specific batch" below as still the primary mobile scope — ask Cogno what's left before assuming desktop-parity is the only remaining mobile task.
+### 1. hero mockup click-to-front — needs live testing
+Built this session, never tested live before session ended. Confirm: snaps cleanly, active-card-click-to-revert works, sensible on mobile (only `soft`+`hold` visible there).
 
-### item #10 — platform interest field on the MAIN signup form — still UNRESOLVED
-Current live copy: label *"i'm joining for"*, radio pills `web (all browsers)` / `mobile (android & ios)` / `both`. Cogno has said multiple times he wants to change this but scope has shifted across the conversation — he does NOT want browser-porting language, he wants **mobile app demand** framing (see the post-signup Q3 above, which now handles a version of this). Ask him directly: does he still want the *main form's* field changed too, now that the post-signup survey covers a fuller mobile-interest question? Or is the main form field fine as-is and only the post-signup survey needed the fix?
+### 2. layers.css carousel/pulse system — needs a decision (full writeup above)
+Specifically: should `growth` still force permanent black+pulse via `:nth-child(3)` now that tap-to-flip also targets all three? Does `opacity: 0.62` on `.layer-action` need to go? Don't touch without asking.
 
-### formspree payload gap
-See "pre-existing gap" note above — confirm with Cogno whether the main form's `platform` field needs to be added to its Formspree payload.
+### 3. item #10 — platform interest field on the MAIN signup form — unresolved across many sessions
+Current copy: `"i'm joining for"`, pills `web (all browsers)` / `mobile (android & ios)` / `both`. Cogno wants **mobile app demand** framing, not browser-porting language — the post-signup survey's platform question now mostly covers this. Ask: does the main form field still need changing, or is the survey sufficient?
 
-### chrome-band dead CSS cleanup
-Lines ~161–176 and ~1928 (line numbers approximate, re-grep before touching) — HTML already removed, CSS rules still present unused. Low priority, flagged for whenever there's a cleanup pass.
+### 4. mobile-specific batch — not yet scoped in detail
+Ask what's specifically left — some mobile work has landed opportunistically but a dedicated pass hasn't happened. Hero has a separate mobile HTML block (`.mobile-h1`, `.mobile-sub`, `.mobile-only`) — the `98%` stat doesn't exist in mobile copy, needs a copy decision if ever wanted there.
 
-### font-size:0 / ::after CTA hack
-Open cleanup note from earlier sessions — a redundant hack in `layers.css`-equivalent inline styles should be removed. Not yet located/actioned this session — re-grep for it.
+### 5. SEO (audited, not yet actioned)
+Already in place: title, meta description, canonical, full OG set, `twitter:card`. Missing, cheap, no dependencies: `robots.txt`, `sitemap.xml`, explicit `twitter:title`/`description`/`image`. Tied to the eventual Cloudflare migration: 301 redirects — low urgency, site is pre-launch with minimal search traffic to protect yet.
 
-### mobile-specific batch
-Not yet scoped in detail. Before touching: ask Cogno whether this is a parity check against desktop-only changes made recently (layer card hover is desktop-only by design, so nothing to port there) or new mobile-only issues. Remember the hero has a **completely separate mobile HTML block** (`.mobile-h1`, `.mobile-sub`, `.mobile-only` class) — the `98%` stat does not exist in mobile copy; adding it requires a copy decision, not just CSS.
-
-### GitHub Pages → Cloudflare Pages migration
-Flagged in earlier sessions as a planned move once the site is finalized. Steps to be documented in `docs/WAITLIST-PLAN.md` when it's time — not started.
+### 6. GitHub Pages → Cloudflare Pages migration
+Planned, not started. Steps to be documented in `docs/WAITLIST-PLAN.md` when it's time.
 
 ---
 
@@ -223,17 +192,6 @@ Flagged in earlier sessions as a planned move once the site is finalized. Steps 
 5. problem section restructure — ✅ done
 6. shorten tri-loop cards, replace graphic — ✅ done
 7. move solution bridge title — ✅ done
-8. button link nav — ✅ REVERTED, replaced with layer card scroll-links (now also has hover state)
+8. button link nav — ✅ REVERTED, replaced with layer card scroll-links (now with hover/tap state)
 9. founding member highlighted — ✅ done
-10. mobile form field (web/mobile/both) — ⚠️ still unresolved, see "OUTSTANDING WORK" above — scope has evolved into the post-signup survey covering most of the original intent, but the main-form field itself hasn't been touched
-
----
-
-## style/brand reference (for any new copy or visual decisions)
-
-- colors: cream `var(--cream)` `#edeade`, lime `var(--lime)` `#b8d878`, black `var(--black)` `#111111`, white `var(--white)` `#ffffff` (retained for explicit use only)
-- red `#E03030` — loop/cycle graphic only, not part of the general accent system
-- fonts: Instrument Serif (headings), DM Sans (body), Be Vietnam Pro in some older rules
-- voice: all-lowercase, casual, direct
-- card convention: `16px` border-radius, `24px 28px` padding, `1px solid black` border — used by `.founding-card` and now `.layer-index-item`
-- hover convention (desktop only): scope with `@media (hover: hover) and (min-width: 761px)` to avoid touch-device "stuck hover" states
+10. mobile form field (web/mobile/both) — ⚠️ still unresolved, see "OUTSTANDING WORK" #3
