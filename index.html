@@ -1402,6 +1402,10 @@
       transition: color 0.35s ease, transform 0.35s ease;
     }
     @media (min-width: 761px) {
+      .solution-bridge {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
       .solution-bridge .layers-index {
         width: calc(100% + 18.75px);
         max-width: none;
@@ -1415,13 +1419,10 @@
     }
     @media (hover: hover) and (min-width: 761px) {
       a.layer-index-item:hover {
-        background-color: var(--black);
-        border-color: var(--lime);
         z-index: 2;
       }
       a.layer-index-item:hover .layer-action,
       a.layer-index-item:hover .layer-name {
-        color: var(--lime);
         transform: scale(1.25);
       }
     }
@@ -2314,8 +2315,8 @@
 
           <div class="problem-beat">
             <p>and you'll do it again. despite controlling yourself, the dopamine from social media and shopping makes checkout feel irresistible.</p>
-            <p><strong>there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.</strong></p>
-            <p class="highlight-swipe-text"><span class="highlight-swipe is-glow">hence, we built an extension to prevent you from shopping destructively using friction.</span></p>
+            <p>there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.</p>
+            <p class="highlight-swipe-text"><strong><span class="highlight-swipe is-glow">hence, we built an extension to prevent you from shopping destructively using friction.</span></strong></p>
           </div>
         </div>
 
