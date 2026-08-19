@@ -1215,7 +1215,7 @@
       margin: 0;
     }
     .lc-circle-stage {
-      --loop-scale: 1.5625;
+      --loop-scale: 1.4125;
       position: relative;
       box-sizing: border-box;
       width: calc(248px * var(--loop-scale));
@@ -1389,11 +1389,15 @@
       border-radius: 16px;
       background-color: transparent;
       border: 2px solid var(--black);
+      box-shadow: 0 12px 30px rgba(17, 17, 17, 0.04);
       position: relative;
       z-index: 1;
       transition: background-color 0.35s ease, border-color 0.35s ease;
       -webkit-tap-highlight-color: transparent;
     }
+    a.layer-index-item:nth-child(1) { box-shadow: 0 10px 26px rgba(17, 17, 17, 0.035); }
+    a.layer-index-item:nth-child(2) { box-shadow: 0 12px 30px rgba(17, 17, 17, 0.04); }
+    a.layer-index-item:nth-child(3) { box-shadow: 0 14px 34px rgba(17, 17, 17, 0.045); }
     a.layer-index-item .layer-action,
     a.layer-index-item .layer-name {
       display: block;
@@ -1415,6 +1419,9 @@
       }
       a.layer-index-item {
         padding: 18px 20px;
+      }
+      .step-row.reverse .step-copy-block {
+        text-align: right;
       }
     }
     @media (hover: hover) and (min-width: 761px) {
@@ -1623,10 +1630,34 @@
       margin: 0 -24px;
       padding: 40px 24px 56px;
     }
+    .form-conversion {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: grid;
+      gap: 28px;
+      align-items: start;
+    }
+    .form-conversion .founding-card,
+    .form-conversion .founding-card-fine {
+      max-width: none;
+    }
+    .form-offer {
+      text-align: center;
+    }
     .form-inner {
       max-width: var(--form-max);
       margin: 0 auto;
       text-align: center;
+      width: 100%;
+    }
+    @media (min-width: 761px) {
+      .form-conversion {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 48px;
+      }
+      .form-offer {
+        align-self: center;
+      }
     }
     .form-inner .section-eyebrow {
       font-size: 13px;
@@ -1735,38 +1766,6 @@
       text-decoration: underline;
     }
 
-    .form-platform {
-      margin: 14px 0 4px;
-    }
-    .form-platform-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 10px;
-    }
-    .platform-options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .platform-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--black);
-    }
-    .platform-option input[type="radio"] {
-      accent-color: var(--green);
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
     .btn-submit {
       width: 100%;
       margin-top: 0.35cm;
@@ -2464,24 +2463,24 @@
       </div>
     </section>
 
-    <section class="founding-band wrap" aria-labelledby="founding-heading">
-      <a class="founding-card" href="#waitlist">
-        <h3 id="founding-heading"><strong>founding member offer</strong></h3>
-        <p><span class="highlight fc-swipe">2 months free.</span> then lock in lifetime premium for <span class="highlight fc-swipe">sgd$10</span> — one-time, no subscription.</p>
-        <p>this offer closes when the first <span class="highlight fc-swipe">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
-        <p class="founding-card-note"><span class="highlight fc-swipe">no charge today.</span></p>
-        <span class="founding-card-cta">join the waitlist →</span>
-      </a>
-      <p class="founding-card-terms">
-        <a href="founding-terms.html">founding offer terms</a>
-      </p>
-      <p class="founding-card-fine">
-        waitlist open 30 days or until 250 spots fill · sgd$10 one-time sgd after free trial · features may change during beta · use the same email for chrome and payment.
-      </p>
-    </section>
-
     <section class="form-band" id="waitlist" aria-labelledby="form-heading">
-      <div class="form-inner">
+      <div class="form-conversion">
+        <aside class="form-offer" aria-labelledby="founding-heading">
+          <div class="founding-card">
+            <h3 id="founding-heading"><strong>founding member offer</strong></h3>
+            <p><span class="highlight fc-swipe">2 months free.</span> then lock in lifetime premium for <span class="highlight fc-swipe">sgd$10</span> — one-time, no subscription.</p>
+            <p>this offer closes when the first <span class="highlight fc-swipe">250</span> spots fill or in 30 days — whichever comes first. after that, it's gone.</p>
+            <p class="founding-card-note"><span class="highlight fc-swipe">no charge today.</span></p>
+          </div>
+          <p class="founding-card-terms">
+            <a href="founding-terms.html">founding offer terms</a>
+          </p>
+          <p class="founding-card-fine">
+            waitlist open 30 days or until 250 spots fill · sgd$10 one-time sgd after free trial · features may change during beta · use the same email for chrome and payment.
+          </p>
+        </aside>
+
+        <div class="form-inner">
         <p class="section-eyebrow">the waitlist</p>
         <h2 id="form-heading">stop the cycle. take back control.</h2>
         <p class="form-sub">first step: get on the list.</p>
@@ -2497,24 +2496,6 @@
           <form id="waitlistForm" novalidate>
             <label class="visually-hidden" for="email">email address</label>
             <input class="field" id="email" name="email" type="email" placeholder="email address *" required autocomplete="email" />
-
-            <div class="form-platform">
-              <span class="form-platform-label">i'm joining for</span>
-              <div class="platform-options" role="radiogroup" aria-label="platform interest">
-                <label class="platform-option">
-                  <input type="radio" name="platform" value="web" required />
-                  <span>web (all browsers)</span>
-                </label>
-                <label class="platform-option">
-                  <input type="radio" name="platform" value="mobile" />
-                  <span>mobile (android &amp; ios)</span>
-                </label>
-                <label class="platform-option">
-                  <input type="radio" name="platform" value="both" />
-                  <span>both</span>
-                </label>
-              </div>
-            </div>
 
             <label class="form-check">
               <input type="checkbox" name="ready" value="yes" required />
@@ -2541,6 +2522,7 @@
           <h3>waitlist is closed.</h3>
           <p>the first 250 spots are filled or the 30-day window has ended. we'll email the next batch when it opens.</p>
         </div>
+      </div>
       </div>
 
       <div class="psm" id="psmModal" role="dialog" aria-modal="true" aria-labelledby="psmTitle">
@@ -2715,12 +2697,8 @@
         return;
       }
 
-      var platformInput = form.querySelector('input[name="platform"]:checked');
-
       var payload = {
         email: document.getElementById('email').value.trim(),
-        platform: platformInput ? platformInput.value : '',
-        ready: form.querySelector('input[name="ready"]').checked ? 'yes' : 'no',
         legal_agreed: form.querySelector('input[name="legal"]').checked ? 'yes' : 'no',
         _subject: 'cognoscene waitlist signup'
       };
