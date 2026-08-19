@@ -118,7 +118,7 @@
       color: var(--lime);
       font-weight: 800;
       font-size: 14px;
-      margin: 0 -3px;
+      margin: 0;
     }
     @keyframes top-bar-marquee {
       from { transform: translateX(0); }
@@ -483,6 +483,20 @@
       max-width: 440px;
       padding: 18px;
       border-radius: 36px;
+    }
+    .solution-details .showcase-video-frame {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+    }
+    .solution-details .showcase-video-hit,
+    .solution-details .showcase-video-stage {
+      height: 100%;
+    }
+    .solution-details .showcase-video-hit .showcase-video,
+    .solution-details .showcase-video-stage .showcase-video {
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
     .showcase-video-hit .showcase-video,
     .showcase-video-stage .showcase-video {
@@ -1543,8 +1557,6 @@
       box-shadow: 0 14px 36px rgba(0, 0, 0, 0.03);
       text-decoration: none;
       color: inherit;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
     .founding-card:focus-visible {
       outline: 2px solid var(--black);
@@ -1600,19 +1612,6 @@
       text-underline-offset: 2px;
     }
     .founding-card-terms a:hover { color: var(--black); }
-    .founding-card-fine {
-      max-width: 520px;
-      margin: 12px auto 0;
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.55;
-      text-align: center;
-    }
-    .founding-card-fine a {
-      color: var(--mid);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
 
     /* form */
     .form-band {
@@ -2464,9 +2463,6 @@
           </div>
           <p class="founding-card-terms">
             <a href="founding-terms.html">founding offer terms</a>
-          </p>
-          <p class="founding-card-fine">
-            waitlist open 30 days or until 250 spots fill · sgd$10 one-time sgd after free trial · features may change during beta · use the same email for chrome and payment.
           </p>
         </aside>
 
