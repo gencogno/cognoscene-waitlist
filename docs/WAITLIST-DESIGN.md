@@ -134,7 +134,7 @@ Breakpoint: **`@media (max-width: 760px)`** for almost all mobile layout. Extra 
 At widths **≥761px**, the problem section establishes the visual bounds used by the Solution Bridge:
 
 - **Left boundary:** the farthest-left edge of the problem-copy column.
-- **Right boundary:** the farthest-right edge of the scaled three-card loop diagram, including its current **1.18px** overhang beyond the grid column.
+- **Right boundary:** the farthest-right edge of the scaled three-card loop diagram, including its current **0.16px** overhang beyond the grid column.
 - The three Solution Bridge cards must span exactly between these two edges: observer begins at the left boundary; growth ends at the right boundary. Do not constrain this card row to the nominal `--max` edge when it differs from the loop’s visual edge.
 
 ---
