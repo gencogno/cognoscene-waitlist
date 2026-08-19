@@ -237,7 +237,7 @@ Three `.step-row` blocks. L1 and L3 are pill sliders; L2 is a single clip. Click
 | Layer | Label | Title | Proof | Clips |
 |-------|-------|-------|-------|-------|
 | 1 Observer | `first layer Â· observer` | `intercept unnecessary impulses` | soft lookout pulses while browsing shops | `observer-1.mp4` (1st pulse) Â· `observer-3rd.mp4` (3rd pulse) |
-| 2 Rationalisation | `second layer Â· rationalisation` | `48 hours to decide if you need this` | checkout pause, decide valuable vs waste | `demo.mp4` |
+| 2 Rationalisation | `second layer · rationalisation` | `48 hours to decide whether it’s a waste of money` | `demo.mp4` |
 | 3 Growth | `third layer Â· growth` | `reinforce your identity of prudence` | dashboard: streak, rationalised, savings | `growth-smol.mp4` (popup) Â· `growth-full.mp4` (dashboard) |
 
 Tier notes under each title:
@@ -248,7 +248,7 @@ Tier notes under each title:
 
 Footnote: `desktop chrome Â· you pick the sites Â· free to start on one site`
 
-Video map: [`../assets/videos/VIDEO-MAP.md`](../assets/videos/VIDEO-MAP.md). On desktop, Rationalisation copy is right-aligned; on mobile, all copy is left-aligned.
+Video map: [`../assets/videos/VIDEO-MAP.md`](../assets/videos/VIDEO-MAP.md). Rationalisation copy stays left-aligned at every viewport.
 
 ### 5.6 Founding offer + waitlist form — `section.form-band#waitlist`
 
@@ -260,7 +260,7 @@ Desktop uses one two-column conversion module: founding offer/terms on the left,
 | **Scarcity** | first 250 spots or 30 days, whichever comes first |
 | **Reassurance** | `no charge today.` |
 | **Terms** | link to `founding-terms.html` |
-| **Form fields** | email + ready checkbox + legal checkbox |
+| **Form fields** | email + legal checkbox |
 | **Platform interest** | collected only in post-submit modal |
 | **Gate** | `#waitlistGateStatus` — `waitlist closes in {timer} · {n} spots left` |
 | **Success** | `you're on the list.` + founding reminder, no charge today |
@@ -295,7 +295,6 @@ Visible fields:
 |-------|----------------|------------------|
 | `email` | yes | yes |
 | platform interest | collected after signup in `#psmModal` | yes (`platforms_interested`) |
-| `ready` checkbox â€” `i'm ready to try a pause before checkout.` | yes | yes (`yes` / `no`) |
 | `legal` checkbox â€” privacy + terms | yes | yes as `legal_agreed` |
 | `_subject` | â€” | `cognoscene waitlist signup` |
 
