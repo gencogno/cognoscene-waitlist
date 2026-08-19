@@ -124,22 +124,6 @@
   text-align: left;
 }
 
-/* Mobile anchor navigation is injected after the hero. Keep section targets clear of both sticky bars. */
-.solution-details .step-row {
-  scroll-margin-top: 96px;
-}
-
-@media (max-width: 600px) {
-  html { scroll-padding-top: 96px; }
-  .anchor-nav {
-    top: 45px;
-    box-shadow: 0 6px 18px rgba(17, 17, 17, 0.05);
-  }
-  .anchor-nav-inner {
-    overscroll-behavior-x: contain;
-  }
-}
-
 @media (min-width: 761px) {
   .waitlist-platform-field {
     margin-top: 16px;
