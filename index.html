@@ -1193,6 +1193,15 @@
       text-align: left;
       margin-bottom: 16px;
     }
+    .problem-dropcap-letter {
+      float: left;
+      margin: 0.04em 0.12em 0 0;
+      font-family: var(--serif);
+      font-size: 5.6em;
+      font-weight: 400;
+      line-height: 0.88;
+      text-transform: lowercase;
+    }
     .problem-band-header h2 {
       font-family: var(--serif);
       font-size: clamp(1.35rem, 3.2vw, 1.75rem);
@@ -1702,6 +1711,10 @@
       margin-bottom: 8px;
       font-size: 13px;
       color: inherit;
+    }
+    .form-offer-eyebrow-mobile,
+    .form-offer-status-mobile {
+      display: none;
     }
     .form-offer h2 {
       max-width: 390px;
@@ -2243,23 +2256,14 @@
       .hero { padding-bottom: 0; }
       .hero-visual {
         order: 1;
-        min-height: 400px;
+        min-height: 360px;
         margin: 0;
       }
       .hero-screenshot-stack {
         position: relative;
         min-height: 260px !important;
         max-width: 100%;
-        margin: calc(140px - 3cm) 0 0;
-      }
-      .problem-dropcap-letter {
-        float: left;
-        margin: 0.08em 0.12em 0 0;
-        font-family: var(--serif);
-        font-size: 4.25em;
-        font-weight: 400;
-        line-height: 0.72;
-        text-transform: uppercase;
+        margin: calc(140px - 2.5cm) 0 0;
       }
       .hero-shot--growth { display: none; }
       .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
@@ -2273,7 +2277,10 @@
         gap: 24px;
       }
       .problem-copy { display: contents; }
-      .problem-copy > .section-eyebrow { order: 1; }
+      .problem-copy > .section-eyebrow {
+        order: 1;
+        margin-bottom: 0;
+      }
       .problem-copy > .problem-beat:first-of-type {
         order: 2;
         margin-bottom: 0;
@@ -2286,11 +2293,11 @@
       .problem-loop-visual {
         position: static;
         order: 5;
-        margin: 0.5cm auto 0.25cm;
+        margin: 0.5cm auto 0;
       }
       .problem-beat--cycle-post { order: 6; }
       .problem-loop-visual .lc-circle-stage {
-        --loop-scale: 1.017;
+        --loop-scale: 1.117;
       }
       .solution-bridge {
         display: flex;
@@ -2328,9 +2335,26 @@
       .solution-bridge-sub {
         display: none;
       }
-      .form-pricing-guardrail,
-      .form-pricing-terms {
+      .form-pricing-guardrail {
         text-align: left;
+      }
+      .form-pricing-terms,
+      .form-offer-status {
+        text-align: center;
+      }
+      .form-offer h2,
+      .form-offer-build {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+      .form-offer-eyebrow-desktop,
+      .form-offer-status-desktop {
+        display: none;
+      }
+      .form-offer-eyebrow-mobile,
+      .form-offer-status-mobile {
+        display: inline;
       }
       .form-pricing-mobile-price {
         display: none;
@@ -2682,11 +2706,11 @@
     <section class="form-band" id="waitlist" aria-labelledby="form-heading">
       <div class="form-conversion">
         <aside class="form-offer" aria-labelledby="founding-heading">
-          <p class="section-eyebrow form-offer-eyebrow">founding beta</p>
+          <p class="section-eyebrow form-offer-eyebrow"><span class="form-offer-eyebrow-desktop">founding beta</span><span class="form-offer-eyebrow-mobile">founding cohort - waitlist</span></p>
           <h2 id="founding-heading">disrupt buying triggers before they become regret.</h2>
           <p class="form-offer-build">we're still building the extension while you read this. when we finish, you'll be the first to try it.</p>
           <p class="form-offer-benefit">2 months free. then lock in lifetime premium for sgd$10 — one-time, no subscription.</p>
-          <p class="form-offer-status">first 250 get early access.</p>
+          <p class="form-offer-status"><span class="form-offer-status-desktop">first 250 get early access.</span><span class="form-offer-status-mobile">no charge today. test cognoscene upon securing your spot.</span></p>
         </aside>
 
         <div class="form-inner">
