@@ -1756,16 +1756,6 @@
       font-size: 12px;
       line-height: 1.55;
     }
-    .form-pricing-terms {
-      margin-top: 8px;
-      font-size: 12px;
-    }
-    .form-pricing-terms a {
-      color: var(--mid);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .form-pricing-terms a:hover { color: var(--black); }
     @media (min-width: 761px) {
       .form-conversion {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -2194,10 +2184,18 @@
       right: 0;
       bottom: 0;
       z-index: 200;
-      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
-      background: rgba(245, 240, 232, 0.96);
-      border-top: 1px solid var(--line);
-      backdrop-filter: blur(8px);
+      padding: 0;
+      background: transparent;
+      border: 0;
+      backdrop-filter: none;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.24s ease, transform 0.24s ease;
+    }
+    .mobile-cta-bar.is-contextual-hidden {
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
     }
     .mobile-cta-bar a {
       display: block;
@@ -2338,7 +2336,9 @@
       .form-pricing-guardrail {
         text-align: left;
       }
-      .form-pricing-terms { text-align: center; }
+      .form-pricing-guardrail-desktop { display: none; }
+      .form-pricing-guardrail-mobile { display: inline; }
+      .form-offer-eyebrow { text-align: left; }
       .form-offer h2 {
         margin-bottom: 0.5cm;
       }
@@ -2413,6 +2413,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .btn-primary:hover, .btn-submit:hover { transform: none; }
+      .mobile-cta-bar { transition: none; }
     }
   </style>
 </head>
@@ -2595,7 +2596,7 @@
     <section class="solution-bridge wrap" id="solution" aria-label="the solution — three layers">
       <p class="section-eyebrow">the solution · cognoscene</p>
       <p class="solution-bridge-sub">pause shopping impulses.</p>
-      <p class="layers-index-label" style="margin-bottom: 8px;">3 layers — tap to see each layer.</p>
+      <p class="layers-index-label" style="margin-bottom: 24px;">3 layers — tap to see each layer.</p>
       <h2 class="solution-bridge-mobile-title mobile-only">pause shopping impulses.</h2>
       <div class="layers-index" aria-label="three product layers">
         <a class="layer-index-item" href="#observer">
@@ -2710,7 +2711,7 @@
           <h2 id="founding-heading">disrupt buying triggers before they become regret.</h2>
           <p class="form-offer-build">we're still building the extension while you read this. when we finish, you'll be the first to try it.</p>
           <p class="form-offer-benefit">2 months free. then lock in lifetime premium for usd10 — one-time, no subscription.</p>
-          <p class="form-offer-status"><span class="form-offer-status-desktop">first 100 get early access.</span><span class="form-offer-status-mobile">we're still building the extension while you read this. when we finish, you'll be the first to try it.</span></p>
+          <p class="form-offer-status"><span class="form-offer-status-desktop">first 100 get early access.</span><span class="form-offer-status-mobile">only first 100 get this offer.</span></p>
         </aside>
 
         <div class="form-inner">
@@ -2737,8 +2738,7 @@
             <button class="btn-submit" id="submitBtn" type="submit">join the waitlist</button>
           </form>
 
-          <p class="form-pricing-guardrail">no charge today. if invited, test cognoscene in our private community.<br><span class="form-pricing-mobile-price">2 months premium, then usd10 lifetime.</span></p>
-          <p class="form-pricing-terms"><a href="founding-terms.html">founding offer terms</a></p>
+          <p class="form-pricing-guardrail"><span class="form-pricing-guardrail-desktop">no charge today. if invited, test cognoscene in our private community.</span><span class="form-pricing-guardrail-mobile">no charges today. test cognoscene upon invite.</span><br><span class="form-pricing-mobile-price">2 months premium, then usd10 lifetime.</span></p>
         </div>
 
         <div class="form-success" id="formSuccess" role="status" aria-live="polite">
@@ -3542,6 +3542,38 @@
 
       tick();
       setInterval(tick, 1000);
+    })();
+
+    (function initMobileCtaVisibility() {
+      var mobileCta = document.querySelector('.mobile-cta-bar');
+      var waitlist = document.getElementById('waitlist');
+      var ctaLink = mobileCta && mobileCta.querySelector('a');
+      var mobileViewport = window.matchMedia('(max-width: 760px)');
+      var formIsVisible = false;
+
+      if (!mobileCta || !waitlist || !('IntersectionObserver' in window)) return;
+
+      function setCtaVisibility(inView) {
+        formIsVisible = inView;
+        var shouldHide = mobileViewport.matches && inView;
+        mobileCta.classList.toggle('is-contextual-hidden', shouldHide);
+        mobileCta.setAttribute('aria-hidden', shouldHide ? 'true' : 'false');
+        if (ctaLink) {
+          if (shouldHide) ctaLink.setAttribute('tabindex', '-1');
+          else ctaLink.removeAttribute('tabindex');
+        }
+      }
+
+      var observer = new IntersectionObserver(function (entries) {
+        setCtaVisibility(entries[0].isIntersecting);
+      }, { threshold: 0 });
+      observer.observe(waitlist);
+
+      if (mobileViewport.addEventListener) {
+        mobileViewport.addEventListener('change', function () {
+          setCtaVisibility(formIsVisible);
+        });
+      }
     })();
 
     document.addEventListener('DOMContentLoaded', function () {
