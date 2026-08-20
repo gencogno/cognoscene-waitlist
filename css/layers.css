@@ -211,22 +211,6 @@
     background: linear-gradient(270deg, var(--lime) 0%, var(--lime-muted) 35%, transparent 100%);
   }
 
-  .layer-index-item:nth-child(3) {
-    background: var(--black);
-    animation-name: layer-slide, layer-pulse;
-    animation-duration: 4s, 4s;
-    animation-timing-function: ease-in-out, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-  }
-
-  .layer-index-item:nth-child(3)::after {
-    background: linear-gradient(90deg, var(--green) 0%, rgba(168, 200, 112, 0.55) 28%, transparent 100%);
-    mix-blend-mode: overlay;
-  }
-
-  .layer-index-item:nth-child(3) .layer-action,
-  .layer-index-item:nth-child(3) .layer-name { color: var(--white); }
-
   @keyframes layer-slide {
     0% { margin-left: 0; }
     100% { margin-left: 18%; }
@@ -237,11 +221,6 @@
     0%, 100% { opacity: 1; }
     25% { opacity: 0; }
     75% { opacity: 0; }
-  }
-
-  @keyframes layer-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
   }
 
   @media (prefers-reduced-motion: reduce) {
