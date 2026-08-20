@@ -2272,11 +2272,17 @@
         grid-template-columns: 1fr;
         gap: 24px;
       }
+      .problem-copy { display: contents; }
+      .problem-copy > .section-eyebrow { order: 1; }
+      .problem-copy > .problem-beat:first-of-type { order: 2; }
+      .problem-copy > .quote-line { order: 3; }
+      .problem-beat--cycle-pre { order: 4; }
       .problem-loop-visual {
         position: static;
-        order: -1;
+        order: 5;
         margin: 0.5cm auto 0.25cm;
       }
+      .problem-beat--cycle-post { order: 6; }
       .problem-loop-visual .lc-circle-stage {
         --loop-scale: 1.017;
       }
@@ -2464,14 +2470,16 @@
         <div class="problem-copy">
           <p class="section-eyebrow">the problem · how it begins</p>
           <div class="problem-beat">
-            <p class="highlight-swipe-text"><span class="highlight-swipe problem-dropcap">unexpected impulses — mostly from social feeds.</span> influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
+            <p class="highlight-swipe-text problem-dropcap"><span class="highlight-swipe">unexpected impulses — mostly from social feeds.</span> influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
             <p>then the package arrives. and when you open it, it dawned on you.</p>
           </div>
 
           <blockquote class="quote-line">"I wasted $78.49 for no reason."</blockquote>
 
-          <div class="problem-beat">
+          <div class="problem-beat problem-beat--cycle-pre">
             <p>and you'll do it again. despite controlling yourself, the dopamine from social media and shopping makes checkout feel irresistible.</p>
+          </div>
+          <div class="problem-beat problem-beat--cycle-post">
             <p>there's nothing to interrupt the urges when it hits you, leaving you prone to financially vulnerabilities & unnecessary purchase guilt.</p>
             <p class="highlight-swipe-text"><strong><span class="highlight-swipe is-glow">hence, we built an extension to prevent you from shopping destructively using friction.</span></strong></p>
           </div>
