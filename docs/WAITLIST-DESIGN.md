@@ -3,7 +3,7 @@
 **Product:** cognoscene founding waitlist  
 **Canonical live page:** [https://gencogno.github.io/cognoscene-waitlist/](https://gencogno.github.io/cognoscene-waitlist/)  
 **Production file on `main`:** `index.html` (GitHub Pages)  
-**Last updated:** 19 Aug 2026  
+**Last updated:** 20 Aug 2026  
 **Status:** Part 1 = as-is record of the live page. Part 2 = proposed structure only â€” not implemented.
 
 This document records **page structure and design behaviour**. It does not replace:
@@ -123,7 +123,32 @@ Retired SVG placeholders must not return.
 | Eyebrows | small sans, letter-spacing, muted |
 | Body / steps | 15px sans, line-height ~1.65 |
 | Buttons | pill, sans 14â€“16px, black fill, lime text |
-| Quotes | distinct blockquote (`"I wasted $78.49 for no reason."` â€” mixed case inside the quote) |
+| Quotes | distinct blockquote ("I wasted $78.49 for no reason." — mixed case inside the quote) |
+
+### 3.5 Spacing and proximity standard
+
+Use this scale whenever a scoped component is edited. It is an adopted standard, not a mandate to refactor every live value at once.
+
+| Token | Value | Use |
+|------|-------|-----|
+| space-1 | 4px | optical / icon adjustment only |
+| space-2 | 8px | default rhythm; eyebrow → title |
+| space-3 | 12px | title → supporting copy |
+| space-4 | 16px | paragraphs, quote adjacency, mobile stacked cards |
+| space-5 | 20px | mobile page inset / compact component padding |
+| space-6 | 24px | title → component; desktop stacked cards |
+| space-8 | 32px | component-group separation |
+| space-12 | 48px | mobile major-section spacing |
+| space-20 | 80px | desktop major-section spacing |
+
+Rules:
+
+- Base unit: 4px. Default rhythm: 8px. Do not use an “8px-only” rule.
+- Use these values for margin, padding, and gap; use px, not cm, for normal layout rhythm.
+- Eyebrow → title: 8px. Title → support: 12px. Support → first component: 24px.
+- Narrative → pull quote → narrative: 16px between each item. In reordered mobile grids, remove component margins that would add to the grid gap.
+- Preserve text expansion: no fixed text heights or clipping. The page must remain usable when users increase text spacing.
+- Hero mock placement may use a documented visual offset as an optical exception.
 
 Breakpoint: **`@media (max-width: 760px)`** for almost all mobile layout. Extra shrink at **380px**. A leftover `.anchor-nav` rule set hides itself at `min-width: 601px`; live scrape did not surface matching nav links â€” treat as unused CSS unless markup is confirmed on `main`.
 
@@ -228,7 +253,7 @@ Sticky mobile bar (`.mobile-cta-bar`, shown â‰¤760px): same `i need this!` a
 | **Label** | `3 layers` |
 | **Sub** | `working indefinitely to design prudence.` |
 | **Index** | observer â€” `preventing doom shop-scrolling` Â· rationalisation â€” `48 hours to decide if its a waste` Â· growth â€” `impulse-driven to prudence` |
-| **Mobile** | Centered headings; still three index items |
+| **Mobile** | eyebrow → pause shopping impulses. → three index items. Hide the redundant 3 layers label and legacy subline. |
 
 ### 5.5 Solution details â€” `section.solution-details`
 
