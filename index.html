@@ -2252,7 +2252,7 @@
         max-width: 100%;
         margin: calc(140px - 3cm) 0 0;
       }
-      .problem-dropcap::first-letter {
+      .problem-dropcap-letter {
         float: left;
         margin: 0.08em 0.12em 0 0;
         font-family: var(--serif);
@@ -2263,10 +2263,16 @@
         background-size: 200% 100%;
         background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
         background-position: 100% 0;
-        transition: background-position 1s ease;
       }
-      .problem-dropcap.swipe-in::first-letter {
-        background-position: 0% 0;
+      @keyframes problem-dropcap-swipe {
+        from { background-position: 100% 0; }
+        to { background-position: 0% 0; }
+      }
+      .problem-dropcap.swipe-in .problem-dropcap-letter {
+        animation: problem-dropcap-swipe 1s ease forwards;
+      }
+      .problem-dropcap.swipe-in .highlight-swipe {
+        transition-delay: 0.1s;
       }
       .hero-shot--growth { display: none; }
       .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
@@ -2512,7 +2518,7 @@
         <div class="problem-copy">
           <p class="section-eyebrow">the problem · how it begins</p>
           <div class="problem-beat">
-            <p class="highlight-swipe-text problem-dropcap"><span class="highlight-swipe">unexpected impulses — mostly from social feeds.</span> influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
+            <p class="highlight-swipe-text problem-dropcap"><span class="problem-dropcap-letter">u</span><span class="highlight-swipe">nexpected impulses — mostly from social feeds.</span> influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
             <p>then the package arrives. and when you open it, it dawned on you.</p>
           </div>
 
