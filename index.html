@@ -2281,8 +2281,14 @@
       }
       .problem-copy { display: contents; }
       .problem-copy > .section-eyebrow { order: 1; }
-      .problem-copy > .problem-beat:first-of-type { order: 2; }
-      .problem-copy > .quote-line { order: 3; }
+      .problem-copy > .problem-beat:first-of-type {
+        order: 2;
+        margin-bottom: 0;
+      }
+      .problem-copy > .quote-line {
+        order: 3;
+        margin: 0;
+      }
       .problem-beat--cycle-pre { order: 4; }
       .problem-loop-visual {
         position: static;
@@ -2293,9 +2299,33 @@
       .problem-loop-visual .lc-circle-stage {
         --loop-scale: 1.017;
       }
-      .solution-bridge { text-align: center; }
-      .solution-bridge h2 { font-size: 1.3rem; margin: 0 auto 16px; }
-      .solution-bridge-sub { font-size: clamp(1.65rem, 4vw, 2.25rem); margin: 0 auto 22px; text-align: center; }
+      .solution-bridge {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+      .solution-bridge .section-eyebrow {
+        order: 1;
+        margin-bottom: 8px;
+      }
+      .solution-bridge .solution-bridge-mobile-title {
+        display: block;
+        order: 2;
+        max-width: none;
+        margin: 0 auto 24px;
+        font-family: var(--serif);
+        font-size: clamp(1.55rem, 6.6vw, 1.75rem);
+        font-weight: 400;
+        letter-spacing: -0.05em;
+        line-height: 1.1;
+      }
+      .solution-bridge .layers-index {
+        order: 3;
+      }
+      .solution-bridge .layers-index-label,
+      .solution-bridge-sub {
+        display: none;
+      }
       .solution-details { margin: 0; padding: 36px 0; }
       .steps { gap: 28px; }
       .step-row,
@@ -2530,6 +2560,7 @@
       <p class="section-eyebrow">the solution · cognoscene</p>
       <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
       <p class="solution-bridge-sub">re-enabling prudent shopping buys.</p>
+      <h2 class="solution-bridge-mobile-title mobile-only">pause shopping impulses.</h2>
       <div class="layers-index" aria-label="three product layers">
         <a class="layer-index-item" href="#observer">
           <span class="layer-action">intercept unnecessary impulses</span>
