@@ -134,7 +134,7 @@ Use this scale whenever a scoped component is edited. It is an adopted standard,
 | space-1 | 4px | optical / icon adjustment only |
 | space-2 | 8px | default rhythm; eyebrow → title |
 | space-3 | 12px | title → supporting copy |
-| space-4 | 16px | paragraphs, quote adjacency, mobile stacked cards |
+| space-4 | 16px | paragraphs and mobile stacked cards |
 | space-5 | 20px | mobile page inset / compact component padding |
 | space-6 | 24px | title → component; desktop stacked cards |
 | space-8 | 32px | component-group separation |
@@ -146,7 +146,7 @@ Rules:
 - Base unit: 4px. Default rhythm: 8px. Do not use an “8px-only” rule.
 - Use these values for margin, padding, and gap; use px, not cm, for normal layout rhythm.
 - Eyebrow → title: 8px. Title → support: 12px. Support → first component: 24px.
-- Narrative → pull quote → narrative: 16px between each item. In reordered mobile grids, remove component margins that would add to the grid gap.
+- Narrative → pull quote → narrative: 24px between each item in the mobile Problem grid. In reordered mobile grids, remove component margins that would add to the grid gap.
 - Preserve text expansion: no fixed text heights or clipping. The page must remain usable when users increase text spacing.
 - Hero mock placement may use a documented visual offset as an optical exception.
 
