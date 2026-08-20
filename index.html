@@ -2318,7 +2318,7 @@
         display: block;
         order: 2;
         max-width: none;
-        margin: 0 auto 24px !important;
+        margin: 0 auto 12px !important;
         font-family: var(--serif);
         font-size: clamp(1.55rem, 6.6vw, 1.75rem) !important;
         font-weight: 400;
@@ -2329,12 +2329,23 @@
       .solution-bridge .solution-bridge-mobile-title::after {
         content: none;
       }
-      .solution-bridge .layers-index {
+      .solution-bridge .layers-index-label {
+        display: block;
         order: 3;
+        margin: 0 0 24px !important;
+      }
+      .solution-bridge .layers-index {
+        order: 4;
         gap: 16px;
       }
-      .solution-bridge .layers-index-label,
       .solution-bridge-sub {
+        display: none;
+      }
+      .form-pricing-guardrail,
+      .form-pricing-terms {
+        text-align: left;
+      }
+      .form-pricing-mobile-price {
         display: none;
       }
       .solution-details { margin: 0; padding: 36px 0; }
@@ -2569,7 +2580,7 @@
 
     <section class="solution-bridge wrap" id="solution" aria-label="the solution — three layers">
       <p class="section-eyebrow">the solution · cognoscene</p>
-      <p class="layers-index-label" style="margin-bottom: 8px;">3 layers</p>
+      <p class="layers-index-label" style="margin-bottom: 8px;">3 layers — tap to see each layer.</p>
       <p class="solution-bridge-sub">re-enabling prudent shopping buys.</p>
       <h2 class="solution-bridge-mobile-title mobile-only">pause shopping impulses.</h2>
       <div class="layers-index" aria-label="three product layers">
@@ -2685,7 +2696,7 @@
           <h2 id="founding-heading">disrupt buying triggers before they become regret.</h2>
           <p class="form-offer-build">we're still building the extension while you read this. when we finish, you'll be the first to try it.</p>
           <p class="form-offer-benefit">2 months free. then lock in lifetime premium for sgd$10 — one-time, no subscription.</p>
-          <p class="form-offer-status">founding offer available to the first 250 spots.</p>
+          <p class="form-offer-status">first 250 get early access.</p>
         </aside>
 
         <div class="form-inner">
@@ -2712,7 +2723,7 @@
             <button class="btn-submit" id="submitBtn" type="submit">join the waitlist</button>
           </form>
 
-          <p class="form-pricing-guardrail">no charge today. if invited, test cognoscene in our private community.<br>2 months premium, then sgd$10 lifetime.</p>
+          <p class="form-pricing-guardrail">no charge today. if invited, test cognoscene in our private community.<br><span class="form-pricing-mobile-price">2 months premium, then sgd$10 lifetime.</span></p>
           <p class="form-pricing-terms"><a href="founding-terms.html">founding offer terms</a></p>
         </div>
 
@@ -3687,7 +3698,8 @@
         var targets = document.querySelectorAll('.stat-highlight, .highlight-swipe');
         var parents = new Set();
         targets.forEach(function(el) {
-          parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
+          var dropcapParagraph = el.closest('.problem-dropcap');
+          parents.add(dropcapParagraph || el.closest('h1, h3, p, span.highlight-swipe') || el);
         });
         if (!('IntersectionObserver' in window)) {
           parents.forEach(function(el) { el.classList.add('swipe-in'); });
