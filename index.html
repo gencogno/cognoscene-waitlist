@@ -2260,19 +2260,6 @@
         font-weight: 400;
         line-height: 0.72;
         text-transform: uppercase;
-        background-size: 200% 100%;
-        background-image: linear-gradient(90deg, var(--lime) 50%, transparent 50%);
-        background-position: 100% 0;
-      }
-      @keyframes problem-dropcap-swipe {
-        from { background-position: 100% 0; }
-        to { background-position: 0% 0; }
-      }
-      .problem-dropcap.swipe-in .problem-dropcap-letter {
-        animation: problem-dropcap-swipe 1s ease forwards;
-      }
-      .problem-dropcap.swipe-in .highlight-swipe {
-        transition-delay: 0.1s;
       }
       .hero-shot--growth { display: none; }
       .hero-shot--soft { position: absolute; left: 0; top: 0; width: 84%; transform: none; }
@@ -2346,6 +2333,9 @@
         text-align: left;
       }
       .form-pricing-mobile-price {
+        display: none;
+      }
+      .form-waitlist-eyebrow {
         display: none;
       }
       .solution-details { margin: 0; padding: 36px 0; }
@@ -2436,7 +2426,7 @@
         <h1 id="hero-heading"><span class="stat-highlight">98%</span> of your regretful decisions happen pre-purchase.</h1>
         <h1 class="mobile-only mobile-h1">prevent destructive web-impulse buys.</h1>
         <p class="hero-sub" id="hero-sub-desktop">a chrome extension that pauses impulse buys before you pay.</p>
-        <p class="hero-sub mobile-only mobile-sub">we're building cognoscene, a chrome extension that prevents unexpected shopping impulses causing you to go through a vicious cycle of <strong>guilt &amp; overspending.</strong></p>
+        <p class="hero-sub mobile-only mobile-sub">we're building cognoscene, a chrome extension that prevents unexpected shopping impulses causing you to go through a <strong class="highlight-swipe">vicious cycle of guilt &amp; overspending.</strong></p>
         <p class="hero-lead">you buy to feel good, then the package arrives after you've already moved on — cognoscene puts the pause on checkout, not your whole life.</p>
         <div class="hero-cta-row">
         <a class="btn-primary" href="#waitlist">i need this!</a>
@@ -2529,7 +2519,7 @@
         <div class="problem-copy">
           <p class="section-eyebrow">the problem · how it begins</p>
           <div class="problem-beat">
-            <p class="highlight-swipe-text problem-dropcap"><span class="problem-dropcap-letter">u</span><span class="highlight-swipe">nexpected impulses — mostly from social feeds.</span> influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
+            <p class="highlight-swipe-text problem-dropcap"><span class="problem-dropcap-letter">u</span>nexpected impulses — mostly from social feeds. influencers selling you gadgets you don't need, still making you feel like you're missing out. you end up buying not just the gadget — but the case, the bundle, the accessories. shopping platforms are built to keep you spending.</p>
             <p>then the package arrives. and when you open it, it dawned on you.</p>
           </div>
 
@@ -2700,7 +2690,7 @@
         </aside>
 
         <div class="form-inner">
-        <p class="section-eyebrow">the waitlist</p>
+        <p class="section-eyebrow form-waitlist-eyebrow">the waitlist</p>
         <h2 id="form-heading">first step: get on the list.</h2>
 
         <div class="waitlist-gate-status" id="waitlistGateStatus" aria-live="polite">
@@ -3698,8 +3688,7 @@
         var targets = document.querySelectorAll('.stat-highlight, .highlight-swipe');
         var parents = new Set();
         targets.forEach(function(el) {
-          var dropcapParagraph = el.closest('.problem-dropcap');
-          parents.add(dropcapParagraph || el.closest('h1, h3, p, span.highlight-swipe') || el);
+          parents.add(el.closest('h1, h3, p, span.highlight-swipe') || el);
         });
         if (!('IntersectionObserver' in window)) {
           parents.forEach(function(el) { el.classList.add('swipe-in'); });
