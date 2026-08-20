@@ -2312,15 +2312,20 @@
         display: block;
         order: 2;
         max-width: none;
-        margin: 0 auto 24px;
+        margin: 0 auto 24px !important;
         font-family: var(--serif);
-        font-size: clamp(1.55rem, 6.6vw, 1.75rem);
+        font-size: clamp(1.55rem, 6.6vw, 1.75rem) !important;
         font-weight: 400;
         letter-spacing: -0.05em;
         line-height: 1.1;
       }
+      .solution-bridge .solution-bridge-mobile-title::before,
+      .solution-bridge .solution-bridge-mobile-title::after {
+        content: none;
+      }
       .solution-bridge .layers-index {
         order: 3;
+        gap: 16px;
       }
       .solution-bridge .layers-index-label,
       .solution-bridge-sub {
