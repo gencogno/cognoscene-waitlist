@@ -74,7 +74,7 @@ The strategic intent is **experience first, pay later**. Do not add upfront paym
 | Submission | Formspree ID | Status |
 |---|---|---|
 | Main waitlist signup | `mbgropvn` | Live |
-| Optional post-signup survey | `mwleweea` | Live; target redesign is awaiting founder review |
+| Required post-signup survey | `mwleweea` | Live; country, source and expansion direction are required |
 
 ### Current primary submission
 
@@ -83,9 +83,9 @@ The strategic intent is **experience first, pay later**. Do not add upfront paym
 | Email | Yes |
 | Privacy + terms agreement | Yes |
 
-The post-signup survey is optional. It must not block a successful waitlist signup.
+The main signup succeeds before the survey opens. Once opened, the survey must be completed and submitted before its dialog can close.
 
-### Approved target survey data contract — NOT YET IMPLEMENTED
+### Live post-signup survey data contract
 
 | Stage | Field | Notes |
 |---|---|---|
