@@ -2005,7 +2005,7 @@
 
     .form-panel.is-hidden { display: none; }
 
-    /* post-signup micro-survey modal */
+    /* post-signup survey */
     .psm {
       display: none;
       position: fixed;
@@ -2036,19 +2036,6 @@
       from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
     }
-    .psm-close {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 28px;
-      height: 28px;
-      border: none;
-      background: transparent;
-      color: var(--black);
-      font-size: 20px;
-      line-height: 1;
-      cursor: pointer;
-    }
     .psm-step { display: none; }
     .psm-step.is-active { display: block; }
     .psm-icon {
@@ -2072,7 +2059,7 @@
     }
     .psm-dots {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 6px;
       margin-bottom: 18px;
     }
@@ -2083,27 +2070,53 @@
       background: var(--line);
     }
     .psm-dots span.is-active { background: var(--lime); }
-    .psm-question {
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 18px;
+    .psm-kicker {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.04em;
     }
-    .psm-select {
+    .psm-question {
+      margin-bottom: 18px;
+      color: var(--black);
+      font-size: 16px;
+      font-weight: 800;
+      text-align: left;
+    }
+    .psm-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--mid);
+      font-size: 13px;
+    }
+    .psm-select,
+    .psm-other-input {
+      box-sizing: border-box;
       width: 100%;
       padding: 12px 14px;
       border: 1px solid var(--black);
       border-radius: 10px;
-      background: var(--white);
+      font: inherit;
       font-size: 14px;
-      margin-bottom: 20px;
+    }
+    .psm-select {
+      background: var(--black);
+      color: var(--lime);
+    }
+    .psm-select option {
+      background: var(--black);
+      color: var(--cream);
+    }
+    .psm-other-input {
+      margin-top: 12px;
+      background: var(--cream);
       color: var(--black);
     }
     .psm-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      justify-content: center;
+      justify-content: flex-start;
       margin-bottom: 12px;
     }
     .psm-chip {
@@ -2112,6 +2125,7 @@
       border-radius: 999px;
       background: transparent;
       color: var(--black);
+      font: inherit;
       font-size: 13px;
       cursor: pointer;
       transition: background-color 0.15s ease, color 0.15s ease;
@@ -2121,26 +2135,36 @@
       color: var(--lime);
       border-color: var(--black);
     }
-    .psm-other-input {
-      width: 100%;
-      padding: 10px 14px;
+    .psm-variants {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 16px;
       border: 1px solid var(--black);
-      border-radius: 10px;
-      background: var(--white);
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: var(--black);
+      border-left: 3px solid var(--lime);
+      border-radius: 12px;
+      background: var(--cream);
     }
+    .psm-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--black);
+      font-size: 14px;
+    }
+    .psm-check input { accent-color: var(--green); }
     .psm-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       margin-top: 20px;
     }
     .psm-back {
       border: none;
       background: transparent;
       color: var(--mid);
+      font: inherit;
       font-size: 13px;
       cursor: pointer;
       text-decoration: underline;
@@ -2151,14 +2175,24 @@
       border-radius: 999px;
       background: var(--black);
       color: var(--lime);
+      font: inherit;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
     }
+    .psm-btn-primary:disabled { cursor: wait; opacity: 0.72; }
     .psm-btn-primary.is-full {
       display: block;
       width: 100%;
     }
+    .psm-error {
+      margin-top: 12px;
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .psm-error[hidden],
+    .psm-conditional[hidden] { display: none; }
     @media (max-width: 760px) {
       .psm {
         align-items: flex-end;
@@ -2756,29 +2790,28 @@
       </div>
 
       <div class="psm" id="psmModal" role="dialog" aria-modal="true" aria-labelledby="psmTitle">
-        <div class="psm-backdrop" id="psmBackdrop"></div>
+        <div class="psm-backdrop" aria-hidden="true"></div>
         <div class="psm-card">
-          <button class="psm-close" id="psmClose" type="button" aria-label="close">&times;</button>
-
           <div class="psm-step is-active" data-step="intro">
-            <svg class="psm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <svg class="psm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <path d="M6 2h12M6 22h12M8 2c0 4 8 4 8 8s-8 4-8 8M16 2c0 4-8 4-8 8s8 4 8 8" />
             </svg>
-            <h3 id="psmTitle">you're on the list!</h3>
-            <p>we'll reach out to you within 1&ndash;2 weeks, just three quick things first.</p>
-            <button class="psm-btn-primary is-full" type="button" data-action="start">let's go</button>
+            <h3 id="psmTitle">you're on the list.</h3>
+            <p>we're building the chrome beta now. we'll email you when your invite batch opens.</p>
+            <p>for now, we just need some inputs for our direction. sound good?</p>
+            <button class="psm-btn-primary is-full" type="button" data-action="start">sure</button>
           </div>
 
           <div class="psm-step" data-step="1">
-            <div class="psm-dots"><span class="is-active"></span><span></span><span></span></div>
+            <div class="psm-dots" aria-label="step 1 of 3"><span class="is-active"></span><span></span><span></span></div>
+            <p class="psm-kicker">country</p>
             <p class="psm-question">where are you based?</p>
+            <label class="psm-label" for="psmCountry">country or region</label>
             <select class="psm-select" id="psmCountry">
-              <option value="">select a country</option>
-              <option value="singapore">singapore</option>
-              <option value="malaysia">malaysia</option>
-              <option value="united states">united states</option>
-              <option value="other">other</option>
+              <option value="">select one</option>
+              <optgroup label="all countries" id="psmAllCountries"></optgroup>
             </select>
+            <p class="psm-error" id="psmError1" role="alert" hidden></p>
             <div class="psm-actions">
               <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="next">next</button>
@@ -2786,17 +2819,29 @@
           </div>
 
           <div class="psm-step" data-step="2">
-            <div class="psm-dots"><span class="is-active"></span><span class="is-active"></span><span></span></div>
-            <p class="psm-question">how'd you find us?</p>
-            <div class="psm-chips" data-select="single" id="psmReferralChips">
+            <div class="psm-dots" aria-label="step 2 of 3"><span class="is-active"></span><span class="is-active"></span><span></span></div>
+            <p class="psm-kicker">where</p>
+            <p class="psm-question">how did you find cognoscene?</p>
+            <div class="psm-chips" id="psmReferralChips">
               <button type="button" class="psm-chip" data-value="reddit">reddit</button>
+              <button type="button" class="psm-chip" data-value="linkedin">linkedin</button>
+              <button type="button" class="psm-chip" data-value="x">x / twitter</button>
               <button type="button" class="psm-chip" data-value="tiktok">tiktok</button>
               <button type="button" class="psm-chip" data-value="instagram">instagram</button>
-              <button type="button" class="psm-chip" data-value="friend">friend / word of mouth</button>
+              <button type="button" class="psm-chip" data-value="friend">friend</button>
+              <button type="button" class="psm-chip" data-value="community">community</button>
               <button type="button" class="psm-chip" data-value="search">search</button>
               <button type="button" class="psm-chip" data-value="other">other</button>
             </div>
-            <input type="text" class="psm-other-input" id="psmReferralOther" placeholder="tell us where" style="display:none" />
+            <div class="psm-conditional" id="psmCommunityWrap" hidden>
+              <label class="psm-label" for="psmCommunity">which community?</label>
+              <input type="text" class="psm-other-input" id="psmCommunity" maxlength="80" placeholder="community name" />
+            </div>
+            <div class="psm-conditional" id="psmReferralOtherWrap" hidden>
+              <label class="psm-label" for="psmReferralOther">where did you find us?</label>
+              <input type="text" class="psm-other-input" id="psmReferralOther" maxlength="80" placeholder="write it here" />
+            </div>
+            <p class="psm-error" id="psmError2" role="alert" hidden></p>
             <div class="psm-actions">
               <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="next">next</button>
@@ -2804,17 +2849,45 @@
           </div>
 
           <div class="psm-step" data-step="3">
-            <div class="psm-dots"><span class="is-active"></span><span class="is-active"></span><span class="is-active"></span></div>
-            <p class="psm-question">besides chrome, where do you want us?</p>
-            <div class="psm-chips" data-select="multi" id="psmPlatformChips">
-              <button type="button" class="psm-chip" data-value="edge">edge</button>
-              <button type="button" class="psm-chip" data-value="firefox">firefox</button>
-              <button type="button" class="psm-chip" data-value="opera">opera</button>
-              <button type="button" class="psm-chip" data-value="brave">brave</button>
-              <button type="button" class="psm-chip" data-value="mobile_ios">mobile app (ios)</button>
-              <button type="button" class="psm-chip" data-value="mobile_android">mobile app (android)</button>
-              <button type="button" class="psm-chip" data-value="none" data-exclusive="true">none of these yet</button>
+            <div class="psm-dots" aria-label="step 3 of 3"><span class="is-active"></span><span class="is-active"></span><span class="is-active"></span></div>
+            <p class="psm-kicker">direction</p>
+            <p class="psm-question">if cognoscene expanded in one direction after chrome, which would matter more to you?</p>
+            <div class="psm-chips" id="psmExpansionChips">
+              <button type="button" class="psm-chip" data-value="desktop">other desktop browsers</button>
+              <button type="button" class="psm-chip" data-value="mobile_web">mobile web shopping</button>
+              <button type="button" class="psm-chip" data-value="chrome">chrome is enough</button>
+              <button type="button" class="psm-chip" data-value="unsure">not sure yet</button>
             </div>
+            <p class="psm-error" id="psmError3" role="alert" hidden></p>
+            <div class="psm-actions">
+              <button class="psm-back" type="button" data-action="back">&larr; back</button>
+              <button class="psm-btn-primary" type="button" data-action="next">next</button>
+            </div>
+          </div>
+
+          <div class="psm-step" data-step="variants">
+            <div class="psm-dots" aria-label="platform follow-up"><span class="is-active"></span><span class="is-active"></span><span class="is-active"></span></div>
+            <p class="psm-kicker">future versions</p>
+            <p class="psm-question">where would you realistically use cognoscene?</p>
+            <div id="psmDesktopVariants" hidden>
+              <div class="psm-variants">
+                <label class="psm-check"><input type="checkbox" name="desktop_browsers" value="edge" /> microsoft edge</label>
+                <label class="psm-check"><input type="checkbox" name="desktop_browsers" value="firefox" /> mozilla firefox</label>
+                <label class="psm-check"><input type="checkbox" name="desktop_browsers" value="brave" /> brave</label>
+                <label class="psm-check"><input type="checkbox" name="desktop_browsers" value="opera" /> opera</label>
+                <label class="psm-check"><input type="checkbox" name="desktop_browsers" value="safari_macos" /> safari on mac</label>
+              </div>
+            </div>
+            <div id="psmMobileVariants" hidden>
+              <div class="psm-variants">
+                <label class="psm-check"><input type="checkbox" name="mobile_web_browsers" value="safari_ios" /> safari on iphone or ipad</label>
+                <label class="psm-check"><input type="checkbox" name="mobile_web_browsers" value="chrome_android" /> chrome on android</label>
+                <label class="psm-check"><input type="checkbox" name="mobile_web_browsers" value="samsung_internet" /> samsung internet</label>
+                <label class="psm-check"><input type="checkbox" name="mobile_web_browsers" value="firefox_android" /> firefox on android</label>
+                <label class="psm-check"><input type="checkbox" name="mobile_web_browsers" value="other_mobile" /> another mobile browser</label>
+              </div>
+            </div>
+            <p class="psm-error" id="psmErrorVariants" role="alert" hidden></p>
             <div class="psm-actions">
               <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="finish">done</button>
@@ -2822,7 +2895,11 @@
           </div>
 
           <div class="psm-step" data-step="done">
-            <h3>thanks &mdash; see you soon.</h3>
+            <svg class="psm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="M5 12.5l4 4L19 7"></path>
+            </svg>
+            <h3>thanks — this helps shape the beta.</h3>
+            <p>no charge today. we'll email you when your invite batch opens.</p>
             <button class="psm-btn-primary is-full" type="button" data-action="close">close</button>
           </div>
         </div>
@@ -3607,134 +3684,284 @@
   </script>
 
   <script>
-    // post-signup micro-survey modal — isolated in its own script tag so it
-    // can never be silently disabled by an unrelated error elsewhere
+    // post-signup survey — isolated so unrelated page errors cannot disable it
     (function () {
       var modal = document.getElementById('psmModal');
       if (!modal) return;
 
-      var backdrop = document.getElementById('psmBackdrop');
-      var closeBtn = document.getElementById('psmClose');
       var steps = modal.querySelectorAll('.psm-step');
       var currentEmail = '';
-      var answers = { country: '', referral: '', referral_other: '', platforms: [] };
+      var returnFocus = null;
+      var answers = {
+        country_code: '',
+        referral: '',
+        referral_community: '',
+        referral_other: '',
+        expansion_priority: '',
+        desktop_browsers: [],
+        mobile_web_browsers: []
+      };
       var submitted = false;
+      var isSubmitting = false;
+      var countryCodes = 'AF AL DZ AD AO AG AR AM AU AT AZ BS BH BD BB BY BE BZ BJ BT BO BA BW BR BN BG BF BI CV KH CM CA CF TD CL CN CO KM CG CD CR CI HR CU CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FJ FI FR GA GM GE DE GH GR GD GT GN GW GY HT HN HU IS IN ID IR IQ IE IL IT JM JP JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MG MW MV ML MT MH MR MU MX FM MD MC MN ME MA MZ MM NA NR NP NL NZ NI NE NG MK NO OM PK PW PS PA PG PY PE PH PL PT QA RO RU RW KN LC VC WS SM ST SA SN RS SC SL SG SK SI SB SO ZA SS ES LK SD SR SE CH SY TW TJ TZ TH TL TG TO TT TN TR TM TV UG UA AE GB US UY UZ VU VA VE VN YE ZM ZW XK MY'.split(' ');
+      var pinnedCountries = ['SG', 'MY', 'US', 'GB'];
+      var pinnedNames = { SG: 'singapore', MY: 'malaysia', US: 'united states', GB: 'united kingdom' };
 
-      var referralChips = document.getElementById('psmReferralChips');
-      var referralOtherInput = document.getElementById('psmReferralOther');
-      var platformChips = document.getElementById('psmPlatformChips');
       var countrySelect = document.getElementById('psmCountry');
+      var allCountries = document.getElementById('psmAllCountries');
+      var referralChips = document.getElementById('psmReferralChips');
+      var expansionChips = document.getElementById('psmExpansionChips');
+      var communityWrap = document.getElementById('psmCommunityWrap');
+      var referralOtherWrap = document.getElementById('psmReferralOtherWrap');
+      var communityInput = document.getElementById('psmCommunity');
+      var referralOtherInput = document.getElementById('psmReferralOther');
+
+      function buildCountrySelect() {
+        var names = typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames(['en'], { type: 'region' }) : null;
+        pinnedCountries.forEach(function (code) {
+          var option = document.createElement('option');
+          option.value = code;
+          option.textContent = pinnedNames[code];
+          countrySelect.insertBefore(option, allCountries);
+        });
+        countryCodes.filter(function (code) {
+          return pinnedCountries.indexOf(code) === -1;
+        }).map(function (code) {
+          return { code: code, label: (names ? names.of(code) : code).toLowerCase() };
+        }).sort(function (a, b) {
+          return a.label.localeCompare(b.label);
+        }).forEach(function (country) {
+          var option = document.createElement('option');
+          option.value = country.code;
+          option.textContent = country.label;
+          allCountries.appendChild(option);
+        });
+      }
 
       function showStep(name) {
         for (var i = 0; i < steps.length; i++) {
           steps[i].classList.toggle('is-active', steps[i].getAttribute('data-step') === name);
         }
+        hideError();
+      }
+
+      function showError(message, errorId) {
+        var error = document.getElementById(errorId);
+        if (!error) return;
+        error.textContent = message;
+        error.hidden = false;
+      }
+
+      function hideError() {
+        var errors = modal.querySelectorAll('.psm-error');
+        for (var i = 0; i < errors.length; i++) {
+          errors[i].textContent = '';
+          errors[i].hidden = true;
+        }
       }
 
       function openPostSignupModal(email) {
         currentEmail = email || '';
+        returnFocus = document.activeElement;
+        resetSurvey();
         showStep('intro');
         modal.classList.add('is-open');
+        modal.querySelector('[data-action="start"]').focus();
       }
       window.openPostSignupModal = openPostSignupModal;
 
       function closeModal() {
         modal.classList.remove('is-open');
-        submitAnswers();
+        if (returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus();
       }
 
-      function submitAnswers() {
-        if (submitted) return;
-        var hasAnswer = answers.country || answers.referral || answers.platforms.length;
-        if (!hasAnswer || !currentEmail) return;
-        submitted = true;
+      function setSingleChoice(container, value) {
+        var chips = container.querySelectorAll('.psm-chip');
+        for (var i = 0; i < chips.length; i++) {
+          chips[i].classList.toggle('is-selected', chips[i].getAttribute('data-value') === value);
+        }
+      }
 
-        var formId = 'mwleweea';
+      function resetSurvey() {
+        submitted = false;
+        isSubmitting = false;
+        answers.country_code = '';
+        answers.referral = '';
+        answers.referral_community = '';
+        answers.referral_other = '';
+        answers.expansion_priority = '';
+        answers.desktop_browsers = [];
+        answers.mobile_web_browsers = [];
+        countrySelect.value = '';
+        communityInput.value = '';
+        referralOtherInput.value = '';
+        communityWrap.hidden = true;
+        referralOtherWrap.hidden = true;
+        modal.querySelectorAll('.psm-chip').forEach(function (chip) { chip.classList.remove('is-selected'); });
+        modal.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) { checkbox.checked = false; });
+        hideError();
+      }
 
-        fetch('https://formspree.io/f/' + formId, {
+      function readVariants(name) {
+        return Array.prototype.slice.call(modal.querySelectorAll('input[name="' + name + '"]:checked')).map(function (input) {
+          return input.value;
+        });
+      }
+
+      function validateStep(step) {
+        if (step === '1' && !countrySelect.value) {
+          showError('choose your country or region to continue.', 'psmError1');
+          return false;
+        }
+        if (step === '2') {
+          if (!answers.referral) {
+            showError('choose where you found cognoscene.', 'psmError2');
+            return false;
+          }
+          if (answers.referral === 'community' && !communityInput.value.trim()) {
+            showError('tell us which community.', 'psmError2');
+            return false;
+          }
+          if (answers.referral === 'other' && !referralOtherInput.value.trim()) {
+            showError('tell us where you found cognoscene.', 'psmError2');
+            return false;
+          }
+        }
+        if (step === '3' && !answers.expansion_priority) {
+          showError('choose the direction that matters most to you.', 'psmError3');
+          return false;
+        }
+        if (step === 'variants') {
+          answers.desktop_browsers = readVariants('desktop_browsers');
+          answers.mobile_web_browsers = readVariants('mobile_web_browsers');
+          if (!answers.desktop_browsers.length && !answers.mobile_web_browsers.length) {
+            showError('choose at least one platform to continue.', 'psmErrorVariants');
+            return false;
+          }
+        }
+        hideError();
+        return true;
+      }
+
+      function submitAnswers(button) {
+        if (submitted || isSubmitting) return;
+        isSubmitting = true;
+        button.disabled = true;
+        button.textContent = 'saving';
+
+        fetch('https://formspree.io/f/mwleweea', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
             email: currentEmail,
-            country: answers.country,
+            country_code: answers.country_code,
             referral: answers.referral,
+            referral_community: answers.referral_community,
             referral_other: answers.referral_other,
-            platforms_interested: answers.platforms.join(', '),
+            expansion_priority: answers.expansion_priority,
+            desktop_browsers: answers.desktop_browsers.join(', '),
+            mobile_web_browsers: answers.mobile_web_browsers.join(', '),
             _subject: 'cognoscene post-signup survey'
           })
-        }).catch(function () { /* best-effort, no UI feedback needed here */ });
+        }).then(function (response) {
+          if (!response.ok) throw new Error('survey submission failed');
+          submitted = true;
+          showStep('done');
+        }).catch(function () {
+          showError('we could not save this right now. check your connection and try again.', 'psmErrorVariants');
+          button.disabled = false;
+          button.textContent = 'done';
+        }).finally(function () {
+          isSubmitting = false;
+        });
       }
 
-      function setupSingleChips(container, onSelect) {
-        var chips = container.querySelectorAll('.psm-chip');
-        for (var i = 0; i < chips.length; i++) {
-          chips[i].addEventListener('click', function () {
-            for (var j = 0; j < chips.length; j++) chips[j].classList.remove('is-selected');
-            this.classList.add('is-selected');
-            onSelect(this.getAttribute('data-value'));
-          });
-        }
-      }
-
-      function setupMultiChips(container) {
-        var chips = container.querySelectorAll('.psm-chip');
-        for (var i = 0; i < chips.length; i++) {
-          chips[i].addEventListener('click', function () {
-            var isExclusive = this.getAttribute('data-exclusive') === 'true';
-            if (isExclusive) {
-              for (var j = 0; j < chips.length; j++) chips[j].classList.remove('is-selected');
-              this.classList.add('is-selected');
-            } else {
-              for (var k = 0; k < chips.length; k++) {
-                if (chips[k].getAttribute('data-exclusive') === 'true') chips[k].classList.remove('is-selected');
-              }
-              this.classList.toggle('is-selected');
-            }
-            var selected = [];
-            for (var m = 0; m < chips.length; m++) {
-              if (chips[m].classList.contains('is-selected')) selected.push(chips[m].getAttribute('data-value'));
-            }
-            answers.platforms = selected;
-          });
-        }
-      }
-
-      setupSingleChips(referralChips, function (value) {
+      referralChips.addEventListener('click', function (event) {
+        var chip = event.target.closest('.psm-chip');
+        if (!chip) return;
+        var value = chip.getAttribute('data-value');
         answers.referral = value;
-        referralOtherInput.style.display = value === 'other' ? 'block' : 'none';
+        setSingleChoice(referralChips, value);
+        communityWrap.hidden = value !== 'community';
+        referralOtherWrap.hidden = value !== 'other';
+        if (value !== 'community') communityInput.value = '';
+        if (value !== 'other') referralOtherInput.value = '';
+        hideError();
       });
-      setupMultiChips(platformChips);
 
-      referralOtherInput.addEventListener('input', function () {
-        answers.referral_other = this.value.trim();
+      expansionChips.addEventListener('click', function (event) {
+        var chip = event.target.closest('.psm-chip');
+        if (!chip) return;
+        answers.expansion_priority = chip.getAttribute('data-value');
+        setSingleChoice(expansionChips, answers.expansion_priority);
+        hideError();
       });
 
       countrySelect.addEventListener('change', function () {
-        answers.country = this.value;
+        answers.country_code = countrySelect.value;
+        hideError();
+      });
+      communityInput.addEventListener('input', function () {
+        answers.referral_community = communityInput.value.trim();
+        hideError();
+      });
+      referralOtherInput.addEventListener('input', function () {
+        answers.referral_other = referralOtherInput.value.trim();
+        hideError();
+      });
+      modal.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', hideError);
       });
 
       modal.addEventListener('click', function (event) {
         var action = event.target.getAttribute('data-action');
         if (!action) return;
-
         if (action === 'start') showStep('1');
         else if (action === 'back') {
           var step = event.target.closest('.psm-step').getAttribute('data-step');
           if (step === '1') showStep('intro');
           else if (step === '2') showStep('1');
           else if (step === '3') showStep('2');
+          else if (step === 'variants') showStep('3');
         }
         else if (action === 'next') {
           var current = event.target.closest('.psm-step').getAttribute('data-step');
+          if (!validateStep(current)) return;
           if (current === '1') showStep('2');
           else if (current === '2') showStep('3');
+          else if (current === '3') {
+            if (answers.expansion_priority === 'desktop' || answers.expansion_priority === 'mobile_web') {
+              document.getElementById('psmDesktopVariants').hidden = answers.expansion_priority !== 'desktop';
+              document.getElementById('psmMobileVariants').hidden = answers.expansion_priority !== 'mobile_web';
+              showStep('variants');
+            } else {
+              var finishButton = modal.querySelector('[data-action="finish"]');
+              submitAnswers(finishButton);
+            }
+          }
         }
-        else if (action === 'finish') { submitAnswers(); showStep('done'); }
-        else if (action === 'close') closeModal();
+        else if (action === 'finish') {
+          if (validateStep('variants')) submitAnswers(event.target);
+        }
+        else if (action === 'close' && submitted) closeModal();
       });
 
-      closeBtn.addEventListener('click', closeModal);
-      backdrop.addEventListener('click', closeModal);
+      modal.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') return;
+        var focusable = modal.querySelectorAll('button:not([disabled]), select, input:not([disabled])');
+        if (!focusable.length) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      buildCountrySelect();
     })();
   </script>
 
