@@ -2137,7 +2137,7 @@
       justify-content: space-between;
       margin-top: 20px;
     }
-    .psm-skip {
+    .psm-back {
       border: none;
       background: transparent;
       color: var(--mid);
@@ -2780,7 +2780,7 @@
               <option value="other">other</option>
             </select>
             <div class="psm-actions">
-              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="next">next</button>
             </div>
           </div>
@@ -2798,7 +2798,7 @@
             </div>
             <input type="text" class="psm-other-input" id="psmReferralOther" placeholder="tell us where" style="display:none" />
             <div class="psm-actions">
-              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="next">next</button>
             </div>
           </div>
@@ -2816,7 +2816,7 @@
               <button type="button" class="psm-chip" data-value="none" data-exclusive="true">none of these yet</button>
             </div>
             <div class="psm-actions">
-              <button class="psm-skip" type="button" data-action="skip">skip this &rarr;</button>
+              <button class="psm-back" type="button" data-action="back">&larr; back</button>
               <button class="psm-btn-primary" type="button" data-action="finish">done</button>
             </div>
           </div>
@@ -3718,11 +3718,11 @@
         if (!action) return;
 
         if (action === 'start') showStep('1');
-        else if (action === 'skip') {
+        else if (action === 'back') {
           var step = event.target.closest('.psm-step').getAttribute('data-step');
-          if (step === '1') showStep('2');
-          else if (step === '2') showStep('3');
-          else if (step === '3') { submitAnswers(); showStep('done'); }
+          if (step === '1') showStep('intro');
+          else if (step === '2') showStep('1');
+          else if (step === '3') showStep('2');
         }
         else if (action === 'next') {
           var current = event.target.closest('.psm-step').getAttribute('data-step');
