@@ -1,13 +1,14 @@
 # Cognoscene Waitlist Launch Plan
 
 **Scope:** founding cohort only · email-only comms · Singapore-first signups.  
-**Last updated:** 15 Aug 2026 (ChatGPT session).  
+**Last updated:** 21 Aug 2026 (ChatGPT session).  
 **Full spec (canonical):** `docs/agent-context/waitlist-launch-spec.md` in `gencogno/cognoscene-statics-roadmap`.
 
 ---
 
 ## Changelog
 
+- 21 Aug 2026 — Formspree retained for the soft launch. Added the planned post-signup survey data contract and Cloudflare migration path; no Cloudflare endpoint is live yet.
 - 15 Aug 2026 — ChatGPT reviewed founding offer + form; recommended one waitlist with platform-intent capture for Chrome / Mobile / Both. Mobile interest is **not yet implemented**. Founding offer remains pay-later.
 - 14 Aug 2026 — distilled from statics roadmap `waitlist-launch-spec.md`. Telegram removed; email-only.
 - 1 Aug 2026 — original spec authored (Cursor).
@@ -37,7 +38,7 @@ Keep the current offer structure:
 - 2 months premium free after install/activation during the founding beta;
 - then US$10 one-time for lifetime premium;
 - no payment at waitlist signup;
-- 250 founding spots;
+- first 100 waitlist signups receive the founding offer; the general waitlist remains open after that;
 - close 30 days after public launch or when the cap is reached, whichever comes first.
 
 The strategic intent is **experience first, pay later**. Do not add upfront payment to the waitlist without founder approval.
@@ -66,37 +67,62 @@ The strategic intent is **experience first, pay later**. Do not add upfront paym
 
 ---
 
-## 3. Form — current state + recommended next change
+## 3. Form — current state + planned migration
 
-**Live in:** `index.html` · backend: Formspree (`FORMSPREE_FORM_ID`).
+**Live in:** `index.html` · temporary backend: Formspree.
 
-### Current locked fields
+| Submission | Formspree ID | Status |
+|---|---|---|
+| Main waitlist signup | `mbgropvn` | Live |
+| Optional post-signup survey | `mwleweea` | Live; target redesign is awaiting founder review |
+
+### Current primary submission
 
 | Field | Required |
-|-------|----------|
+|---|---|
 | Email | Yes |
-| Chrome on desktop (y/n) | Yes |
+| Privacy + terms agreement | Yes |
 
-### Recommended next iteration — NOT YET IMPLEMENTED
+The post-signup survey is optional. It must not block a successful waitlist signup.
 
-Keep **one waitlist**, but add one lightweight platform-intent field:
+### Approved target survey data contract — NOT YET IMPLEMENTED
 
-| Field | Values | Required |
-|-------|--------|----------|
-| Where would you want Cognoscene? | Chrome / Mobile / Both | Yes |
+| Stage | Field | Notes |
+|---|---|---|
+| Signup | `email`, `legal_agreed` | Keep the main form lean |
+| Survey | `country_code` | All countries; Singapore, Malaysia, United States and United Kingdom pinned first |
+| Survey | `referral`, `referral_community` | Community detail appears only when community is selected |
+| Survey | `expansion_priority` | Other desktop browsers / mobile web shopping / Chrome is enough / not sure yet |
+| Survey | `desktop_browsers` or `mobile_web_browsers` | Conditional multiple choice; native shopping apps are out of scope |
 
-Recommended adjacent CTA copy:
+Do not create a separate mobile waitlist. This survey measures interest in future web-platform variants without presenting them as committed products.
 
-> **want cognoscene on mobile?**  
-> we're exploring what a mobile version should look like.
+### Formspree operating boundary
 
-Avoid “coming soon” language because mobile has not been committed as a shipped product. Do not create a separate mobile waitlist unless founder explicitly chooses that path.
+Formspree is retained for an internal and community soft launch only. On the Free plan, the account allowance is 50 submissions per month. A completed signup plus survey can create two submissions, so do not begin broad public distribution while Formspree remains the production backend.
+
+**Migration trigger:** begin Cloudflare cutover before public distribution, or at 20 completed signups, whichever occurs first.
+
+### Cloudflare migration plan — planned, not live
+
+**Target:** Cloudflare Pages or Workers static hosting + Worker endpoints + D1 + Turnstile.
+
+1. Export both Formspree forms and retain the export securely.
+2. Create one D1 row per email with an opaque survey token; the optional survey updates that same row.
+3. Preserve the listed field names and record `created_at`, `legal_agreed_at`, and `survey_completed_at`.
+4. Send main signup to `POST /api/waitlist`; return the survey token only after a successful insert.
+5. Send the optional survey to `POST /api/post-signup-survey`; reject invalid or expired tokens.
+6. Verify Turnstile server-side before writing either endpoint.
+7. Test duplicate email, incomplete survey, invalid token, network failure and expired-offer states with test data.
+8. Validate test rows and exports in D1 before switching the live form endpoints.
+9. Keep Formspree available as the rollback path until the first production export is verified.
+10. Mark only the first 100 accepted signups as `founding_offer_eligible`; do not close the general waitlist at 100.
+
+Transactional invite emails are a separate delivery decision. Do not assume D1 or a Worker sends them automatically.
 
 ### Autoresponder (on submit)
 
 > you're on the cognoscene waitlist. we'll contact you when your batch opens. founding offer: us$10 once for lifetime premium — details when you get install access. no charge today.
-
-If platform intent is added, the autoresponder can remain unchanged; platform preference is primarily a segmentation signal.
 
 ---
 
@@ -248,7 +274,7 @@ founding window closes [DATE] or at [X] spots — whichever first.
 
 ## 9. Open decisions (founder fill)
 
-- [ ] Founding cap: `___`
+- [x] Founding cap: `100` — only founding-offer eligibility closes; the general waitlist remains open.
 - [ ] Window end date: `___`
 - [ ] Batch 1 size: `___`
 - [ ] Install delivery: unpacked zip vs private link vs CWS unlisted
