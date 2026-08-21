@@ -3743,6 +3743,10 @@
           steps[i].classList.toggle('is-active', steps[i].getAttribute('data-step') === name);
         }
         hideError();
+        if (name === 'done') {
+          var closeButton = modal.querySelector('[data-action="close"]');
+          if (closeButton) closeButton.focus();
+        }
       }
 
       function showError(message, errorId) {
@@ -3799,6 +3803,11 @@
         referralOtherWrap.hidden = true;
         modal.querySelectorAll('.psm-chip').forEach(function (chip) { chip.classList.remove('is-selected'); });
         modal.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) { checkbox.checked = false; });
+        modal.querySelectorAll('.psm-btn-primary').forEach(function (button) {
+          var label = button.getAttribute('data-action');
+          button.disabled = false;
+          button.textContent = label === 'start' ? 'sure' : label === 'finish' ? 'done' : label === 'close' ? 'close' : 'next';
+        });
         hideError();
       }
 
@@ -3843,7 +3852,7 @@
         return true;
       }
 
-      function submitAnswers(button) {
+      function submitAnswers(button, errorId) {
         if (submitted || isSubmitting) return;
         isSubmitting = true;
         button.disabled = true;
@@ -3868,9 +3877,9 @@
           submitted = true;
           showStep('done');
         }).catch(function () {
-          showError('we could not save this right now. check your connection and try again.', 'psmErrorVariants');
+          showError('we could not save this right now. check your connection and try again.', errorId);
           button.disabled = false;
-          button.textContent = 'done';
+          button.textContent = button.getAttribute('data-action') === 'finish' ? 'done' : 'next';
         }).finally(function () {
           isSubmitting = false;
         });
@@ -3936,19 +3945,22 @@
               showStep('variants');
             } else {
               var finishButton = modal.querySelector('[data-action="finish"]');
-              submitAnswers(finishButton);
+              submitAnswers(finishButton, 'psmError3');
             }
           }
         }
         else if (action === 'finish') {
-          if (validateStep('variants')) submitAnswers(event.target);
+          if (validateStep('variants')) submitAnswers(event.target, 'psmErrorVariants');
         }
         else if (action === 'close' && submitted) closeModal();
       });
 
       modal.addEventListener('keydown', function (event) {
         if (event.key !== 'Tab') return;
-        var focusable = modal.querySelectorAll('button:not([disabled]), select, input:not([disabled])');
+        var focusable = Array.prototype.filter.call(
+          modal.querySelectorAll('button:not([disabled]), select, input:not([disabled])'),
+          function (element) { return element.offsetParent !== null; }
+        );
         if (!focusable.length) return;
         var first = focusable[0];
         var last = focusable[focusable.length - 1];
